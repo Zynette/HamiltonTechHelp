@@ -189,7 +189,42 @@ export function createApp({
         let file = await readFile(resolve(publicDir, path === '/' ? 'index.html' : path.slice(1)));
         if (path === '/') {
           const metadata = origin
-            ? `<link rel="canonical" href="${origin}/"><meta property="og:url" content="${origin}/">`
+            ? `<link rel="canonical" href="${origin}/"><meta property="og:url" content="${origin}/">${
+                production
+                  ? `<script type="application/ld+json">${JSON.stringify({
+                      '@context': 'https://schema.org',
+                      '@graph': [
+                        {
+                          '@type': 'Organization',
+                          '@id': `${origin}/#organization`,
+                          name: 'Computer & Tech Help by Antonette Petallo',
+                          url: `${origin}/`,
+                          email: 'mailto:antonettepetallo73@gmail.com',
+                          description:
+                            'Patient one-on-one computer help in Hamilton and remote support for Windows and everyday Apple devices.',
+                          areaServed: {
+                            '@type': 'City',
+                            name: 'Hamilton',
+                            containedInPlace: { '@type': 'AdministrativeArea', name: 'Ontario' },
+                          },
+                          serviceType: [
+                            'Computer support',
+                            'Remote technical support',
+                            'Apple device support',
+                          ],
+                        },
+                        {
+                          '@type': 'WebSite',
+                          '@id': `${origin}/#website`,
+                          url: `${origin}/`,
+                          name: 'Computer & Tech Help',
+                          inLanguage: 'en-CA',
+                          publisher: { '@id': `${origin}/#organization` },
+                        },
+                      ],
+                    }).replace(/</gu, '\\u003c')}</script>`
+                  : ''
+              }`
             : '';
           file = Buffer.from(file.toString().replace('<!-- SITE_METADATA -->', metadata));
         }

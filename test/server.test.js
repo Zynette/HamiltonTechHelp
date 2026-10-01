@@ -163,7 +163,10 @@ test('HTML, security headers and non-indexable development metadata', async (t) 
 test('production origin provides canonical and sitemap', async (t) => {
   const { url } = await setup(t, { production: true, siteUrl: 'https://tech.example' });
   const response = await fetch(url);
-  assert.match(await response.text(), /rel="canonical" href="https:\/\/tech.example\/"/);
+  const html = await response.text();
+  assert.match(html, /rel="canonical" href="https:\/\/tech.example\/"/);
+  assert.match(html, /application\/ld\+json/);
+  assert.match(html, /"@type":"Organization"/);
   assert.equal(response.headers.get('x-robots-tag'), null);
   assert.match(await (await fetch(url + '/sitemap.xml')).text(), /https:\/\/tech.example\//);
 });

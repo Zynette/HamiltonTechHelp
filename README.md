@@ -50,7 +50,7 @@ Deploy the repository to a Node-capable host or container. Static-only hosting s
 - Run the tests and `npm run check:release` before deploying. Production startup enforces the release check too.
 - Keep keys/configuration in the host's secret/environment settings, never the repository.
 
-`SITE_URL` must be the exact public origin. Requests from other origins are rejected. It generates the canonical URL, `og:url`, sitemap and robots policy. No invented address, ratings or LocalBusiness structured data is included. Social title/description and favicon are provided; no unrequested social image was generated.
+`SITE_URL` must be the exact public origin. Requests from other origins are rejected. It generates the canonical URL, `og:url`, sitemap, robots policy and production-only Organization/WebSite structured data. The schema uses the public Hamilton service area without inventing a street address, ratings or reviews. Social title/description, author metadata and favicon are provided; no unrequested social image was generated.
 
 **Rate limiting and deployment topology:** the server uses the direct socket IP, 5 submissions per 15 minutes, held in bounded process memory. It deliberately ignores spoofable forwarding headers. Behind a shared reverse proxy, clients can share that bucket. Before public launch, implement host-specific trusted-client-IP handling or move throttling to a verified edge control. Multiple server instances also need a shared/edge limiter. Do not simply trust an arbitrary `X-Forwarded-For` header. Restarting the process resets its limiter. The site is a single-process initial implementation, not a distributed backend.
 
