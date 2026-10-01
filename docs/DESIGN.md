@@ -2,7 +2,7 @@
 
 ## Direction
 
-An editorial service website: warm off-white, deep slate, muted sage, asymmetric composition and one restrained layered support illustration. The uploaded references inform spacing, large surfaces and layering; none of their proprietary imagery, logos or layouts is copied. There is no stock photography, fake diagnostic feed, review, metric, credential or live status claim.
+An editorial service website: warm off-white, deep slate, muted sage, asymmetric composition and one restrained layered support illustration. The uploaded references inform spacing, large surfaces and layering; none of their proprietary imagery, logos or layouts is copied. There is no stock photography, fake diagnostic feed, review, metric or live status claim. The site names the owner's stated Information Technology degree and Software Support diploma, and keeps Apple support scoped to everyday setup and troubleshooting.
 
 ## Design system
 
@@ -25,7 +25,7 @@ Security: explicit asset allowlist, CSP, frame protection, same-origin request c
 
 ## Scope choices
 
-No real-time scheduling, uploads, analytics or payment gateway is necessary at launch. Pricing and next-step expectations stay visible. Individual operating systems beyond Windows aren't promised. No employer name or personal information is inferred. The missing public name/email are explicit placeholders.
+No real-time scheduling, uploads, analytics or payment gateway is necessary at launch. Pricing and next-step expectations stay visible. Windows and everyday Apple support are included; advanced hardware, account recovery and security incidents are not promised. No employer name, home address or phone number is inferred.
 
 ## Dependencies
 

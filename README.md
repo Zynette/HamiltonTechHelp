@@ -2,7 +2,7 @@
 
 A one-page personal tech-support website with an appointment-request dialog and a separate quick inquiry form. Built with semantic HTML, CSS and browser JavaScript, served by a small Node HTTP server. No runtime dependencies, accounts, analytics, uploads or payment processing.
 
-**Status:** implemented and locally testable; not publicly launched. Personal-name/email placeholders and delivery configuration intentionally block production startup. Repository access was unavailable during initial authoring, so this is an isolated local working branch, not a checkout of the remote repository. Inspect the remote and reconcile instructions/history before pushing. Never force-push this local history over the existing repository.
+**Status:** implemented and locally testable on the review branch. The current temporary public details are Antonette Petallo and antonettepetallo73@gmail.com; form delivery remains intentionally unconfigured until a verified provider form ID is supplied. The owner profile states an Information Technology degree, a Software Support diploma and everyday Windows + Apple support, with hardware repair and advanced account recovery outside scope.
 
 ## Local development
 

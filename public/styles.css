@@ -291,6 +291,13 @@ h1 {
   line-height: 1.7;
   margin-bottom: 28px;
 }
+.credential-note {
+  color: var(--secondary);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: -12px 0 24px;
+  max-width: 440px;
+}
 .hero-actions {
   display: flex;
   align-items: center;

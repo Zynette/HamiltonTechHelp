@@ -8,7 +8,14 @@ export const categories = [
   'Wi-Fi/connectivity',
   'Something else',
 ];
-export const devices = ['Windows laptop', 'Windows desktop', 'Printer/scanner', 'Other'];
+export const devices = [
+  'Windows laptop',
+  'Windows desktop',
+  'Apple Mac',
+  'iPhone or iPad',
+  'Printer/scanner',
+  'Other',
+];
 export const methods = ['Remote', 'In person — Hamilton', 'Not sure'];
 export const windows = [
   'Morning (9 am–12 pm)',
