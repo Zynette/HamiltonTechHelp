@@ -56,7 +56,7 @@ Deploy the repository to a Node-capable host or container. Static-only hosting s
 
 ## Launch details
 
-The maintainer replaces `[YOUR NAME]` and `[YOUR EMAIL]` in `public/index.html` once the owner supplies the exact public details. No home address, employer name or phone number is inferred. The owner should confirm advertised prices and service/payment/cancellation wording. A live calendar is not connected; dates and time windows are always preferences in America/Toronto, never guaranteed availability.
+The current temporary public details are Antonette Petallo and antonettepetallo73@gmail.com. Replace them later if a different public-facing identity or receiving inbox is chosen. No home address, employer name or phone number is included. The owner should confirm advertised prices and service/payment/cancellation wording. A live calendar is not connected; dates and time windows are always preferences in America/Toronto, never guaranteed availability.
 
 The privacy text discloses the planned Formspree/inbox processing. Confirm provider retention settings and delete requests when no longer needed. There are no tracking cookies or marketing scripts. Check a real mailbox delivery, mobile flow and launch content after choosing the host.
 

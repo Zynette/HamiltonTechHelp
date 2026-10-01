@@ -23,7 +23,7 @@ The sandbox's standard browser download failed. QA used portable Chromium from a
 ## Review and launch boundaries
 
 1. **Remote repository inaccessible:** GitHub plugin calls returned 404 for `Zynette/HamiltonTechHelp`, and the installed-repository search did not list it. The project was prepared in an isolated local branch `work/initial-website`. No remote contents or AGENTS.md could be inspected; nothing was pushed, merged or deployed. Once access works, inspect the repository and apply/reconcile these files on a branch from its real base. Never replace remote history with the temporary local history.
-2. **Owner details:** `[YOUR NAME]` and `[YOUR EMAIL]` are intentional. Confirm the exact public-facing identity and receiving email before replacing them. No employer or home address is included.
+2. **Owner details:** The first draft uses Antonette Petallo and antonettepetallo73@gmail.com as temporary public details. Replace them later if a different public-facing identity or receiving inbox is chosen. No employer or home address is included.
 3. **Live delivery:** Formspree account/form verification and a real inbox test are outstanding. Tests use injected delivery responses and do not prove real email delivery. Both forms remain explicit about unconfigured delivery.
 4. **Hosting:** choose the deployment host and set its HTTPS origin. Resolve trusted client-IP/edge throttling for that host, as described in README, before public traffic. No hosting account, fee or domain purchase has been created.
 5. **Scope:** appointment requests only; no live calendar, card processing, uploads, analytics or testimonials. Browser testing was Chromium only; test Safari/iOS and Firefox when those runners are available.
