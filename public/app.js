@@ -109,7 +109,7 @@ function validateForm(form) {
     const message = input.validity.valid
       ? ''
       : input.type === 'checkbox'
-        ? 'Please acknowledge that the appointment needs confirmation.'
+        ? 'Please acknowledge the appointment request and terms for support.'
         : input.validity.typeMismatch
           ? 'Please enter a valid email address.'
           : input.validationMessage;

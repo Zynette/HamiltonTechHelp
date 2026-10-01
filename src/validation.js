@@ -78,7 +78,7 @@ export function validateRequest(body, now = new Date()) {
       errors.date = 'Please choose a valid date, today or later.';
     text('phone', 30);
     if (body.consent !== true)
-      errors.consent = 'Please acknowledge that the appointment needs confirmation.';
+      errors.consent = 'Please acknowledge the appointment request and terms for support.';
     else clean.consent = true;
   }
   return { errors, data: clean };
