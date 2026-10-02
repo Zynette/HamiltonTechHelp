@@ -11,21 +11,21 @@ An editorial service website: warm off-white, deep slate, muted sage, asymmetric
 - IBM Plex Sans, self-hosted and OFL licensed: regular body/display, medium UI, semibold where needed. System monospace only for sparse metadata.
 - Spacing tokens: 4, 8, 12, 16, 24, 32, 48, 64, 96px.
 - Radius tokens: 8, 16, 32px; section-specific variation prevents an all-card layout.
-- Motion: 180ms hover/focus response, short dialog entrance; reduced-motion override.
-- Desktop: asymmetric hero, problem list, two clear primary prices, three-step process, remote-support panel, inquiry and FAQ.
+- Motion: 180ms hover/focus response, fully opaque dialogs; reduced-motion override.
+- Desktop: asymmetric hero, problem list, remote pricing and an individually quoted website offer, three-step process, remote-support panel, inquiry and FAQ.
 - Mobile: compact menu, full-width reading flow, short illustrated panel, large inputs, sticky two-action footer with reserved page space.
 
 ## Architecture
 
 Browser → same-origin `POST /api/requests` → validation/throttling → Formspree → configured inbox.
 
-There is no database, calendar, card handling, file storage or customer login. Both forms distinguish inquiry versus appointment request. Native dialogs handle modal semantics and keyboard focus. FAQ and service disclosure use native `details` elements.
+There is no database, calendar, card handling, file storage or customer login. Three forms distinguish a tech inquiry, a remote appointment request and a website project inquiry. Project fields are validated separately and never become booking fields. Native dialogs handle modal semantics and keyboard focus. FAQ and service disclosure use native `details` elements.
 
 Security: explicit asset allowlist, CSP, frame protection, same-origin request checking, small body limit, field limits/enumerated values, honeypot, bounded in-memory rate limiter, network timeout and no form-data logging. Unknown payload keys are discarded. All rendering of form errors/status uses `textContent`. Requests are acknowledged only after the provider accepts them.
 
 ## Scope choices
 
-No real-time scheduling, uploads, analytics or payment gateway is necessary at launch. Pricing and next-step expectations stay visible. Windows and everyday Apple support are included; advanced hardware, account recovery and security incidents are not promised. No employer name, home address or phone number is inferred.
+No real-time scheduling, uploads, analytics or payment gateway is necessary at launch. Pricing and next-step expectations stay visible. Windows and everyday Apple support are included; advanced hardware, account recovery and security incidents are not promised. All services are delivered remotely. Hamilton is the owner’s base only. Website scope and ongoing costs are agreed individually. No employer name, home address, working hours or phone number is inferred.
 
 ## Dependencies
 

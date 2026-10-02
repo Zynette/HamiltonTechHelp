@@ -142,7 +142,7 @@ textarea:focus-visible,
   line-height: 1;
 }
 .identity strong {
-  font-size: 16px;
+  font-size: 15px;
   letter-spacing: -0.6px;
   font-weight: 500;
   display: block;
@@ -159,7 +159,7 @@ textarea:focus-visible,
 nav {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 18px;
   font-size: 14px;
 }
 nav a {
@@ -343,6 +343,45 @@ h1 {
   color: var(--text);
   font-weight: 400;
   letter-spacing: -1px;
+}
+.hero-pricing .quote-label {
+  font-size: 17px;
+  font-weight: 500;
+  max-width: 150px;
+}
+.websites-section {
+  border-top: 1px solid var(--border);
+}
+.website-next {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-top: 32px;
+}
+.website-next > div {
+  flex: 1;
+}
+.website-next p {
+  font-size: 14px;
+  margin-top: 10px;
+}
+.website-next .button {
+  flex-shrink: 0;
+}
+.price-amount.project-price {
+  font-size: clamp(28px, 3vw, 42px);
+  letter-spacing: -1.2px;
+}
+.identity strong {
+  max-width: 225px;
+  line-height: 1.25;
+}
+@media (max-width: 850px) {
+  .website-next {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
 }
 .price-divider {
   height: 36px;
@@ -1243,9 +1282,7 @@ dialog::backdrop {
   background: #172c2bb3;
   backdrop-filter: blur(5px);
 }
-dialog[open] {
-  animation: dialog-enter 160ms ease-out;
-}
+/* Keep dialog text fully opaque while it opens, including during accessibility checks. */
 .dialog-heading {
   display: flex;
   align-items: flex-start;
@@ -1675,6 +1712,7 @@ dialog[open] {
   .identity strong {
     font-size: 13px;
     letter-spacing: -0.4px;
+    max-width: 180px;
   }
   .identity small {
     font-size: 8px;

@@ -43,6 +43,7 @@ document
 document.querySelectorAll('[data-dialog]').forEach((button) =>
   button.addEventListener('click', () => {
     const dialog = document.getElementById(button.dataset.dialog);
+    closeMenu();
     dialog.showModal();
     dialog.scrollTop = 0;
   }),
@@ -66,7 +67,9 @@ document.querySelectorAll('[data-category]:not([data-book])').forEach((button) =
     description.focus({ preventScroll: true });
   }),
 );
-const observedSections = document.querySelectorAll('#services, #pricing, #how-it-works, #faq');
+const observedSections = document.querySelectorAll(
+  '#services, #websites, #pricing, #how-it-works, #faq',
+);
 const observer = new IntersectionObserver(
   (entries) => {
     for (const entry of entries) {
@@ -89,10 +92,12 @@ function setFieldError(input, message) {
   error.textContent = message;
   if (message) {
     input.setAttribute('aria-invalid', 'true');
-    input.setAttribute('aria-describedby', error.id);
+    const help = input.dataset.help || '';
+    input.setAttribute('aria-describedby', `${help} ${error.id}`.trim());
   } else {
     input.removeAttribute('aria-invalid');
-    input.removeAttribute('aria-describedby');
+    if (input.dataset.help) input.setAttribute('aria-describedby', input.dataset.help);
+    else input.removeAttribute('aria-describedby');
   }
 }
 function validateForm(form) {
@@ -111,7 +116,9 @@ function validateForm(form) {
       : input.type === 'checkbox'
         ? 'Please acknowledge the appointment request and terms for support.'
         : input.validity.typeMismatch
-          ? 'Please enter a valid email address.'
+          ? input.type === 'url'
+            ? 'Please enter a complete website URL, including https://.'
+            : 'Please enter a valid email address.'
           : input.validationMessage;
     setFieldError(input, message);
     if (message && !firstInvalid) firstInvalid = input;
@@ -120,6 +127,9 @@ function validateForm(form) {
   return !firstInvalid;
 }
 document.querySelectorAll('.request-form').forEach((form) => {
+  form.querySelectorAll('[aria-describedby]').forEach((input) => {
+    input.dataset.help = input.getAttribute('aria-describedby');
+  });
   let sending = false;
   form.querySelector('[type=submit]').disabled = false;
   form.addEventListener('input', (event) => {
@@ -170,15 +180,16 @@ document.querySelectorAll('.request-form').forEach((form) => {
       status.textContent =
         form.dataset.kind === 'booking'
           ? 'Thanks — your appointment request has been received. I’ll confirm the time and pricing with you before the appointment is finalized.'
-          : 'Thanks — I got your message. I’ll review the issue and get back to you to let you know whether I can help.';
+          : form.dataset.kind === 'project'
+            ? 'Thanks — your website inquiry has been received. I’ll review the scope and my availability before proposing a quote. No project or deadline is confirmed yet.'
+            : 'Thanks — I got your message. I’ll review whether remote help is suitable and get back to you. No appointment is confirmed yet.';
       form.reset();
       status.focus();
     } catch (error) {
       status.dataset.state = 'error';
-      status.textContent =
-        error.name === 'TimeoutError' || error.name === 'TypeError'
-          ? 'I couldn’t verify delivery. Your details are still here. Please wait before trying again, to avoid a duplicate request.'
-          : error.message;
+      status.textContent = ['TimeoutError', 'TypeError', 'SyntaxError'].includes(error.name)
+        ? 'I couldn’t verify delivery. Your details are still here. Please wait before trying again, to avoid a duplicate request.'
+        : error.message;
       if (!form.querySelector('[aria-invalid=true]')) status.focus();
     } finally {
       sending = false;

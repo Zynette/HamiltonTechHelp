@@ -1,6 +1,6 @@
-# Computer & Tech Help — Hamilton + Remote
+# Remote Tech Help & Simple Websites
 
-A one-page personal tech-support website with an appointment-request dialog and a separate quick inquiry form. Built with semantic HTML, CSS and browser JavaScript, served by a small Node HTTP server. No runtime dependencies, accounts, analytics, uploads or payment processing.
+A remote-only tech-support and simple website-services site, based in Hamilton, Ontario. Separate flows cover tech-support inquiries, remote appointment requests and website-project inquiries. Built with semantic HTML, CSS and browser JavaScript, served by a small Node HTTP server. No runtime dependencies, accounts, analytics, uploads or payment processing.
 
 **Status:** implemented and locally testable on the review branch. The current temporary public details are Antonette Petallo and antonettepetallo73@gmail.com; form delivery remains intentionally unconfigured until a verified provider form ID is supplied. The owner profile states an Information Technology degree, a Software Support diploma and everyday Windows + Apple support, with hardware repair and advanced account recovery outside scope.
 
@@ -29,12 +29,12 @@ npm run check:release
 
 `check` validates source formatting and JavaScript syntax. `npm run format` applies the project’s formatting conventions. The project is plain JavaScript, so there is no TypeScript compiler or framework lint configuration. Unit/integration tests use Node's built-in runner. Browser tests use Playwright and axe-core at 375, 390, 430, 768, 1024, 1440 and 1920 pixels. Browser form tests inject a fake transport into a **test-only** server; they never send email. `check:release` is expected to fail until launch details are provided.
 
-## One form connection for both flows
+## One delivery connection for three distinct flows
 
 1. The owner creates a Formspree form linked to their chosen receiving email and completes its verification. Supply its form ID to the maintainer; no account password is needed.
-2. Set `FORMSPREE_FORM_ID` in the server environment. Both forms use it; their `kind` and subject distinguish inquiries and appointment requests.
+2. Set `FORMSPREE_FORM_ID` in the server environment. All three forms use it; `kind` is `inquiry`, `booking` or `project`, with a distinct subject. Project inquiries collect a project type, brief, optional public URL and preferred timeframe; they do not book a session or require device/date fields. Booking requests accept only the Remote method and free-text preferred times, not advertised working hours.
 3. Configure the provider for server-side JSON submissions. A provider-side browser CAPTCHA or domain restriction must not silently block the server relay; verify this in the account. This implementation supplies a honeypot and request throttling. If browser verification is desired later, implement its token flow end to end before enabling it.
-4. Submit one authorized test inquiry and booking request to the deployed service and verify both in the actual inbox. Remove test records afterward.
+4. Submit an owner-authorized test for each of the three flows to the deployed service and verify them in the actual inbox. Remove test records afterward.
 
 The endpoint is `https://formspree.io/f/<ID>`. Only an accepted JSON response with `ok: true` produces a success message. Provider rejection and network uncertainty show errors; the code does not automatically retry ambiguous deliveries. The integration is documented at https://help.formspree.io/pt-br/articles/building-your-form/submit-forms-with-javascript-ajax/ and provider limits at https://help.formspree.io/articles/form-and-project-settings/system-limits . Check the selected plan's quotas before launch; no plan or fee is assumed.
 
@@ -50,9 +50,17 @@ Deploy the repository to a Node-capable host or container. Static-only hosting s
 - Run the tests and `npm run check:release` before deploying. Production startup enforces the release check too.
 - Keep keys/configuration in the host's secret/environment settings, never the repository.
 
-`SITE_URL` must be the exact public origin. Requests from other origins are rejected. It generates the canonical URL, `og:url`, sitemap, robots policy and production-only Organization/WebSite structured data. The schema uses the public Hamilton service area without inventing a street address, ratings or reviews. Social title/description, author metadata and favicon are provided; no unrequested social image was generated.
+`SITE_URL` must be the exact public origin. Requests from other origins are rejected. It generates the canonical URL, `og:url`, sitemap, robots policy and production-only Organization/WebSite/Service structured data. Hamilton is the owner’s base; no physical service area, street address, opening hours, ratings or reviews are claimed. Social title/description, author metadata and favicon are provided; no unrequested social image was generated.
 
 **Rate limiting and deployment topology:** the server uses the direct socket IP, 5 submissions per 15 minutes, held in bounded process memory. It deliberately ignores spoofable forwarding headers. Behind a shared reverse proxy, clients can share that bucket. Before public launch, implement host-specific trusted-client-IP handling or move throttling to a verified edge control. Multiple server instances also need a shared/edge limiter. Do not simply trust an arbitrary `X-Forwarded-For` header. Restarting the process resets its limiter. The site is a single-process initial implementation, not a distributed backend.
+
+## Service model and search launch
+
+Tech help is remote-only and by appointment, subject to availability. The standard starting session remains $40 CAD for up to 45 minutes; extra time is $15 per 15 minutes only with approval. Remote setup/transfer packages have individually agreed scope and duration. There are no visits, emergency support or continuous inbox monitoring.
+
+Simple websites and updates are quoted individually. Agree scope, page count, revision allowance, timeline, price, payment stages and handover in writing; separately account for hosting, domains, paid tools and maintenance. Complex stores, custom applications and urgent ongoing maintenance are excluded.
+
+Online-only businesses are ineligible for Google Business Profile under current Google guidance. Ordinary organic search remains available. See [search launch guidance](docs/SEARCH-LAUNCH.md) for official sources, implemented SEO, private-preview limitations and owner-controlled Search Console verification steps. No Google listing or account changes are included.
 
 ## Launch details
 

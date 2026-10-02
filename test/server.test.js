@@ -22,6 +22,16 @@ const booking = {
   phone: '',
   consent: true,
 };
+const project = {
+  kind: 'project',
+  name: 'Test Customer',
+  email: 'test@example.com',
+  projectType: 'Website content updates',
+  description: 'Please update the service pages and improve the mobile menu.',
+  siteUrl: 'https://example.com',
+  timeframe: 'Flexible',
+  website: '',
+};
 const now = new Date('2026-10-01T16:00:00Z');
 async function setup(t, options = {}) {
   const server = createApp({ clock: () => now.getTime(), ...options });
@@ -57,6 +67,8 @@ test('rejects malformed input, missing consent, bad choices, invalid and past da
     [],
     'x',
     { ...booking, consent: false },
+    { ...booking, method: 'In person — Hamilton' },
+    { ...booking, window: '' },
     { ...booking, date: '2026-02-30' },
     { ...booking, date: '2026-09-30' },
     { ...base, device: 'macOS' },
@@ -154,7 +166,7 @@ test('HTML, security headers and non-indexable development metadata', async (t) 
   const { url } = await setup(t);
   const response = await fetch(url);
   assert.equal(response.status, 200);
-  assert.match(await response.text(), /Everyday tech/);
+  assert.match(await response.text(), /Friendly remote/);
   assert.match(response.headers.get('content-security-policy'), /frame-ancestors 'none'/);
   assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow');
   assert.match(await (await fetch(url + '/robots.txt')).text(), /Disallow: \//);
@@ -167,6 +179,68 @@ test('production origin provides canonical and sitemap', async (t) => {
   assert.match(html, /rel="canonical" href="https:\/\/tech.example\/"/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /"@type":"Organization"/);
+  const schema = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
+  const services = schema['@graph'].filter((item) => item['@type'] === 'Service');
+  assert.equal(services.length, 2);
+  assert.ok(
+    services.every((service) => service.provider['@id'] === 'https://tech.example/#organization'),
+  );
+  assert.doesNotMatch(
+    JSON.stringify(schema),
+    /LocalBusiness|areaServed|openingHours|streetAddress/,
+  );
   assert.equal(response.headers.get('x-robots-tag'), null);
   assert.match(await (await fetch(url + '/sitemap.xml')).text(), /https:\/\/tech.example\//);
+});
+test('website inquiries deliver project details without appointment or device fields', async (t) => {
+  let delivered;
+  const { post } = await setup(t, {
+    formId: 'test1234',
+    deliver: async (data) => {
+      delivered = data;
+      return true;
+    },
+  });
+  assert.equal(
+    (
+      await post({
+        ...project,
+        method: 'In person — Hamilton',
+        date: '2099-01-01',
+        device: 'Other',
+      })
+    ).status,
+    200,
+  );
+  assert.deepEqual(delivered, {
+    kind: 'project',
+    name: project.name,
+    email: project.email,
+    description: project.description,
+    projectType: project.projectType,
+    siteUrl: project.siteUrl,
+    timeframe: project.timeframe,
+  });
+});
+test('website inquiries reject invalid types, unsafe URLs, oversized fields and spam before delivery', async (t) => {
+  let calls = 0;
+  const { post } = await setup(t, {
+    limit: 20,
+    formId: 'test1234',
+    deliver: async () => {
+      calls++;
+      return true;
+    },
+  });
+  for (const fields of [
+    { projectType: '' },
+    { siteUrl: 'javascript:alert(1)' },
+    { siteUrl: 'https://user:password@example.com' },
+    { siteUrl: 'example.com' },
+    { timeframe: 'x'.repeat(121) },
+    { website: 'spam' },
+  ])
+    assert.equal((await post({ ...project, ...fields })).status, 422);
+  assert.equal(calls, 0);
+  assert.deepEqual(validateRequest({ ...project, siteUrl: '', timeframe: '' }, now).errors, {});
 });

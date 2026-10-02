@@ -42,8 +42,10 @@ export function createApp({
           ...data,
           _subject:
             data.kind === 'booking'
-              ? 'New appointment request — Computer & Tech Help'
-              : 'New tech-help inquiry',
+              ? 'Remote tech-support appointment request'
+              : data.kind === 'project'
+                ? 'Website project inquiry — Remote Tech Help & Simple Websites'
+                : 'New remote tech-help inquiry',
           timezone: 'America/Toronto',
         }),
         signal: AbortSignal.timeout(12000),
@@ -197,27 +199,34 @@ export function createApp({
                         {
                           '@type': 'Organization',
                           '@id': `${origin}/#organization`,
-                          name: 'Computer & Tech Help by Antonette Petallo',
+                          name: 'Remote Tech Help & Simple Websites by Antonette Petallo',
                           url: `${origin}/`,
                           email: 'mailto:antonettepetallo73@gmail.com',
                           description:
-                            'Patient one-on-one computer help in Hamilton and remote support for Windows and everyday Apple devices.',
-                          areaServed: {
-                            '@type': 'City',
-                            name: 'Hamilton',
-                            containedInPlace: { '@type': 'AdministrativeArea', name: 'Ontario' },
-                          },
-                          serviceType: [
-                            'Computer support',
-                            'Remote technical support',
-                            'Apple device support',
-                          ],
+                            'Based in Hamilton, Ontario. Remote-only Windows and everyday Apple tech help by appointment, plus simple websites and website updates quoted individually.',
+                        },
+                        {
+                          '@type': 'Service',
+                          '@id': `${origin}/#remote-support`,
+                          name: 'Remote tech support',
+                          serviceType:
+                            'Remote Windows, Apple, email and printer connection support',
+                          provider: { '@id': `${origin}/#organization` },
+                          url: `${origin}/#services`,
+                        },
+                        {
+                          '@type': 'Service',
+                          '@id': `${origin}/#website-services`,
+                          name: 'Simple websites and website updates',
+                          serviceType: 'Informational websites, landing pages and website updates',
+                          provider: { '@id': `${origin}/#organization` },
+                          url: `${origin}/#websites`,
                         },
                         {
                           '@type': 'WebSite',
                           '@id': `${origin}/#website`,
                           url: `${origin}/`,
-                          name: 'Computer & Tech Help',
+                          name: 'Remote Tech Help & Simple Websites',
                           inLanguage: 'en-CA',
                           publisher: { '@id': `${origin}/#organization` },
                         },
@@ -253,7 +262,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const port = Number(process.env.PORT || 3000);
   const server = createApp();
   server.listen(port, process.env.HOST || '0.0.0.0', () =>
-    console.log(`Computer & Tech Help running on port ${port}`),
+    console.log(`Remote Tech Help & Simple Websites running on port ${port}`),
   );
   const stop = () => server.close(() => process.exit(0));
   process.on('SIGTERM', stop);

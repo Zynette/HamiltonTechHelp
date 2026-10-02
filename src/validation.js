@@ -16,12 +16,12 @@ export const devices = [
   'Printer/scanner',
   'Other',
 ];
-export const methods = ['Remote', 'In person — Hamilton', 'Not sure'];
-export const windows = [
-  'Morning (9 am–12 pm)',
-  'Afternoon (12–5 pm)',
-  'Evening (5–8 pm)',
-  'Flexible',
+export const methods = ['Remote'];
+export const projectTypes = [
+  'New informational website or landing page',
+  'Website content updates',
+  'Mobile layout or website troubleshooting',
+  'Domain, contact form or basic search setup',
 ];
 export function validateRequest(body, now = new Date()) {
   const errors = {};
@@ -48,19 +48,34 @@ export function validateRequest(body, now = new Date()) {
     if (!allowed.includes(body[name])) errors[name] = 'Please choose one of the listed options.';
     else clean[name] = body[name];
   };
-  choice('kind', ['inquiry', 'booking']);
+  choice('kind', ['inquiry', 'booking', 'project']);
   text('name', 80, 1);
   const email = text('email', 254, 3);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(email))
     errors.email = 'Please enter a valid email address.';
   text('description', 2000, 10);
-  choice('device', devices);
-  choice('category', categories);
+  if (body.kind === 'project') {
+    choice('projectType', projectTypes);
+    const siteUrl = text('siteUrl', 500);
+    if (siteUrl) {
+      try {
+        const parsed = new URL(siteUrl);
+        if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password)
+          errors.siteUrl = 'Use a public http or https website URL without login credentials.';
+      } catch {
+        errors.siteUrl = 'Please enter a complete website URL, including https://.';
+      }
+    }
+    text('timeframe', 120);
+  } else {
+    choice('device', devices);
+    choice('category', categories);
+  }
   if (body.website !== undefined && body.website !== '')
     errors.website = 'The request could not be accepted.';
   if (body.kind === 'booking') {
     choice('method', methods);
-    choice('window', windows);
+    text('window', 80, 1);
     const date = text('date', 10, 10);
     const today = new Intl.DateTimeFormat('en-CA', {
       timeZone: 'America/Toronto',

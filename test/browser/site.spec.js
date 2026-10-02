@@ -8,7 +8,7 @@ for (const width of [375, 390, 430, 768, 1024, 1440, 1920]) {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
-    await expect(page.locator('h1')).toContainText('Everyday tech.');
+    await expect(page.locator('h1')).toContainText('Friendly remote');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
     expect(overflow).toBe(false);
     await page.locator('.all-services summary').click();
@@ -25,6 +25,24 @@ for (const width of [375, 390, 430, 768, 1024, 1440, 1920]) {
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
       .analyze();
     expect(dialogResults.violations).toEqual([]);
+    await page.keyboard.press('Escape');
+    await page.locator('#websites [data-dialog=project-dialog]').click();
+    await expect(page.locator('#project-dialog')).toBeVisible();
+    expect(
+      (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze())
+        .violations,
+    ).toEqual([]);
+    expect(
+      await page
+        .locator('#project-dialog')
+        .evaluate((element) => element.scrollWidth > element.clientWidth),
+    ).toBe(false);
+    if ([390, 1440].includes(width)) {
+      await page.screenshot({ path: `test-results/project-${width}.png` });
+      await page.keyboard.press('Escape');
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.screenshot({ path: `test-results/home-${width}.png`, fullPage: true });
+    }
     expect(errors).toEqual([]);
   });
 }
@@ -58,7 +76,7 @@ test('booking presets, validation, consent and request confirmation', async ({ p
   await form.locator('[name=device]').selectOption('Printer/scanner');
   await form.locator('[name=description]').fill('The printer is showing as offline.');
   await form.locator('[name=date]').fill('2099-10-02');
-  await form.locator('[name=window]').selectOption('Morning (9 am–12 pm)');
+  await form.locator('[name=window]').fill('Weekday mornings, if available');
   await form.locator('[name=name]').fill('Test Customer');
   await form.locator('[name=email]').fill('customer@example.com');
   await form.getByRole('button', { name: 'Request appointment' }).click();
@@ -91,7 +109,7 @@ test('mobile menu, category prefilling and FAQ interaction', async ({ page }) =>
   await page.goto('/');
   await page.getByRole('button', { name: 'Menu' }).click();
   await expect(page.locator('#navigation')).toBeVisible();
-  await page.locator('#navigation').getByRole('link', { name: 'Services', exact: true }).click();
+  await page.locator('#navigation').getByRole('link', { name: 'Tech help', exact: true }).click();
   await expect(page.locator('#navigation')).not.toBeVisible();
   await page.locator('.problem-list [data-category="Printer/scanner"]').click();
   await expect(page.locator('#inquiry-device')).toHaveValue('Printer/scanner');
@@ -99,6 +117,41 @@ test('mobile menu, category prefilling and FAQ interaction', async ({ page }) =>
   const item = page.locator('.faq-list details').first();
   await item.locator('summary').click();
   await expect(item).toHaveAttribute('open', '');
+});
+test('website project form validates, preserves failed requests and confirms only receipt', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const opener = page.locator('#websites [data-dialog=project-dialog]');
+  await opener.click();
+  const form = page.locator('#project-form');
+  await expect(form.locator('[name=device], [name=date], [name=method]')).toHaveCount(0);
+  await form.getByRole('button', { name: 'Send website inquiry' }).click();
+  await expect(form.locator('[name=name]')).toHaveAttribute('aria-invalid', 'true');
+  await form.locator('[name=name]').fill('Test Customer');
+  await form.locator('[name=email]').fill('failure@example.com');
+  await form.locator('[name=projectType]').selectOption('Mobile layout or website troubleshooting');
+  await form.locator('[name=siteUrl]').fill('https://example.com');
+  await form
+    .locator('[name=description]')
+    .fill('The mobile navigation needs fixing on my existing site.');
+  await form.locator('[name=timeframe]').fill('Flexible');
+  await form.getByRole('button', { name: 'Send website inquiry' }).click();
+  await expect(form.locator('.form-status')).toHaveAttribute('data-state', 'error');
+  await expect(form.locator('[name=description]')).toHaveValue(/mobile navigation/);
+  await form.locator('[data-dialog=terms-dialog]').click();
+  await expect(page.locator('#terms-dialog')).toContainText('Website projects');
+  await page.keyboard.press('Escape');
+  await expect(form.locator('[data-dialog=terms-dialog]')).toBeFocused();
+  await form.locator('[name=email]').fill('customer@example.com');
+  await form.getByRole('button', { name: 'Send website inquiry' }).click();
+  await expect(form.locator('.form-status')).toContainText(
+    'No project or deadline is confirmed yet.',
+  );
+  await expect(form.locator('[name=description]')).toHaveValue('');
+  await page.keyboard.press('Escape');
+  await expect(opener).toBeFocused();
 });
 test('reduced motion disables scrolling animation', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
