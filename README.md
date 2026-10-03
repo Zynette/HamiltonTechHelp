@@ -58,6 +58,8 @@ Deploy the repository to a Node-capable host or container. Static-only hosting s
 
 Tech help is remote-only and by appointment, subject to availability. The standard starting session remains $40 CAD for up to 45 minutes; extra time is $15 per 15 minutes only with approval. Remote setup/transfer packages have individually agreed scope and duration. There are no visits, emergency support or continuous inbox monitoring.
 
+Support covers software, setup and connection help only. The owner does not open phones, tablets, laptops or desktops, replace screens or batteries, or repair internal components, broken parts or liquid damage. Physical repairs are referred to a qualified hardware repair provider.
+
 Simple websites and updates are quoted individually. Agree scope, page count, revision allowance, timeline, price, payment stages and handover in writing; separately account for hosting, domains, paid tools and maintenance. Complex stores, custom applications and urgent ongoing maintenance are excluded.
 
 Online-only businesses are ineligible for Google Business Profile under current Google guidance. Ordinary organic search remains available. See [search launch guidance](docs/SEARCH-LAUNCH.md) for official sources, implemented SEO, private-preview limitations and owner-controlled Search Console verification steps. No Google listing or account changes are included.
