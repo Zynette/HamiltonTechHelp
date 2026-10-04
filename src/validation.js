@@ -18,10 +18,13 @@ export const devices = [
 ];
 export const methods = ['Remote'];
 export const projectTypes = [
-  'New informational website or landing page',
+  'New business website, landing page or portfolio',
+  'Website redesign',
   'Website content updates',
   'Mobile layout or website troubleshooting',
   'Domain, contact form or basic search setup',
+  'Booking, payment or other integration',
+  'Other website project — review required',
 ];
 export function validateRequest(body, now = new Date()) {
   const errors = {};
@@ -93,7 +96,8 @@ export function validateRequest(body, now = new Date()) {
       errors.date = 'Please choose a valid date, today or later.';
     text('phone', 30);
     if (body.consent !== true)
-      errors.consent = 'Please acknowledge the appointment request and terms for support.';
+      errors.consent =
+        'Please acknowledge the appointment request and terms for tech help and websites.';
     else clean.consent = true;
   }
   return { errors, data: clean };

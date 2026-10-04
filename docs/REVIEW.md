@@ -2,7 +2,7 @@
 
 ## Proposed pull request
 
-**Title:** Build remote tech-help and simple website services
+**Title:** Build remote tech-help and website design services
 
 Visitors can review remote services and pricing, ask a tech question, request a remote appointment or submit a separate website-project inquiry. Hamilton identifies the owner’s base; no physical visits are offered. Availability is limited, and messages are not continuously monitored. Requests are confirmed only after provider acceptance; appointment times still require personal confirmation.
 
@@ -12,7 +12,7 @@ Implemented in plain HTML/CSS/JavaScript and Node, with no runtime dependencies.
 
 - Source formatting and JavaScript syntax validation pass.
 - 15 Node tests pass: validation, delivery success/failure, missing configuration, spam, rate limits, date handling, origin checks, payload limits, public/private asset boundaries and metadata.
-- 13 Playwright tests pass: responsive behavior at 375/390/430/768/1024/1440/1920px, inquiry error/success, booking preferences/consent, project inquiry validation and delivery states, keyboard/nested-dialog focus, mobile navigation/prefilling/FAQ and reduced motion.
+- 15 Node tests and 16 Playwright tests pass after the quote-and-deposit copy update. Browser coverage includes responsive behavior at 320/375/390/430/768/1024/1440/1920px, inquiry error/success, booking preferences/consent, project inquiry validation and delivery states, keyboard/nested-dialog focus, mobile navigation/prefilling/FAQ, reduced motion, pricing alignment and short phone screens.
 - axe-core scans report zero WCAG A/AA violations in the tested main-page, booking-dialog and website-project-dialog states at each width. Automated scans are not a complete accessibility certification.
 - Desktop and mobile layouts visually inspected. Fixed the narrow-phone header overflow and preserved help text during form validation. Confirmed no horizontal page overflow, including expanded service content.
 - Runtime dependency audit: zero reported vulnerabilities; there are no runtime npm dependencies.
@@ -39,11 +39,11 @@ Owner review comes before merging or public launch.
 
 ## Remote-only update
 
-Removed advertised visits and in-person choices, retained $40/up-to-45-minute remote sessions, and added website services with separate project validation and delivery subjects. Support terms and privacy cover both services. Search metadata uses Organization/WebSite/Service, without physical-location claims. See SEARCH-LAUNCH.md for Google’s online-only Business Profile exclusion and outstanding Search Console steps. The private static preview does not provide live delivery or the Node server’s production SEO endpoints.
+Removed advertised visits and in-person choices, changed public tech-support pricing to quoted work starting at $40, and added website design and support with separate project validation and delivery subjects. Support terms and privacy cover both services. Search metadata uses Organization/WebSite/Service, without physical-location claims. See SEARCH-LAUNCH.md for Google’s online-only Business Profile exclusion and outstanding Search Console steps. The private static preview does not provide live delivery or the Node server’s production SEO endpoints.
 
 ## Brand update, October 4, 2026
 
-Renamed the public website to Online Technical Help. Replaced the personal contact address with techspecialistsupport@gmail.com across the footer, privacy, terms and production structured data. Retained credentials, remote-only service boundaries and pricing. The purchased domain is recorded for later deployment; the preview audience, form transport and public-launch status remain unchanged. The platform-generated preview address and Git history can still contain the owner’s existing account identity; this update is not a history rewrite or account rename.
+Renamed the public website to Online Technical Help. Replaced the personal contact address with techspecialistsupport@gmail.com across the footer, privacy, terms and production structured data. Retained credentials and remote-only service boundaries while updating the public quote, deposit and cancellation model. The purchased domain is recorded for later deployment; the preview audience, form transport and public-launch status remain unchanged. The platform-generated preview address and Git history can still contain the owner’s existing account identity; this update is not a history rewrite or account rename.
 
 ## UI and responsive update, October 4, 2026
 

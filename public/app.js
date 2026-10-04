@@ -114,7 +114,7 @@ function validateForm(form) {
     const message = input.validity.valid
       ? ''
       : input.type === 'checkbox'
-        ? 'Please acknowledge the appointment request and terms for support.'
+        ? 'Please acknowledge the appointment request and terms for tech help and websites.'
         : input.validity.typeMismatch
           ? input.type === 'url'
             ? 'Please enter a complete website URL, including https://.'
@@ -179,7 +179,7 @@ document.querySelectorAll('.request-form').forEach((form) => {
       status.dataset.state = 'success';
       status.textContent =
         form.dataset.kind === 'booking'
-          ? 'Thanks — your appointment request has been received. I’ll confirm the time and pricing with you before the appointment is finalized.'
+          ? 'Thanks — your appointment request has been received. I’ll review the scope and availability, then send a quote and proposed time. Nothing has been charged or booked; the appointment is confirmed only after your approval, deposit and written confirmation.'
           : form.dataset.kind === 'project'
             ? 'Thanks — your website inquiry has been received. I’ll review the scope and my availability before proposing a quote. No project or deadline is confirmed yet.'
             : 'Thanks — I got your message. I’ll review whether remote help is suitable and get back to you. No appointment is confirmed yet.';

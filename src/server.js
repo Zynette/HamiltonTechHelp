@@ -203,7 +203,7 @@ export function createApp({
                           url: `${origin}/`,
                           email: 'mailto:techspecialistsupport@gmail.com',
                           description:
-                            'Based in Hamilton, Ontario. Remote-only Windows and everyday Apple tech help by appointment, plus simple websites and website updates quoted individually.',
+                            'Based in Hamilton, Ontario. Remote-only Windows, Mac, email, software, printer connection and everyday Apple-device help by appointment, plus website design and support quoted individually.',
                         },
                         {
                           '@type': 'Service',
@@ -217,8 +217,9 @@ export function createApp({
                         {
                           '@type': 'Service',
                           '@id': `${origin}/#website-services`,
-                          name: 'Simple websites and website updates',
-                          serviceType: 'Informational websites, landing pages and website updates',
+                          name: 'Website design and support',
+                          serviceType:
+                            'Business websites, redesigns, landing pages, integrations and website updates',
                           provider: { '@id': `${origin}/#organization` },
                           url: `${origin}/#websites`,
                         },

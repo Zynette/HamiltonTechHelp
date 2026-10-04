@@ -12,7 +12,7 @@ An editorial service website: warm off-white, deep slate, muted sage, asymmetric
 - Spacing tokens: 4, 8, 12, 16, 24, 32, 48, 64, 96px.
 - Radius tokens: 8, 16, 32px; section-specific variation prevents an all-card layout.
 - Motion: 180ms hover/focus response, fully opaque dialogs; reduced-motion override.
-- Desktop: asymmetric hero, problem list, remote pricing and an individually quoted website offer, three-step process, remote-support panel, inquiry and FAQ.
+- Desktop: asymmetric hero, problem list, remote pricing and an individually quoted website offer, three-step approval process, remote-support panel, inquiry and FAQ.
 - Mobile: compact menu, full-width reading flow, short illustrated panel, large inputs, sticky two-action footer with reserved page space.
 
 ## Architecture
@@ -25,7 +25,7 @@ Security: explicit asset allowlist, CSP, frame protection, same-origin request c
 
 ## Scope choices
 
-No real-time scheduling, uploads, analytics or payment gateway is necessary at launch. Pricing and next-step expectations stay visible. Windows and everyday Apple support are included; advanced hardware, account recovery and security incidents are not promised. All services are delivered remotely. Hamilton is the owner’s base only. Website scope and ongoing costs are agreed individually. No employer name, home address, working hours or phone number is inferred.
+No real-time scheduling, uploads, analytics or payment gateway is connected in this review build. The copy describes a manual quote, deposit and written-confirmation flow without pretending that payment or calendar automation exists. Windows and everyday Apple support are included; advanced hardware, account recovery and security incidents are not promised. All services are delivered remotely. Hamilton is the owner’s base only. Website scope and ongoing costs are agreed individually. No employer name, home address, working hours or phone number is inferred.
 
 ## Dependencies
 

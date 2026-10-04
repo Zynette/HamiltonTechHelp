@@ -802,6 +802,10 @@ h3 {
   color: var(--secondary);
   margin-left: 18px;
 }
+.price-amount > span:first-child {
+  margin-left: 0;
+  margin-right: 12px;
+}
 .price-panel > p {
   font-size: 14px;
   min-height: 22px;
