@@ -1,0 +1,30 @@
+{
+  "name": "online-technical-help",
+  "main": "src/cloudflare-worker.js",
+  "compatibility_date": "2026-10-04",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/",
+      "/api/*",
+      "/healthz",
+      "/robots.txt",
+      "/sitemap.xml"
+    ]
+  },
+  "vars": {
+    "SITE_URL": "https://onlinetechnicalhelp.com"
+  },
+  "routes": [
+    {
+      "pattern": "onlinetechnicalhelp.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.onlinetechnicalhelp.com",
+      "custom_domain": true
+    }
+  ]
+}
