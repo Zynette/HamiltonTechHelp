@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-for (const width of [375, 390, 430, 768, 1024, 1440, 1920]) {
+for (const width of [320, 375, 390, 430, 768, 1024, 1440, 1920]) {
   test(`responsive layout, no overflow, and accessibility at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 960 });
     const errors = [];
@@ -159,4 +159,63 @@ test('reduced motion disables scrolling animation', async ({ page }) => {
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe(
     'auto',
   );
+});
+
+test('hero website inquiry is distinct and returns focus to its trigger', async ({ page }) => {
+  await page.goto('/');
+  const trigger = page.locator('.hero-actions').getByRole('button', { name: 'Discuss a website' });
+  await trigger.click();
+  await expect(page.locator('#project-dialog')).toBeVisible();
+  await expect(page.locator('#booking-dialog')).not.toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(trigger).toBeFocused();
+});
+
+test('layouts reflow across breakpoints and short phone screens', async ({ page }) => {
+  await page.goto('/');
+  for (const width of [280, 360, 620, 621, 850, 851, 1100, 1101, 1600, 2560]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.evaluate(() => document.fonts.ready);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth),
+      `page at ${width}px`,
+    ).toBeLessThanOrEqual(width);
+    const menu = page.locator('.menu-toggle');
+    if (await menu.isVisible()) {
+      await menu.click();
+      await expect(page.locator('#navigation')).toBeVisible();
+      expect(
+        await page.locator('#navigation').evaluate((el) => el.scrollWidth > el.clientWidth),
+        `menu at ${width}px`,
+      ).toBe(false);
+      await page.keyboard.press('Escape');
+    }
+    await page.locator('.hero-actions [data-dialog]').click();
+    expect(
+      await page.locator('#project-dialog').evaluate((el) => el.scrollWidth > el.clientWidth),
+      `dialog at ${width}px`,
+    ).toBe(false);
+    await page.keyboard.press('Escape');
+    if (width > 620) {
+      const bottoms = await page
+        .locator('.pricing-main .button')
+        .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().bottom));
+      expect(Math.abs(bottoms[0] - bottoms[1]), `pricing alignment at ${width}px`).toBeLessThan(1);
+    }
+  }
+  await page.setViewportSize({ width: 390, height: 400 });
+  await page.locator('.menu-toggle').click();
+  const menuAction = page.locator('#navigation .button');
+  await menuAction.scrollIntoViewIfNeeded();
+  const menuBox = await menuAction.boundingBox();
+  expect(menuBox.y).toBeGreaterThanOrEqual(0);
+  expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(400);
+  await page.keyboard.press('Escape');
+  await page.locator('.hero-actions [data-dialog]').click();
+  const submit = page.locator('#project-form [type=submit]');
+  await submit.scrollIntoViewIfNeeded();
+  const box = await submit.boundingBox();
+  expect(box.y).toBeGreaterThanOrEqual(0);
+  expect(box.y + box.height).toBeLessThanOrEqual(400);
+  await page.keyboard.press('Escape');
 });

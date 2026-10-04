@@ -44,3 +44,11 @@ Removed advertised visits and in-person choices, retained $40/up-to-45-minute re
 ## Brand update, October 4, 2026
 
 Renamed the public website to Online Technical Help. Replaced the personal contact address with techspecialistsupport@gmail.com across the footer, privacy, terms and production structured data. Retained credentials, remote-only service boundaries and pricing. The purchased domain is recorded for later deployment; the preview audience, form transport and public-launch status remain unchanged. The platform-generated preview address and Git history can still contain the owner’s existing account identity; this update is not a history rewrite or account rename.
+
+## UI and responsive update, October 4, 2026
+
+Retained the cream, sage and charcoal palette. Increased form-border contrast to 3.69:1 against white; enlarged meaningful small text; shortened the brand tagline and introduction; and added a distinct “Discuss a website” homepage action. Pricing buttons align at the bottom of equal-height desktop cards. Narrow headers/footers reflow, menus can scroll on short screens, and phone scroll padding accounts for the fixed action bar.
+
+Verification: 15 server tests and 16 browser tests pass, including WCAG-focused axe scans, the three simulated form flows, the new website CTA and focus return, breakpoint widths from 280 to 2560 pixels, aligned pricing buttons and a 390 × 400 menu/dialog viewport. Desktop, tablet and phone renders were inspected. Form email delivery remains simulated; no real messages were sent. This is Chromium coverage, not a claim of universal device/browser certification.
+
+The PR remains unmerged and the preview remains owner-private. DNS, the deployed form backend and verified receiving-inbox delivery are separate launch work.

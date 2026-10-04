@@ -27,7 +27,7 @@ npm run test:browser
 npm run check:release
 ```
 
-`check` validates source formatting and JavaScript syntax. `npm run format` applies the project’s formatting conventions. The project is plain JavaScript, so there is no TypeScript compiler or framework lint configuration. Unit/integration tests use Node's built-in runner. Browser tests use Playwright and axe-core at 375, 390, 430, 768, 1024, 1440 and 1920 pixels. Browser form tests inject a fake transport into a **test-only** server; they never send email. `check:release` is expected to fail until launch details are provided.
+`check` validates source formatting and JavaScript syntax. `npm run format` applies the project’s formatting conventions. The project is plain JavaScript, so there is no TypeScript compiler or framework lint configuration. Unit/integration tests use Node's built-in runner. Browser tests use Playwright and axe-core at 320, 375, 390, 430, 768, 1024, 1440 and 1920 pixels. Browser form tests inject a fake transport into a **test-only** server; they never send email. Additional browser coverage checks widths from 280 to 2560 pixels around layout breakpoints, pricing-button alignment, the homepage website-project action and focus return, and menus/forms on a 390 × 400 viewport. This is representative Chromium coverage, not a guarantee for every browser or physical device. `check:release` is expected to fail until launch details are provided.
 
 ## One delivery connection for three distinct flows
 
