@@ -17,7 +17,7 @@ Reviewed 2 October 2026 against Google's official guidance:
 
 ## Owner-controlled launch steps
 
-1. Choose the public domain/host and explicitly authorize public access. Preserve the existing preview as private until then. A custom domain is not itself required for indexing, but a private sign-in wall prevents search engines from accessing content.
+1. Connect the purchased domain onlinetechnicalhelp.com to a compatible host and explicitly authorize public access. Preserve the existing preview as private until then. A custom domain is not itself required for indexing, but a private sign-in wall prevents search engines from accessing content.
 2. Deploy the Node service with `SITE_URL`, `NODE_ENV=production` and a verified form provider ID. The current Sites preview is static: it does not run the Node API or inject production schema/sitemap. Domain connection alone does not enable those functions. A future Sites production launch needs a compatible server implementation, or use a Node-capable host.
 3. Verify delivery for all three forms with owner-authorized test messages. Confirm provider privacy/retention and host-specific rate limiting before accepting public requests.
 4. Verify the public site in Google Search Console using the owner's account/domain access; submit `/sitemap.xml`, inspect the homepage and request indexing. Check that no login or noindex remains on the public deployment.

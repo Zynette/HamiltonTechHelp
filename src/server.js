@@ -42,10 +42,10 @@ export function createApp({
           ...data,
           _subject:
             data.kind === 'booking'
-              ? 'Remote tech-support appointment request'
+              ? 'Remote tech-support appointment request — Online Technical Help'
               : data.kind === 'project'
-                ? 'Website project inquiry — Remote Tech Help & Simple Websites'
-                : 'New remote tech-help inquiry',
+                ? 'Website project inquiry — Online Technical Help'
+                : 'New remote tech-help inquiry — Online Technical Help',
           timezone: 'America/Toronto',
         }),
         signal: AbortSignal.timeout(12000),
@@ -199,9 +199,9 @@ export function createApp({
                         {
                           '@type': 'Organization',
                           '@id': `${origin}/#organization`,
-                          name: 'Remote Tech Help & Simple Websites by Antonette Petallo',
+                          name: 'Online Technical Help',
                           url: `${origin}/`,
-                          email: 'mailto:antonettepetallo73@gmail.com',
+                          email: 'mailto:techspecialistsupport@gmail.com',
                           description:
                             'Based in Hamilton, Ontario. Remote-only Windows and everyday Apple tech help by appointment, plus simple websites and website updates quoted individually.',
                         },
@@ -226,7 +226,7 @@ export function createApp({
                           '@type': 'WebSite',
                           '@id': `${origin}/#website`,
                           url: `${origin}/`,
-                          name: 'Remote Tech Help & Simple Websites',
+                          name: 'Online Technical Help',
                           inLanguage: 'en-CA',
                           publisher: { '@id': `${origin}/#organization` },
                         },
@@ -262,7 +262,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const port = Number(process.env.PORT || 3000);
   const server = createApp();
   server.listen(port, process.env.HOST || '0.0.0.0', () =>
-    console.log(`Remote Tech Help & Simple Websites running on port ${port}`),
+    console.log(`Online Technical Help running on port ${port}`),
   );
   const stop = () => server.close(() => process.exit(0));
   process.on('SIGTERM', stop);

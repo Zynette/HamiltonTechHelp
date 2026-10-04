@@ -1,8 +1,8 @@
-# Remote Tech Help & Simple Websites
+# Online Technical Help
 
 A remote-only tech-support and simple website-services site, based in Hamilton, Ontario. Separate flows cover tech-support inquiries, remote appointment requests and website-project inquiries. Built with semantic HTML, CSS and browser JavaScript, served by a small Node HTTP server. No runtime dependencies, accounts, analytics, uploads or payment processing.
 
-**Status:** implemented and locally testable on the review branch. The current temporary public details are Antonette Petallo and antonettepetallo73@gmail.com; form delivery remains intentionally unconfigured until a verified provider form ID is supplied. The owner profile states an Information Technology degree, a Software Support diploma and everyday Windows + Apple support, with hardware repair and advanced account recovery outside scope.
+**Status:** implemented and locally testable on the review branch. The public brand is Online Technical Help and the contact address is techspecialistsupport@gmail.com; form delivery remains intentionally unconfigured until a verified provider form ID is supplied. The owner profile states an Information Technology degree, a Software Support diploma and everyday Windows + Apple support, with hardware repair and advanced account recovery outside scope.
 
 ## Local development
 
@@ -31,7 +31,7 @@ npm run check:release
 
 ## One delivery connection for three distinct flows
 
-1. The owner creates a Formspree form linked to their chosen receiving email and completes its verification. Supply its form ID to the maintainer; no account password is needed.
+1. The owner creates a Formspree form linked to techspecialistsupport@gmail.com and completes its verification. Supply its form ID to the maintainer; no account password is needed.
 2. Set `FORMSPREE_FORM_ID` in the server environment. All three forms use it; `kind` is `inquiry`, `booking` or `project`, with a distinct subject. Project inquiries collect a project type, brief, optional public URL and preferred timeframe; they do not book a session or require device/date fields. Booking requests accept only the Remote method and free-text preferred times, not advertised working hours.
 3. Configure the provider for server-side JSON submissions. A provider-side browser CAPTCHA or domain restriction must not silently block the server relay; verify this in the account. This implementation supplies a honeypot and request throttling. If browser verification is desired later, implement its token flow end to end before enabling it.
 4. Submit an owner-authorized test for each of the three flows to the deployed service and verify them in the actual inbox. Remove test records afterward.
@@ -45,7 +45,7 @@ Deploy the repository to a Node-capable host or container. Static-only hosting s
 - Install: `npm ci --omit=dev` (there are zero runtime packages).
 - Start: `npm start`.
 - Node: 24 or later; the host supplies `PORT` if needed.
-- Environment: `NODE_ENV=production`, `SITE_URL=https://your-real-domain`, `FORMSPREE_FORM_ID=verified-id`.
+- Environment: `NODE_ENV=production`, `SITE_URL=https://onlinetechnicalhelp.com`, `FORMSPREE_FORM_ID=verified-id`.
 - Configure HTTPS at the hosting edge and route traffic to the Node server. Health check: `/healthz`.
 - Run the tests and `npm run check:release` before deploying. Production startup enforces the release check too.
 - Keep keys/configuration in the host's secret/environment settings, never the repository.
@@ -66,7 +66,7 @@ Online-only businesses are ineligible for Google Business Profile under current 
 
 ## Launch details
 
-The current temporary public details are Antonette Petallo and antonettepetallo73@gmail.com. Replace them later if a different public-facing identity or receiving inbox is chosen. No home address, employer name or phone number is included. The owner should confirm advertised prices and service/payment/cancellation wording. A live calendar is not connected; dates and time windows are always preferences in America/Toronto, never guaranteed availability.
+The public brand is Online Technical Help and the contact address is techspecialistsupport@gmail.com. The owner has purchased onlinetechnicalhelp.com; DNS, hosting and public launch are not configured by this branding update. Personal names are omitted from website content and metadata. No home address, employer name or phone number is included. The owner should confirm advertised prices and service/payment/cancellation wording. A live calendar is not connected; dates and time windows are always preferences in America/Toronto, never guaranteed availability.
 
 The privacy text discloses the planned Formspree/inbox processing. Confirm provider retention settings and delete requests when no longer needed. There are no tracking cookies or marketing scripts. Check a real mailbox delivery, mobile flow and launch content after choosing the host.
 

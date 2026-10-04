@@ -23,9 +23,9 @@ The sandbox's standard browser download failed. QA used portable Chromium from a
 ## Review and launch boundaries
 
 1. **Repository review:** The GitHub connector is now enabled. Changes are on `work/initial-tech-help-website` in PR #1; main has not been merged or changed directly.
-2. **Owner details:** The current temporary public details are Antonette Petallo and antonettepetallo73@gmail.com. Replace them later if a different public-facing identity or receiving inbox is chosen. No employer, home address or phone number is included.
+2. **Owner details:** The public brand is Online Technical Help, with techspecialistsupport@gmail.com as the contact address. Personal names are removed from public content and metadata. No employer, home address or phone number is included.
 3. **Live delivery:** Formspree account/form verification and a real inbox test are outstanding. Tests use injected delivery responses and do not prove real email delivery. All forms remain explicit about unconfigured delivery.
-4. **Hosting:** A private owner-only review preview is deployed at `https://hamilton-tech-help-preview.antonettepetallo73.chatgpt.site`. A separate public launch host/domain is still optional; resolve trusted client-IP/edge throttling for that host before public traffic.
+4. **Hosting:** The existing owner-only preview remains private. The owner has purchased onlinetechnicalhelp.com; domain connection and public launch remain pending. Resolve trusted client-IP/edge throttling for that host before public traffic.
 5. **Scope:** remote appointment requests and individually quoted website inquiries; no live calendar, card processing, uploads, analytics or testimonials. Browser testing was Chromium only; test Safari/iOS and Firefox when those runners are available.
 6. **Performance:** small local assets and no third-party browser requests. No production bundle or framework dependencies were added. Lab asset inspection is complete; production Core Web Vitals depend on the chosen host and real traffic and are not claimed here.
 
@@ -33,10 +33,14 @@ The sandbox's standard browser download failed. QA used portable Chromium from a
 
 - Review PR #1 and the private preview.
 - Verify the chosen form-service account/inbox when ready, then supply the form ID through deployment secrets.
-- Confirm the advertised prices, scope and service wording. A custom domain is optional.
+- Confirm the advertised prices, scope and service wording. The purchased domain is not connected by the branding update.
 
 Owner review comes before merging or public launch.
 
 ## Remote-only update
 
 Removed advertised visits and in-person choices, retained $40/up-to-45-minute remote sessions, and added website services with separate project validation and delivery subjects. Support terms and privacy cover both services. Search metadata uses Organization/WebSite/Service, without physical-location claims. See SEARCH-LAUNCH.md for Google’s online-only Business Profile exclusion and outstanding Search Console steps. The private static preview does not provide live delivery or the Node server’s production SEO endpoints.
+
+## Brand update, October 4, 2026
+
+Renamed the public website to Online Technical Help. Replaced the personal contact address with techspecialistsupport@gmail.com across the footer, privacy, terms and production structured data. Retained credentials, remote-only service boundaries and pricing. The purchased domain is recorded for later deployment; the preview audience, form transport and public-launch status remain unchanged. The platform-generated preview address and Git history can still contain the owner’s existing account identity; this update is not a history rewrite or account rename.

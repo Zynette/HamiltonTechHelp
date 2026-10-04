@@ -129,9 +129,14 @@ textarea:focus-visible,
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
+}
+.identity > span:last-child {
+  min-width: 0;
 }
 .brand-mark {
+  flex-shrink: 0;
   width: 40px;
   height: 40px;
   border: 1.5px solid var(--accent);
@@ -152,6 +157,8 @@ textarea:focus-visible,
   letter-spacing: 1.6px;
   display: block;
   margin-top: 4px;
+  max-width: 240px;
+  line-height: 1.5;
 }
 .brand-dot {
   color: var(--success);
@@ -2133,7 +2140,7 @@ dialog::backdrop {
   }
   .footer-top {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 26px;
     padding-bottom: 28px;
   }
@@ -2142,6 +2149,8 @@ dialog::backdrop {
   }
   .footer-contact {
     gap: 10px;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .footer-links {
     gap: 4px 20px;
@@ -2223,4 +2232,8 @@ dialog::backdrop {
     animation: none !important;
     transition: none !important;
   }
+}
+
+.information-dialog a {
+  overflow-wrap: anywhere;
 }
