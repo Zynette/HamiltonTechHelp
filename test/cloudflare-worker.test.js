@@ -40,7 +40,7 @@ test('Cloudflare Worker accepts successful Formspree response without requiring 
     assert.equal(options.method, 'POST');
     assert.equal(options.headers.Accept, 'application/json');
     assert.equal(options.headers['Content-Type'], 'application/json');
-    return new Response('', { status: 204 });
+    return new Response(null, { status: 204 });
   };
 
   const result = await worker.fetch(request('203.0.113.10'), env);
