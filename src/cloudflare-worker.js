@@ -118,12 +118,17 @@ async function deliver(formId, data) {
       timezone: 'America/Toronto',
     }),
     signal: AbortSignal.timeout(12000),
-    redirect: 'error',
   });
 
-  if (!result.ok) return false;
-  const payload = await result.json();
-  return payload.ok === true;
+  // Formspree documents successful AJAX submissions by HTTP success status.
+  // Do not require a particular response-body shape: a successful response can
+  // legitimately be empty or non-JSON, and parsing it would turn delivery into
+  // a false failure after Formspree has already accepted the submission.
+  if (!result.ok) {
+    console.warn(`Formspree rejected a submission with HTTP ${result.status}`);
+    return false;
+  }
+  return true;
 }
 
 async function handleRequestForm(request, env) {
