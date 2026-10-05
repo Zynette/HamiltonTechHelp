@@ -103,10 +103,14 @@ function checkRateLimit(request, now, limit = defaultLimit) {
   return true;
 }
 
-async function deliver(formId, data) {
+async function deliver(formId, data, origin) {
   const result = await fetch(`https://formspree.io/f/${formId}`, {
     method: 'POST',
-    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Referer: `${origin}/`,
+    },
     body: JSON.stringify({
       ...data,
       _subject:
@@ -118,7 +122,19 @@ async function deliver(formId, data) {
       timezone: 'America/Toronto',
     }),
     signal: AbortSignal.timeout(12000),
+    redirect: 'manual',
   });
+
+  // Formspree's domain restriction relies on the Referer header. Because this
+  // submission is relayed by the Worker rather than posted directly by the
+  // browser, explicitly identify the canonical site origin above.
+  //
+  // Do not follow redirects and then treat the final page as a successful form
+  // submission. AJAX submissions should return a direct HTTP response.
+  if (result.status >= 300 && result.status < 400) {
+    console.warn(`Formspree redirected a submission with HTTP ${result.status}`);
+    return false;
+  }
 
   // Formspree documents successful AJAX submissions by HTTP success status.
   // Do not require a particular response-body shape: a successful response can
@@ -194,7 +210,7 @@ async function handleRequestForm(request, env) {
   }
 
   try {
-    if (!(await deliver(formId, data))) {
+    if (!(await deliver(formId, data, origin))) {
       return response(
         {
           message:
