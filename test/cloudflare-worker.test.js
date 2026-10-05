@@ -85,7 +85,6 @@ test('Cloudflare Worker does not claim success when Formspree cannot be reached'
   assert.match((await result.json()).message, /could not be verified/i);
 });
 
-
 test('Cloudflare Worker does not treat a Formspree redirect as successful delivery', async (t) => {
   const originalFetch = globalThis.fetch;
   const originalWarn = console.warn;
