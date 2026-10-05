@@ -40,6 +40,8 @@ test('Cloudflare Worker accepts successful Formspree response without requiring 
     assert.equal(options.method, 'POST');
     assert.equal(options.headers.Accept, 'application/json');
     assert.equal(options.headers['Content-Type'], 'application/json');
+    assert.equal(options.headers.Referer, 'https://onlinetechnicalhelp.com/');
+    assert.equal(options.redirect, 'manual');
     return new Response(null, { status: 204 });
   };
 
@@ -81,4 +83,25 @@ test('Cloudflare Worker does not claim success when Formspree cannot be reached'
   const result = await worker.fetch(request('203.0.113.12'), env);
   assert.equal(result.status, 502);
   assert.match((await result.json()).message, /could not be verified/i);
+});
+
+
+test('Cloudflare Worker does not treat a Formspree redirect as successful delivery', async (t) => {
+  const originalFetch = globalThis.fetch;
+  const originalWarn = console.warn;
+  t.after(() => {
+    globalThis.fetch = originalFetch;
+    console.warn = originalWarn;
+  });
+
+  globalThis.fetch = async () =>
+    new Response(null, {
+      status: 302,
+      headers: { Location: 'https://formspree.io/thanks' },
+    });
+  console.warn = () => {};
+
+  const result = await worker.fetch(request('203.0.113.13'), env);
+  assert.equal(result.status, 502);
+  assert.match((await result.json()).message, /couldn.t accept/i);
 });
