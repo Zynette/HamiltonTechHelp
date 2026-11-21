@@ -166,7 +166,7 @@ test('HTML, security headers and non-indexable development metadata', async (t) 
   const { url } = await setup(t);
   const response = await fetch(url);
   assert.equal(response.status, 200);
-  assert.match(await response.text(), /Friendly remote/);
+  assert.match(await response.text(), /Websites\./);
   assert.match(response.headers.get('content-security-policy'), /frame-ancestors 'none'/);
   assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow');
   assert.match(await (await fetch(url + '/robots.txt')).text(), /Disallow: \//);
@@ -181,7 +181,7 @@ test('production origin provides canonical and sitemap', async (t) => {
   assert.match(html, /"@type":"Organization"/);
   const schema = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
   const services = schema['@graph'].filter((item) => item['@type'] === 'Service');
-  assert.equal(services.length, 2);
+  assert.equal(services.length, 3);
   assert.ok(
     services.every((service) => service.provider['@id'] === 'https://tech.example/#organization'),
   );
