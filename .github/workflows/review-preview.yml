@@ -40,3 +40,12 @@ jobs:
             git commit -m "build: refresh static design-review preview"
             git push origin HEAD:preview-issue-4
           fi
+      - name: Verify published preview page is reachable
+        run: |
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 4 \
+            --output /tmp/online-technical-help-review.html \
+            https://raw.githack.com/Zynette/HamiltonTechHelp/preview-issue-4/review-preview/index.html
+          grep -q 'DESIGN PREVIEW' /tmp/online-technical-help-review.html
+          curl --fail --location --silent --show-error --output /tmp/online-technical-help-preview.css \
+            https://raw.githack.com/Zynette/HamiltonTechHelp/preview-issue-4/review-preview/styles.css
+          grep -q 'font-family: Plex' /tmp/online-technical-help-preview.css
