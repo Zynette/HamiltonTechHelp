@@ -1,0 +1,41 @@
+name: Website QA
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out proposed changes
+        uses: actions/checkout@v4
+      - name: Set up Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Check formatting and JavaScript syntax
+        run: npm run check
+      - name: Run Node and Cloudflare regression tests
+        if: always()
+        run: npm test
+      - name: Install Chromium for browser tests
+        if: always()
+        run: npx playwright install --with-deps chromium
+      - name: Run Playwright accessibility and responsive tests
+        if: always()
+        run: npm run test:browser
+      - name: Preserve QA screenshots and traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-qa-artifacts
+          path: test-results/
+          if-no-files-found: ignore
