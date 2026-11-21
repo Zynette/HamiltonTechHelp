@@ -8,6 +8,13 @@
     "binding": "ASSETS",
     "run_worker_first": [
       "/",
+      "/remote-tech-support",
+      "/website-design",
+      "/website-maintenance",
+      "/business-solutions",
+      "/portfolio",
+      "/about",
+      "/contact",
       "/api/*",
       "/healthz",
       "/robots.txt",
