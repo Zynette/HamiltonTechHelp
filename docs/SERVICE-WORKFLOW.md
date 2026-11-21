@@ -1,29 +1,22 @@
-# Service workflow
+# Service workflow — current implementation
 
-This page documents the customer-facing workflow implemented in the review branch. It keeps the public forms honest while the owner finishes provider setup.
+Services are **100% remote**. A request does not reserve an appointment, accept a project, collect money or guarantee a reply window. The owner first reviews remote feasibility and availability, then sends a written scope and quote if the request is suitable. Client approves task, timing, pricing, applicable taxes, third-party fees, any deposit/payment instructions and cancellation terms before work.
 
-## Remote tech help
+## Three customer request flows
 
-1. The customer describes the issue and device.
-2. The owner checks whether the issue is suitable for remote help and whether the owner is available.
-3. The owner sends a written quote stating the agreed task or diagnostic scope, price, expected duration, deposit, balance and cancellation policy. Defined work keeps its quoted price if it finishes early. A diagnostic appointment is an assessment and does not guarantee a repair.
-4. The customer approves the quote and pays the requested 50% deposit using the method stated in the quote.
-5. The owner sends written confirmation with the agreed date, Eastern time, remote-session instructions and preparation reminders. The form itself does not reserve a slot.
-6. The owner completes the agreed scope. New or unrelated work requires a new quote or approval.
+1. **Quick tech inquiry:** device, category, issue description and contact details. A request for information, not a booking.
+2. **Remote appointment request:** same support details plus preferred Eastern date/time window, explicit remote method and consent. No live calendar slots. Written confirmation follows quote and payment arrangements when applicable.
+3. **Website / business project inquiry:** project type, brief, contact details, optional public site URL, timeline preference and optional budget. Includes selected email, booking, inquiry-form and maintenance categories; only serve work after a feasibility review.
 
-The public terms propose at least 24 hours’ notice for a deposit refund or transfer. A late cancellation or no-show fee is disclosed in advance and capped at the deposit. A ten-minute connection grace period applies. The owner should have the final wording reviewed for Ontario consumer requirements before taking deposits.
+All three POST to `/api/requests`. Server validation removes unknown keys, rejects suspicious URLs/invalid choices and rate-limits requests. When configured, the backend relays to Formspree and acknowledges only direct provider acceptance. On unconfigured, failed or uncertain delivery, the visitor is explicitly told no confirmed delivery occurred and can use `techspecialistsupport@gmail.com` as a fallback. Owner must verify delivery in Formspree and the real inbox.
 
-## Website design and support
+## Quote and service boundaries
 
-Each project inquiry is reviewed separately. A written quote states deliverables, page count, revision allowance, timeline, price, payment stages and handover. The proposed default milestones are 30% to start, 40% at the agreed review milestone and 30% before agreed handover. Hosting, domains, paid tools, integrations and ongoing maintenance are listed separately. Larger stores, custom applications and advanced integrations are considered individually; urgent ongoing maintenance is outside the initial offer.
+- Remote tech support starts at $40 CAD for a defined scope. A diagnostic appointment may not produce a fix. Physical repairs, advanced recovery, emergencies, unauthorized corporate-device access and 24/7 monitoring are excluded.
+- Website work sets pages, content, revisions, integrations, timeline, fee, hosting, domain, paid tools and handover in writing. Current public website packages are **quote-only**, pending approval of suggested pricing.
+- Business email, booking/inquiry setup and website care are subject to suitability, account authorization and separately agreed work. Monthly retainers or automatic subscriptions are **not active**. No unapproved promises of response times, included hours or cancellation periods.
+- Remote access must be customer-approved, temporary and under the customer's control. Never ask for passwords through the web forms or bypass a third-party IT policy.
 
-## Current implementation boundary
+## Owner decisions
 
-The repository currently has no calendar, payment, remote-access or customer-account integration. Forms can be connected to a verified Formspree destination, but the deployed private Sites preview is static and does not run the Node API. The preview therefore does not collect deposits, send invoices, reserve times or deliver remote sessions.
-
-## Owner setup before public paid requests
-
-- Connect and verify a form provider and test all three flows in the real inbox.
-- If Stripe Invoicing is chosen, create the owner’s business account, complete identity and payout verification, set invoice wording and test a small owner-controlled invoice. Keep all Stripe secrets in the host’s secret settings.
-- Trial Zoho Assist Remote Support Standard or another tool on the owner’s Windows and Mac devices, confirm paid-work licensing, attended-session controls, Mac permissions and customer instructions. Do not advertise a tool as available until tested.
-- Have the deposit and cancellation wording reviewed by a qualified Ontario professional before public collection.
+Approve final prices and scope, deposit or milestone policy, cancellation/refund terms, remote-support software commercial licensing, insurance and legal suitability. Configure Formspree credentials only in Cloudflare settings; test all forms in the live inbox. Stripe Invoicing and calendar tools are *future optional integrations*, not connected features. See [Issue #4 launch handoff](ISSUE-4-OWNER-LAUNCH.md).
