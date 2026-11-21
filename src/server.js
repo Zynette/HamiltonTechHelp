@@ -189,7 +189,7 @@ export function createApp({
         // Explicit public route/asset allowlist; never expose source or secrets.
         const page = pages.find((item) => item.path === path);
         const asset = ['/styles.css', '/app.js', '/favicon.svg'].includes(path) ||
-          /^\\/fonts\\/(ibm-plex-sans-latin-(400|500|600)-normal\\.woff2|OFL\\.txt)$/u.test(path);
+          /^\/fonts\/(ibm-plex-sans-latin-(400|500|600)-normal\.woff2|OFL\.txt)$/u.test(path);
         if (!page && !asset)
           return send(res, 404, 'Page not found', 'text/plain; charset=utf-8');
         const filename = page ? page.file : path.slice(1);
