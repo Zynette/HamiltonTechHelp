@@ -8,7 +8,7 @@ for (const width of [320, 375, 390, 430, 768, 1024, 1440, 1920]) {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
-    await expect(page.locator('h1')).toContainText('Friendly remote');
+    await expect(page.locator('h1')).toContainText('Websites.');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
     expect(overflow).toBe(false);
     await page.locator('.all-services summary').click();
@@ -64,7 +64,7 @@ test('inquiry validates, preserves errors, and only shows success after acceptan
   );
   await form.locator('[name=email]').fill('customer@example.com');
   await form.getByRole('button', { name: 'Ask about my issue' }).click();
-  await expect(form.locator('.form-status')).toContainText('Thanks — I got your message.');
+  await expect(form.locator('.form-status')).toContainText('accepted by the delivery service');
   await expect(form.locator('[name=description]')).toHaveValue('');
 });
 test('booking presets, validation, consent and request confirmation', async ({ page }) => {
@@ -83,7 +83,7 @@ test('booking presets, validation, consent and request confirmation', async ({ p
   await expect(form.locator('[name=consent]')).toHaveAttribute('aria-invalid', 'true');
   await form.locator('[name=consent]').check();
   await form.getByRole('button', { name: 'Request appointment' }).click();
-  await expect(form.locator('.form-status')).toContainText('appointment request has been received');
+  await expect(form.locator('.form-status')).toContainText('appointment request was accepted by the delivery service');
   await expect(form.locator('.form-status')).not.toContainText('Your appointment is confirmed');
 });
 test('keyboard dialog focus, nested privacy, escape and focus return', async ({ page }) => {
@@ -127,7 +127,7 @@ test('website project form validates, preserves failed requests and confirms onl
   await opener.click();
   const form = page.locator('#project-form');
   await expect(form.locator('[name=device], [name=date], [name=method]')).toHaveCount(0);
-  await form.getByRole('button', { name: 'Send website inquiry' }).click();
+  await form.getByRole('button', { name: 'Send project inquiry' }).click();
   await expect(form.locator('[name=name]')).toHaveAttribute('aria-invalid', 'true');
   await form.locator('[name=name]').fill('Test Customer');
   await form.locator('[name=email]').fill('failure@example.com');
@@ -137,7 +137,7 @@ test('website project form validates, preserves failed requests and confirms onl
     .locator('[name=description]')
     .fill('The mobile navigation needs fixing on my existing site.');
   await form.locator('[name=timeframe]').fill('Flexible');
-  await form.getByRole('button', { name: 'Send website inquiry' }).click();
+  await form.getByRole('button', { name: 'Send project inquiry' }).click();
   await expect(form.locator('.form-status')).toHaveAttribute('data-state', 'error');
   await expect(form.locator('[name=description]')).toHaveValue(/mobile navigation/);
   await form.locator('[data-dialog=terms-dialog]').click();
@@ -145,7 +145,7 @@ test('website project form validates, preserves failed requests and confirms onl
   await page.keyboard.press('Escape');
   await expect(form.locator('[data-dialog=terms-dialog]')).toBeFocused();
   await form.locator('[name=email]').fill('customer@example.com');
-  await form.getByRole('button', { name: 'Send website inquiry' }).click();
+  await form.getByRole('button', { name: 'Send project inquiry' }).click();
   await expect(form.locator('.form-status')).toContainText(
     'No project or deadline is confirmed yet.',
   );
@@ -163,7 +163,7 @@ test('reduced motion disables scrolling animation', async ({ page }) => {
 
 test('hero website inquiry is distinct and returns focus to its trigger', async ({ page }) => {
   await page.goto('/');
-  const trigger = page.locator('.hero-actions').getByRole('button', { name: 'Discuss a website' });
+  const trigger = page.locator('.hero-actions').getByRole('button', { name: 'Get a website quote' });
   await trigger.click();
   await expect(page.locator('#project-dialog')).toBeVisible();
   await expect(page.locator('#booking-dialog')).not.toBeVisible();
