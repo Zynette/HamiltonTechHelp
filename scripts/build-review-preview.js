@@ -19,7 +19,7 @@ for (const name of files.filter((entry) => entry.endsWith('.html'))) {
 
   // The production Worker uses root-relative URLs and extensionless pages.
   // A static review copy needs relative assets and .html page routes.
-  html = html.replace(/(\\b(?:href|src)=["'])\\/([^"']*)(["'])/g, (match, start, target, end) => {
+  html = html.replace(/(\b(?:href|src)=["'])\/([^"']*)(["'])/g, (match, start, target, end) => {
     const fragmentAt = target.indexOf('#');
     const pathname = fragmentAt < 0 ? target : target.slice(0, fragmentAt);
     const fragment = fragmentAt < 0 ? '' : target.slice(fragmentAt);
@@ -34,19 +34,19 @@ for (const name of files.filter((entry) => entry.endsWith('.html'))) {
     '  <link rel="stylesheet" href="./review-preview.css" />',
     '  <script src="./review-preview.js" defer></script>',
     '</head>',
-  ].join('\\n'));
+  ].join('\n'));
   html = html.replace('<body>', [
     '<body>',
     '  <aside class="review-preview-banner" role="note">',
     '    <strong>DESIGN PREVIEW</strong> Not the live website. Forms are disabled.',
     '  </aside>',
-  ].join('\\n'));
+  ].join('\n'));
   await writeFile(path, html);
 }
 
 const cssPath = join(output, 'styles.css');
 const css = await readFile(cssPath, 'utf8');
-await writeFile(cssPath, css.replace(/url\\(\\s*(['"]?)\\/fonts\\//g, 'url($1./fonts/'));
+await writeFile(cssPath, css.replace(/url\(\s*(['"]?)\/fonts\//g, 'url($1./fonts/'));
 
 await writeFile(join(output, 'review-preview.css'), `
 .review-preview-banner {
