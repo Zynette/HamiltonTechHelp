@@ -44,6 +44,12 @@ document.querySelectorAll('[data-dialog]').forEach((button) =>
   button.addEventListener('click', () => {
     const dialog = document.getElementById(button.dataset.dialog);
     closeMenu();
+    if (dialog.id === 'project-dialog' && button.dataset.projectType) {
+      const select = document.querySelector('#project-form').elements.projectType;
+      if ([...select.options].some((option) => option.value === button.dataset.projectType)) {
+        select.value = button.dataset.projectType;
+      }
+    }
     dialog.showModal();
     dialog.scrollTop = 0;
   }),
@@ -68,7 +74,7 @@ document.querySelectorAll('[data-category]:not([data-book])').forEach((button) =
   }),
 );
 const observedSections = document.querySelectorAll(
-  '#services, #websites, #pricing, #how-it-works, #faq',
+  '#services, #websites, #business-solutions, #pricing, #portfolio, #about, #how-it-works, #faq',
 );
 const observer = new IntersectionObserver(
   (entries) => {
@@ -141,6 +147,7 @@ document.querySelectorAll('.request-form').forEach((form) => {
     if (sending) return;
     const status = form.querySelector('.form-status');
     status.textContent = '';
+    delete status.dataset.state;
     if (!validateForm(form)) return;
     sending = true;
     const submit = form.querySelector('[type=submit]');
@@ -179,10 +186,10 @@ document.querySelectorAll('.request-form').forEach((form) => {
       status.dataset.state = 'success';
       status.textContent =
         form.dataset.kind === 'booking'
-          ? 'Thanks — your appointment request has been received. I’ll review the scope and availability, then send a quote and proposed time. Nothing has been charged or booked; the appointment is confirmed only after your approval, deposit and written confirmation.'
+          ? 'Your appointment request was accepted by the delivery service. I’ll review the scope and availability, then propose a quote and time. Nothing has been charged or booked; confirmation requires your approval, any agreed payment and written confirmation.'
           : form.dataset.kind === 'project'
-            ? 'Thanks — your website inquiry has been received. I’ll review the scope and my availability before proposing a quote. No project or deadline is confirmed yet.'
-            : 'Thanks — I got your message. I’ll review whether remote help is suitable and get back to you. No appointment is confirmed yet.';
+            ? 'Your project inquiry was accepted by the delivery service. I’ll review the scope and availability before proposing a quote. No project or deadline is confirmed yet.'
+            : 'Your inquiry was accepted by the delivery service. I’ll review whether remote help is suitable and reply if I can assist. No appointment is confirmed yet.';
       form.reset();
       status.focus();
     } catch (error) {
@@ -199,3 +206,40 @@ document.querySelectorAll('.request-form').forEach((form) => {
     }
   });
 });
+
+const requestRoutes = {
+  '#remote-help': { dialog: 'booking-dialog' },
+  '#website-quote': { dialog: 'project-dialog' },
+  '#business-setup': {
+    dialog: 'project-dialog',
+    projectType: 'Business email or Microsoft 365 setup',
+  },
+  '#quote-business-email': {
+    dialog: 'project-dialog',
+    projectType: 'Business email or Microsoft 365 setup',
+  },
+  '#quote-booking-setup': {
+    dialog: 'project-dialog',
+    projectType: 'Booking or inquiry form setup',
+  },
+  '#quote-website-care': {
+    dialog: 'project-dialog',
+    projectType: 'Website care or ongoing updates',
+  },
+};
+function openRequestRoute() {
+  const route = requestRoutes[window.location.hash];
+  if (!route) return;
+  const dialog = document.getElementById(route.dialog);
+  if (!dialog || dialog.open) return;
+  if (route.projectType) {
+    document.querySelector('#project-form').elements.projectType.value = route.projectType;
+  }
+  if (route.dialog === 'booking-dialog') {
+    document.querySelector('#booking-date').min = hamiltonToday();
+  }
+  dialog.showModal();
+  dialog.scrollTop = 0;
+}
+window.addEventListener('hashchange', openRequestRoute);
+openRequestRoute();
