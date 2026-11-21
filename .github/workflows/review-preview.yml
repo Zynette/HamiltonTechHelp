@@ -1,0 +1,42 @@
+name: Build static design-review preview
+on:
+  push:
+    branches: [preview-issue-4]
+    paths:
+      - "public/**"
+      - "scripts/build-review-preview.js"
+      - ".github/workflows/review-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Prepare static review copy
+        run: node scripts/build-review-preview.js
+      - name: Confirm preview contents
+        run: |
+          node --check review-preview/review-preview.js
+          test -f review-preview/index.html
+          test -f review-preview/website-design.html
+          test -f review-preview/portfolio.html
+          test -f review-preview/styles.css
+          test -f review-preview/fonts/ibm-plex-sans-latin-400-normal.woff2
+          grep -q 'review-preview.js' review-preview/index.html
+          grep -q 'href="./website-design.html"' review-preview/index.html
+      - name: Commit preview files only to the review branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f review-preview
+          if ! git diff --cached --quiet; then
+            git commit -m "build: refresh static design-review preview"
+            git push origin HEAD:preview-issue-4
+          fi
