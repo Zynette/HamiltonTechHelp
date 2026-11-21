@@ -30,7 +30,7 @@ jobs:
           test -f review-preview/styles.css
           test -f review-preview/fonts/ibm-plex-sans-latin-400-normal.woff2
           grep -q 'review-preview.js' review-preview/index.html
-          grep -q 'href="./website-design.html"' review-preview/index.html
+          grep -q 'href="./portfolio.html"' review-preview/index.html
       - name: Commit preview files only to the review branch
         run: |
           git config user.name "github-actions[bot]"
