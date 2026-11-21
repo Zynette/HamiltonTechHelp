@@ -1,3 +1,11 @@
+# Current search readiness — November 2026
+
+The onlinetechnicalhelp.com domain is the intended public canonical host, but this branch has **not** been deployed, indexed or submitted to Search Console by ChatGPT. Current issue #4 code publishes seven additional useful service/information routes and sitemap entries. The Worker redirects public `www` and HTML extension URL variants to canonical HTTPS extensionless page URLs, while keeping `workers.dev` previews noindex. Metadata and schema are generated only for published pages. No fabricated review, hours, shop address or Google ranking claim is made.
+
+The Google guidance and background below remain useful, but previous references to a private unlaunched preview are historical. Follow the [owner-only launch checklist](ISSUE-4-OWNER-LAUNCH.md) for current production verification, real Search Console setup, indexing checks and consent/privacy review before installing analytics.
+
+---
+
 # Search readiness and remote-only positioning
 
 Reviewed 2 October 2026 against Google's official guidance:
