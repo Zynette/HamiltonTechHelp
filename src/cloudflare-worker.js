@@ -274,6 +274,21 @@ export default {
       );
     }
 
+    const filePage = pages.find((item) => `/${item.file}` === url.pathname);
+    if (filePage) {
+      if (!['GET', 'HEAD'].includes(request.method)) {
+        return response('Method not allowed', 405, 'text/plain; charset=utf-8', {
+          Allow: 'GET, HEAD',
+        });
+      }
+      if (!canonical) {
+        return response('Site configuration is incomplete.', 503, 'text/plain; charset=utf-8');
+      }
+      return response('', 308, 'text/plain; charset=utf-8', {
+        Location: `${canonical}${filePage.path}${url.search}`,
+      });
+    }
+
     const page = pages.find((item) => item.path === url.pathname);
     if (page) {
       if (!['GET', 'HEAD'].includes(request.method)) {
