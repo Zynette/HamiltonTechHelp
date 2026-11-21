@@ -30,3 +30,11 @@ No real-time scheduling, uploads, analytics or payment gateway is connected in t
 ## Dependencies
 
 Zero production packages. Node supplies HTTP, file access, validation helpers, fetch and tests. Development packages are Prettier for source formatting, Playwright's test runner and axe-core's Playwright integration, pinned in the lockfile. They are used only for browser QA and never shipped to visitors. Static fonts are committed with their license; no font service is called by a customer browser.
+
+## Issue #4 design extension
+
+The cream/sage/charcoal colors, IBM Plex Sans, button styles, native dialogs and overall layout are retained. A separate responsive services/pricing grid now describes tightly scoped website and digital setup offers. Original HTML/CSS concept panels represent cleaning, beauty and bakery webpage directions, labelled as proposals rather than customer projects. Each demonstration includes a written brief on the public portfolio page. The seven standalone pages share headers, contact paths, typography and styles without adding a framework or runtime dependency.
+
+The project inquiry form adds optional budget and exact preselected business service types. URL fragments from service pages open the appropriate homepage dialog; client-side choices must always match the `src/validation.js` allowlists. No external fonts or fake stock portfolio screenshots are used.
+
+Cloudflare pages use a shared route map in `src/site.js`. With `assets.html_handling=none`, the Worker serves literal `.html` assets internally and exposes consistent extensionless canonical paths. Requests for those file extensions redirect to their canonical paths.
