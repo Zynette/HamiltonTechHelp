@@ -1,4 +1,5 @@
 import { validateRequest } from './validation.js';
+import { getSiteOrigin, pages, pageMetadata, sitemap } from './site.js';
 
 const maxBodyBytes = 10000;
 const rateLimitWindowMs = 15 * 60 * 1000;
@@ -16,14 +17,6 @@ const securityHeaders = {
   'Strict-Transport-Security': 'max-age=31536000',
 };
 
-function getOrigin(siteUrl) {
-  try {
-    return new URL(siteUrl).origin;
-  } catch {
-    return '';
-  }
-}
-
 function response(body, status = 200, type = 'application/json; charset=utf-8', extra = {}) {
   const headers = new Headers({
     ...securityHeaders,
@@ -35,50 +28,6 @@ function response(body, status = 200, type = 'application/json; charset=utf-8', 
     typeof body === 'object' && body !== null ? JSON.stringify(body) : body,
     { status, headers },
   );
-}
-
-function metadata(origin) {
-  return `<link rel="canonical" href="${origin}/"><meta property="og:url" content="${origin}/"><script type="application/ld+json">${JSON.stringify(
-    {
-      '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'Organization',
-          '@id': `${origin}/#organization`,
-          name: 'Online Technical Help',
-          url: `${origin}/`,
-          email: 'mailto:techspecialistsupport@gmail.com',
-          description:
-            'Based in Hamilton, Ontario. Remote-only Windows, Mac, email, software, printer connection and everyday Apple-device help by appointment, plus website design and support quoted individually.',
-        },
-        {
-          '@type': 'Service',
-          '@id': `${origin}/#remote-support`,
-          name: 'Remote tech support',
-          serviceType: 'Remote Windows, Apple, email and printer connection support',
-          provider: { '@id': `${origin}/#organization` },
-          url: `${origin}/#services`,
-        },
-        {
-          '@type': 'Service',
-          '@id': `${origin}/#website-services`,
-          name: 'Website design and support',
-          serviceType:
-            'Business websites, redesigns, landing pages, integrations and website updates',
-          provider: { '@id': `${origin}/#organization` },
-          url: `${origin}/#websites`,
-        },
-        {
-          '@type': 'WebSite',
-          '@id': `${origin}/#website`,
-          url: `${origin}/`,
-          name: 'Online Technical Help',
-          inLanguage: 'en-CA',
-          publisher: { '@id': `${origin}/#organization` },
-        },
-      ],
-    },
-  ).replace(/</gu, '\\u003c')}</script>`;
 }
 
 function clientKey(request) {
@@ -152,7 +101,7 @@ async function handleRequestForm(request, env) {
     return response({ message: 'Use POST for this form.' }, 405, undefined, { Allow: 'POST' });
   }
 
-  const origin = getOrigin(env.SITE_URL);
+  const origin = getSiteOrigin(env.SITE_URL);
   if (
     !origin ||
     request.headers.get('Origin') !== origin ||
@@ -232,18 +181,18 @@ async function handleRequestForm(request, env) {
   return response({ ok: true });
 }
 
-async function handleHome(request, env) {
-  const origin = getOrigin(env.SITE_URL);
+async function handlePage(request, env, page) {
+  const origin = getSiteOrigin(env.SITE_URL);
   if (!origin) return response('Site configuration is incomplete.', 503, 'text/plain; charset=utf-8');
 
-  const assetRequest = new Request(new URL('/', request.url), {
+  const assetRequest = new Request(new URL(`/${page.file}`, request.url), {
     method: 'GET',
     headers: request.headers,
   });
   const asset = await env.ASSETS.fetch(assetRequest);
   if (!asset.ok) return asset;
 
-  const html = (await asset.text()).replace('<!-- SITE_METADATA -->', metadata(origin));
+  const html = (await asset.text()).replace('<!-- SITE_METADATA -->', pageMetadata(origin, page.path));
   const headers = new Headers(asset.headers);
   for (const [key, value] of Object.entries(securityHeaders)) headers.set(key, value);
   headers.set('Content-Type', 'text/html; charset=utf-8');
@@ -262,6 +211,20 @@ async function handleHome(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const canonical = getSiteOrigin(env.SITE_URL);
+    // The incoming URL is supplied by Cloudflare's matched route, not a forwarded header.
+    // Redirect before a visitor can render a form on www with the wrong Origin.
+    if (
+      url.hostname === 'www.onlinetechnicalhelp.com' ||
+      (url.hostname === 'onlinetechnicalhelp.com' && url.protocol !== 'https:')
+    ) {
+      if (!canonical || !['GET', 'HEAD'].includes(request.method)) {
+        return response({ message: 'Please use the secure canonical website.' }, 403);
+      }
+      return response('', 308, 'text/plain; charset=utf-8', {
+        Location: `${canonical}${url.pathname}${url.search}`,
+      });
+    }
 
     if (url.pathname === '/api/requests') return handleRequestForm(request, env);
 
@@ -284,7 +247,7 @@ export default {
           Allow: 'GET, HEAD',
         });
       }
-      const origin = getOrigin(env.SITE_URL);
+      const origin = getSiteOrigin(env.SITE_URL);
       const isPreview = url.hostname.endsWith('.workers.dev');
       const body =
         isPreview || !origin
@@ -299,11 +262,11 @@ export default {
           Allow: 'GET, HEAD',
         });
       }
-      const origin = getOrigin(env.SITE_URL);
+      const origin = getSiteOrigin(env.SITE_URL);
       if (!origin || url.hostname.endsWith('.workers.dev')) {
         return response('Not found', 404, 'text/plain; charset=utf-8');
       }
-      const body = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url></urlset>`;
+      const body = sitemap(origin);
       return response(
         request.method === 'HEAD' ? '' : body,
         200,
@@ -311,8 +274,14 @@ export default {
       );
     }
 
-    if (url.pathname === '/' && ['GET', 'HEAD'].includes(request.method)) {
-      return handleHome(request, env);
+    const page = pages.find((item) => item.path === url.pathname);
+    if (page) {
+      if (!['GET', 'HEAD'].includes(request.method)) {
+        return response('Method not allowed', 405, 'text/plain; charset=utf-8', {
+          Allow: 'GET, HEAD',
+        });
+      }
+      return handlePage(request, env, page);
     }
 
     return env.ASSETS.fetch(request);
