@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateRequest } from './validation.js';
+import { getSiteOrigin, pages, pageMetadata, sitemap } from './site.js';
 import { releaseIssues } from '../scripts/check-release.js';
 
 const publicDir = fileURLToPath(new URL('../public/', import.meta.url));
@@ -30,14 +31,18 @@ export function createApp({
   clock = () => Date.now(),
   limit = 5,
 } = {}) {
-  const origin = siteUrl ? new URL(siteUrl).origin : '';
+  const origin = getSiteOrigin(siteUrl);
   const attempts = new Map();
   const delivery =
     deliver ??
     (async (data) => {
       const response = await fetch(`https://formspree.io/f/${formId}`, {
         method: 'POST',
-        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          ...(origin ? { Referer: `${origin}/` } : {}),
+        },
         body: JSON.stringify({
           ...data,
           _subject:
@@ -49,11 +54,11 @@ export function createApp({
           timezone: 'America/Toronto',
         }),
         signal: AbortSignal.timeout(12000),
-        redirect: 'error',
+        redirect: 'manual',
       });
-      if (!response.ok) return false;
-      const result = await response.json();
-      return result.ok === true;
+      // The provider documents acceptance via direct 2xx HTTP status; the
+      // response may be empty or non-JSON. A redirect is never acceptance.
+      return response.ok;
     });
   function send(res, code, body, type = 'application/json; charset=utf-8', extra = {}) {
     res.writeHead(code, {
@@ -135,7 +140,7 @@ export function createApp({
           if (!/^[a-zA-Z0-9]{4,40}$/u.test(formId))
             return send(res, 503, {
               message:
-                'Online requests aren’t open yet. Nothing has been sent. Please try again once the service launches.',
+                'Online requests aren’t open yet. Nothing has been sent. Please email techspecialistsupport@gmail.com for now.',
             });
           try {
             if (!(await delivery(data)))
@@ -176,74 +181,28 @@ export function createApp({
             200,
             req.method === 'HEAD'
               ? ''
-              : `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url></urlset>`,
+              : sitemap(origin),
             'application/xml; charset=utf-8',
           );
         }
         const path = decodeURIComponent(url.pathname);
-        // Serve only an explicit public asset set; source files and env files stay private.
-        if (!(
-          path === '/' ||
-          ['/styles.css', '/app.js', '/favicon.svg'].includes(path) ||
-          /^\/fonts\/(ibm-plex-sans-latin-(400|500|600)-normal\.woff2|OFL\.txt)$/u.test(path)
-        ))
+        // Explicit public route/asset allowlist; never expose source or secrets.
+        const page = pages.find((item) => item.path === path);
+        const asset = ['/styles.css', '/app.js', '/favicon.svg'].includes(path) ||
+          /^\\/fonts\\/(ibm-plex-sans-latin-(400|500|600)-normal\\.woff2|OFL\\.txt)$/u.test(path);
+        if (!page && !asset)
           return send(res, 404, 'Page not found', 'text/plain; charset=utf-8');
-        let file = await readFile(resolve(publicDir, path === '/' ? 'index.html' : path.slice(1)));
-        if (path === '/') {
-          const metadata = origin
-            ? `<link rel="canonical" href="${origin}/"><meta property="og:url" content="${origin}/">${
-                production
-                  ? `<script type="application/ld+json">${JSON.stringify({
-                      '@context': 'https://schema.org',
-                      '@graph': [
-                        {
-                          '@type': 'Organization',
-                          '@id': `${origin}/#organization`,
-                          name: 'Online Technical Help',
-                          url: `${origin}/`,
-                          email: 'mailto:techspecialistsupport@gmail.com',
-                          description:
-                            'Based in Hamilton, Ontario. Remote-only Windows, Mac, email, software, printer connection and everyday Apple-device help by appointment, plus website design and support quoted individually.',
-                        },
-                        {
-                          '@type': 'Service',
-                          '@id': `${origin}/#remote-support`,
-                          name: 'Remote tech support',
-                          serviceType:
-                            'Remote Windows, Apple, email and printer connection support',
-                          provider: { '@id': `${origin}/#organization` },
-                          url: `${origin}/#services`,
-                        },
-                        {
-                          '@type': 'Service',
-                          '@id': `${origin}/#website-services`,
-                          name: 'Website design and support',
-                          serviceType:
-                            'Business websites, redesigns, landing pages, integrations and website updates',
-                          provider: { '@id': `${origin}/#organization` },
-                          url: `${origin}/#websites`,
-                        },
-                        {
-                          '@type': 'WebSite',
-                          '@id': `${origin}/#website`,
-                          url: `${origin}/`,
-                          name: 'Online Technical Help',
-                          inLanguage: 'en-CA',
-                          publisher: { '@id': `${origin}/#organization` },
-                        },
-                      ],
-                    }).replace(/</gu, '\\u003c')}</script>`
-                  : ''
-              }`
-            : '';
-          file = Buffer.from(file.toString().replace('<!-- SITE_METADATA -->', metadata));
+        const filename = page ? page.file : path.slice(1);
+        let file = await readFile(resolve(publicDir, filename));
+        if (page) {
+          file = Buffer.from(file.toString().replace('<!-- SITE_METADATA -->', origin ? pageMetadata(origin, page.path) : ''));
         }
         send(
           res,
           200,
           req.method === 'HEAD' ? '' : file,
-          mimeTypes[extname(path === '/' ? 'index.html' : path)],
-          { 'Cache-Control': path === '/' ? 'no-cache' : 'public, max-age=3600' },
+          mimeTypes[extname(filename)],
+          { 'Cache-Control': page ? 'no-cache' : 'public, max-age=3600' },
         );
       } catch {
         if (!res.headersSent) send(res, 400, { message: 'The request could not be processed.' });
