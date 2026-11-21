@@ -120,7 +120,10 @@ test('all three Cloudflare form paths accept 2xx, and reject provider failures',
     assert.equal(response.status, 200);
     assert.deepEqual(await response.json(), { ok: true });
   }
-  assert.deepEqual(submitted.map((item) => item.kind), ['inquiry', 'booking', 'project']);
+  assert.deepEqual(
+    submitted.map((item) => item.kind),
+    ['inquiry', 'booking', 'project'],
+  );
   assert.equal(submitted[2].budget, 'Not sure yet');
   for (const kind of [inquiry, booking, project]) {
     outcome = 'reject';
@@ -167,10 +170,13 @@ test('Node publishes the new pages and follows the same 2xx provider acceptance 
   const app = createApp({ siteUrl: origin, formId: 'test1234', production: true });
   app.listen(0, '127.0.0.1');
   await once(app, 'listening');
-  t.after(() => new Promise((resolve) => {
-    app.close(resolve);
-    app.closeAllConnections();
-  }));
+  t.after(
+    () =>
+      new Promise((resolve) => {
+        app.close(resolve);
+        app.closeAllConnections();
+      }),
+  );
   const base = `http://localhost:${app.address().port}`;
   for (const page of pages) {
     const response = await originalFetch(base + page.path);

@@ -83,7 +83,9 @@ test('booking presets, validation, consent and request confirmation', async ({ p
   await expect(form.locator('[name=consent]')).toHaveAttribute('aria-invalid', 'true');
   await form.locator('[name=consent]').check();
   await form.getByRole('button', { name: 'Request appointment' }).click();
-  await expect(form.locator('.form-status')).toContainText('appointment request was accepted by the delivery service');
+  await expect(form.locator('.form-status')).toContainText(
+    'appointment request was accepted by the delivery service',
+  );
   await expect(form.locator('.form-status')).not.toContainText('Your appointment is confirmed');
 });
 test('keyboard dialog focus, nested privacy, escape and focus return', async ({ page }) => {
@@ -163,7 +165,9 @@ test('reduced motion disables scrolling animation', async ({ page }) => {
 
 test('hero website inquiry is distinct and returns focus to its trigger', async ({ page }) => {
   await page.goto('/');
-  const trigger = page.locator('.hero-actions').getByRole('button', { name: 'Get a website quote' });
+  const trigger = page
+    .locator('.hero-actions')
+    .getByRole('button', { name: 'Get a website quote' });
   await trigger.click();
   await expect(page.locator('#project-dialog')).toBeVisible();
   await expect(page.locator('#booking-dialog')).not.toBeVisible();

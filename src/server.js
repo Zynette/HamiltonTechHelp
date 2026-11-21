@@ -179,31 +179,29 @@ export function createApp({
           return send(
             res,
             200,
-            req.method === 'HEAD'
-              ? ''
-              : sitemap(origin),
+            req.method === 'HEAD' ? '' : sitemap(origin),
             'application/xml; charset=utf-8',
           );
         }
         const path = decodeURIComponent(url.pathname);
         // Explicit public route/asset allowlist; never expose source or secrets.
         const page = pages.find((item) => item.path === path);
-        const asset = ['/styles.css', '/app.js', '/favicon.svg'].includes(path) ||
+        const asset =
+          ['/styles.css', '/app.js', '/favicon.svg'].includes(path) ||
           /^\/fonts\/(ibm-plex-sans-latin-(400|500|600)-normal\.woff2|OFL\.txt)$/u.test(path);
-        if (!page && !asset)
-          return send(res, 404, 'Page not found', 'text/plain; charset=utf-8');
+        if (!page && !asset) return send(res, 404, 'Page not found', 'text/plain; charset=utf-8');
         const filename = page ? page.file : path.slice(1);
         let file = await readFile(resolve(publicDir, filename));
         if (page) {
-          file = Buffer.from(file.toString().replace('<!-- SITE_METADATA -->', origin ? pageMetadata(origin, page.path) : ''));
+          file = Buffer.from(
+            file
+              .toString()
+              .replace('<!-- SITE_METADATA -->', origin ? pageMetadata(origin, page.path) : ''),
+          );
         }
-        send(
-          res,
-          200,
-          req.method === 'HEAD' ? '' : file,
-          mimeTypes[extname(filename)],
-          { 'Cache-Control': page ? 'no-cache' : 'public, max-age=3600' },
-        );
+        send(res, 200, req.method === 'HEAD' ? '' : file, mimeTypes[extname(filename)], {
+          'Cache-Control': page ? 'no-cache' : 'public, max-age=3600',
+        });
       } catch {
         if (!res.headersSent) send(res, 400, { message: 'The request could not be processed.' });
         else res.end();

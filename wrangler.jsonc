@@ -20,20 +20,20 @@
       "/api/*",
       "/healthz",
       "/robots.txt",
-      "/sitemap.xml"
-    ]
+      "/sitemap.xml",
+    ],
   },
   "vars": {
-    "SITE_URL": "https://onlinetechnicalhelp.com"
+    "SITE_URL": "https://onlinetechnicalhelp.com",
   },
   "routes": [
     {
       "pattern": "onlinetechnicalhelp.com",
-      "custom_domain": true
+      "custom_domain": true,
     },
     {
       "pattern": "www.onlinetechnicalhelp.com",
-      "custom_domain": true
-    }
-  ]
+      "custom_domain": true,
+    },
+  ],
 }

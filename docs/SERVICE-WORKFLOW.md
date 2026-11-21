@@ -19,4 +19,4 @@ All three POST to `/api/requests`. Server validation removes unknown keys, rejec
 
 ## Owner decisions
 
-Approve final prices and scope, deposit or milestone policy, cancellation/refund terms, remote-support software commercial licensing, insurance and legal suitability. Configure Formspree credentials only in Cloudflare settings; test all forms in the live inbox. Stripe Invoicing and calendar tools are *future optional integrations*, not connected features. See [Issue #4 launch handoff](ISSUE-4-OWNER-LAUNCH.md).
+Approve final prices and scope, deposit or milestone policy, cancellation/refund terms, remote-support software commercial licensing, insurance and legal suitability. Configure Formspree credentials only in Cloudflare settings; test all forms in the live inbox. Stripe Invoicing and calendar tools are _future optional integrations_, not connected features. See [Issue #4 launch handoff](ISSUE-4-OWNER-LAUNCH.md).

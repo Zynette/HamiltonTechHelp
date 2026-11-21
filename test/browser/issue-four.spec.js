@@ -70,6 +70,8 @@ test('portfolio examples are labelled as original concepts and accessible', asyn
   await page.goto('/portfolio');
   await expect(page.locator('.sample-card')).toHaveCount(3);
   await expect(page.locator('.sample-tag').first()).toContainText('NOT A CLIENT');
-  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  const result = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+    .analyze();
   expect(result.violations).toEqual([]);
 });

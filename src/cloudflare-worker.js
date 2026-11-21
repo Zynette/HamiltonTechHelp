@@ -24,10 +24,10 @@ function response(body, status = 200, type = 'application/json; charset=utf-8', 
     'Cache-Control': 'no-store',
     ...extra,
   });
-  return new Response(
-    typeof body === 'object' && body !== null ? JSON.stringify(body) : body,
-    { status, headers },
-  );
+  return new Response(typeof body === 'object' && body !== null ? JSON.stringify(body) : body, {
+    status,
+    headers,
+  });
 }
 
 function clientKey(request) {
@@ -110,7 +110,10 @@ async function handleRequestForm(request, env) {
     return response({ message: 'Please send your request from this website.' }, 403);
   }
 
-  const contentType = (request.headers.get('Content-Type') || '').split(';')[0].trim().toLowerCase();
+  const contentType = (request.headers.get('Content-Type') || '')
+    .split(';')[0]
+    .trim()
+    .toLowerCase();
   if (contentType !== 'application/json') {
     return response({ message: 'Please submit the form as JSON.' }, 415);
   }
@@ -183,7 +186,8 @@ async function handleRequestForm(request, env) {
 
 async function handlePage(request, env, page) {
   const origin = getSiteOrigin(env.SITE_URL);
-  if (!origin) return response('Site configuration is incomplete.', 503, 'text/plain; charset=utf-8');
+  if (!origin)
+    return response('Site configuration is incomplete.', 503, 'text/plain; charset=utf-8');
 
   const assetRequest = new Request(new URL(`/${page.file}`, request.url), {
     method: 'GET',
@@ -192,7 +196,10 @@ async function handlePage(request, env, page) {
   const asset = await env.ASSETS.fetch(assetRequest);
   if (!asset.ok) return asset;
 
-  const html = (await asset.text()).replace('<!-- SITE_METADATA -->', pageMetadata(origin, page.path));
+  const html = (await asset.text()).replace(
+    '<!-- SITE_METADATA -->',
+    pageMetadata(origin, page.path),
+  );
   const headers = new Headers(asset.headers);
   for (const [key, value] of Object.entries(securityHeaders)) headers.set(key, value);
   headers.set('Content-Type', 'text/html; charset=utf-8');
@@ -267,11 +274,7 @@ export default {
         return response('Not found', 404, 'text/plain; charset=utf-8');
       }
       const body = sitemap(origin);
-      return response(
-        request.method === 'HEAD' ? '' : body,
-        200,
-        'application/xml; charset=utf-8',
-      );
+      return response(request.method === 'HEAD' ? '' : body, 200, 'application/xml; charset=utf-8');
     }
 
     const filePage = pages.find((item) => `/${item.file}` === url.pathname);
