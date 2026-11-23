@@ -19,7 +19,7 @@ for (const width of [320, 375, 390, 430, 768, 1024, 1440, 1920]) {
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
       .analyze();
     expect(results.violations).toEqual([]);
-    await page.locator('.hero [data-book]').click();
+    await page.locator('.pricing-main [data-book]').click();
     await expect(page.locator('#booking-dialog')).toBeVisible();
     const dialogResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
@@ -64,7 +64,7 @@ test('inquiry validates, preserves errors, and only shows success after acceptan
   );
   await form.locator('[name=email]').fill('customer@example.com');
   await form.getByRole('button', { name: 'Ask about my issue' }).click();
-  await expect(form.locator('.form-status')).toContainText('accepted by the delivery service');
+  await expect(form.locator('.form-status')).toContainText('inquiry has been sent');
   await expect(form.locator('[name=description]')).toHaveValue('');
 });
 test('booking presets, validation, consent and request confirmation', async ({ page }) => {
@@ -83,14 +83,12 @@ test('booking presets, validation, consent and request confirmation', async ({ p
   await expect(form.locator('[name=consent]')).toHaveAttribute('aria-invalid', 'true');
   await form.locator('[name=consent]').check();
   await form.getByRole('button', { name: 'Request appointment' }).click();
-  await expect(form.locator('.form-status')).toContainText(
-    'appointment request was accepted by the delivery service',
-  );
+  await expect(form.locator('.form-status')).toContainText('appointment request has been sent');
   await expect(form.locator('.form-status')).not.toContainText('Your appointment is confirmed');
 });
 test('keyboard dialog focus, nested privacy, escape and focus return', async ({ page }) => {
   await page.goto('/');
-  const opener = page.locator('.hero [data-book]');
+  const opener = page.locator('.pricing-main [data-book]');
   await opener.focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#booking-dialog')).toBeVisible();

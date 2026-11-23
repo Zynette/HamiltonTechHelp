@@ -2666,3 +2666,41 @@ dialog::backdrop {
     width: 100%;
   }
 }
+
+/* Keep important copy readable; the monogram does not require a symbol font. */
+.brand-mark {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+.muted-heading {
+  color: #62756c;
+}
+.hero-description,
+.detail-item li,
+.detail-lead {
+  font-size: 1rem;
+}
+.dialog-intro,
+.information-dialog p {
+  font-size: 1rem;
+}
+.field-help,
+.credential-note,
+.sensitive-note,
+.privacy-note {
+  font-size: 0.875rem;
+}
+.setup-prices button {
+  width: auto;
+  min-width: 44px;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.inquiry-section > * {
+  min-width: 0;
+}
+.sensitive-note a {
+  overflow-wrap: anywhere;
+}

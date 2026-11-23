@@ -133,10 +133,35 @@ async function handleRequestForm(request, env) {
     );
   }
 
-  const raw = await request.text();
-  if (new TextEncoder().encode(raw).byteLength > maxBodyBytes) {
-    return response({ message: 'This request is too large.' }, 413);
+  // Enforce the limit while reading: Content-Length is optional and untrusted.
+  const reader = request.body?.getReader();
+  const chunks = [];
+  let bytes = 0;
+  try {
+    if (reader) {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        bytes += value.byteLength;
+        if (bytes > maxBodyBytes) {
+          await reader.cancel();
+          return response({ message: 'This request is too large.' }, 413);
+        }
+        chunks.push(value);
+      }
+    }
+  } catch {
+    return response({ message: 'The form could not be read. Please try again.' }, 400);
+  } finally {
+    reader?.releaseLock();
   }
+  const buffer = new Uint8Array(bytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    buffer.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  const raw = new TextDecoder().decode(buffer);
 
   let body;
   try {
@@ -189,9 +214,14 @@ async function handlePage(request, env, page) {
   if (!origin)
     return response('Site configuration is incomplete.', 503, 'text/plain; charset=utf-8');
 
+  const assetHeaders = new Headers(request.headers);
+  // Asset validators describe the source HTML, not the metadata-injected response.
+  for (const name of ['If-None-Match', 'If-Modified-Since', 'Range', 'If-Range']) {
+    assetHeaders.delete(name);
+  }
   const assetRequest = new Request(new URL(`/${page.file}`, request.url), {
     method: 'GET',
-    headers: request.headers,
+    headers: assetHeaders,
   });
   const asset = await env.ASSETS.fetch(assetRequest);
   if (!asset.ok) return asset;
@@ -201,6 +231,15 @@ async function handlePage(request, env, page) {
     pageMetadata(origin, page.path),
   );
   const headers = new Headers(asset.headers);
+  for (const name of [
+    'ETag',
+    'Last-Modified',
+    'Content-Length',
+    'Content-Encoding',
+    'Accept-Ranges',
+  ]) {
+    headers.delete(name);
+  }
   for (const [key, value] of Object.entries(securityHeaders)) headers.set(key, value);
   headers.set('Content-Type', 'text/html; charset=utf-8');
   headers.set('Cache-Control', 'no-cache');
