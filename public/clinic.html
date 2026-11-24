@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en-CA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Digital Tech Clinic | Online Technical Help</title>
+    <meta name="description" content="Safe first steps for everyday computer problems." />
+    <meta property="og:title" content="The Digital Tech Clinic" />
+    <meta property="og:description" content="Safe first steps for everyday computer problems." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <!-- SITE_METADATA -->
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/studio.css" />
+    <script type="module" src="/studio.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="shell">
+      <header class="masthead">
+        <a class="wordmark" href="/">Online Technical Help<span>The living tech studio</span></a>
+        <nav aria-label="Main navigation">
+          <a href="/remote-tech-support">Tech help</a><a href="/website-design">Websites</a
+          ><a href="/clinic">Tech Clinic</a><a href="/resources">Resources</a
+          ><a href="/journal">Journal</a>
+        </nav>
+        <a class="language" href="/fil/clinic" lang="fil">Filipino</a>
+      </header>
+      <div class="utility">
+        <details class="preferences">
+          <summary>Make yourself comfortable</summary>
+          <div class="preference-fields">
+            <label
+              >Season & holiday<select id="theme-choice">
+                <option value="auto">Auto</option>
+                <option value="spring">Spring</option>
+                <option value="summer">Summer</option>
+                <option value="autumn">Autumn</option>
+                <option value="winter">Winter</option>
+                <option value="christmas">Christmas</option>
+                <option value="new-year">New Year</option>
+                <option value="valentine">Valentine</option>
+                <option value="easter">Easter</option>
+                <option value="canada-day">Canada Day</option>
+                <option value="halloween">Halloween</option>
+                <option value="thanksgiving">Thanksgiving</option>
+              </select></label
+            ><label
+              >Appearance<select id="appearance">
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select></label
+            ><label class="check"><input id="calm" type="checkbox" />Calm mode</label
+            ><label class="check"><input id="large-text" type="checkbox" />Larger text</label>
+          </div>
+        </details>
+        <span id="weather" class="small">A little atmosphere from Hamilton</span>
+      </div>
+      <main id="main">
+        <section class="intro">
+          <p class="eyebrow">The Digital Tech Clinic</p>
+          <h1>Let’s find your next step.</h1>
+          <p class="lead">
+            Choose what is happening for a short, safe checklist. This guide uses predefined steps
+            and does not inspect your device.
+          </p>
+        </section>
+        <section class="clinic-panel">
+          <div class="form-row">
+            <label for="clinic-topic">What is happening?<select id="clinic-topic"></select></label
+            ><label for="clinic-device"
+              >Which device?<select id="clinic-device">
+                <option value="Windows laptop">Windows</option>
+                <option value="Apple Mac">Mac</option>
+                <option value="Other">Other / not sure</option>
+              </select></label
+            >
+          </div>
+          <label for="clinic-scope"
+            >Where does it happen?<select id="clinic-scope">
+              <option value="One app">One app</option>
+              <option value="Several apps">Several apps</option>
+              <option value="Not sure">Not sure</option>
+            </select></label
+          ><label for="clinic-start"
+            >When did it start?<select id="clinic-start">
+              <option value="Today">Today</option>
+              <option value="Recently">Recently</option>
+              <option value="For a while">For a while</option>
+            </select></label
+          ><label class="check"
+            ><input id="clinic-restarted" type="checkbox" />I already saved my work and
+            restarted.</label
+          ><label class="check"
+            ><input id="clinic-danger" type="checkbox" />There is physical damage, a failing drive
+            or no internet connection.</label
+          ><button class="button" id="clinic-show">Show my next steps</button>
+          <div id="clinic-result" tabindex="-1" hidden>
+            <h2>A place to begin</h2>
+            <p id="clinic-advice"></p>
+            <p id="clinic-context"></p>
+            <p>
+              General guidance cannot guarantee a fix. Stop if a step is unclear. Keep passwords and
+              private information out of any inquiry.
+            </p>
+            <button id="clinic-help" class="button">
+              Still having trouble? Get professional help
+            </button>
+            <p class="small">
+              Your selected answers are copied only when you choose to continue. You can edit the
+              inquiry before sending.
+            </p>
+          </div>
+        </section>
+      </main>
+      <footer>
+        <div>
+          <a class="wordmark" href="/">Online Technical Help</a>
+          <p>Based in Hamilton, Ontario. All services are remote.</p>
+        </div>
+        <nav aria-label="Footer">
+          <a href="/about">About</a><a href="/contact">Contact</a><a href="/portfolio">Work</a
+          ><a href="/business-solutions">Business setup</a
+          ><a href="/website-maintenance">Website care</a><a href="/#privacy">Privacy</a
+          ><a href="/#terms">Service terms</a>
+        </nav>
+        <p class="small">
+          Photography by
+          <a href="https://unsplash.com/photos/cactus-beside-laptop-p-0lWFknspg"
+            >Scott Webb / Unsplash</a
+          >.
+          <a href="https://eccc-msc.github.io/open-data/licence/readme_en/"
+            >Weather data: Environment and Climate Change Canada</a
+          >.
+        </p>
+        <button id="surprise" class="inline-link">A little useful surprise</button>
+        <p id="tip" role="status"></p>
+      </footer>
+    </div>
+  </body>
+</html>

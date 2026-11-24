@@ -1,3 +1,4 @@
+import { getWeather } from './weather.js';
 import { validateRequest } from './validation.js';
 import { getSiteOrigin, pages, pageMetadata, sitemap } from './site.js';
 
@@ -272,6 +273,15 @@ export default {
       });
     }
 
+    if (url.pathname === '/api/weather' && ['GET', 'HEAD'].includes(request.method)) {
+      const data = await getWeather();
+      return response(
+        request.method === 'HEAD' ? '' : { weather: data },
+        200,
+        'application/json; charset=utf-8',
+        { 'Cache-Control': 'public, max-age=300' },
+      );
+    }
     if (url.pathname === '/api/requests') return handleRequestForm(request, env);
 
     if (url.pathname === '/healthz') {

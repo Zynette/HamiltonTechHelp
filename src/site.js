@@ -1,14 +1,6 @@
 // Published, indexable pages. Keep routing and sitemap in sync in both adapters.
-export const pages = [
-  { path: '/', file: 'index.html' },
-  { path: '/remote-tech-support', file: 'remote-tech-support.html' },
-  { path: '/website-design', file: 'website-design.html' },
-  { path: '/website-maintenance', file: 'website-maintenance.html' },
-  { path: '/business-solutions', file: 'business-solutions.html' },
-  { path: '/portfolio', file: 'portfolio.html' },
-  { path: '/about', file: 'about.html' },
-  { path: '/contact', file: 'contact.html' },
-];
+import studioPages from './studio-pages.json' with { type: 'json' };
+export const pages = studioPages;
 
 const services = [
   {
@@ -76,5 +68,16 @@ export function pageMetadata(origin, path) {
         url: `${origin}${service.path}`,
       })),
   ];
-  return `<link rel="canonical" href="${canonical}"><meta property="og:url" content="${canonical}"><script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</gu, '\\u003c')}</script>`;
+  const english = path.replace(/^\/fil(?=\/|$)/u, '') || '/';
+  const filipino = '/fil' + (english === '/' ? '' : english);
+  if (english.startsWith('/journal/'))
+    graph.push({
+      '@type': 'Article',
+      headline: english.split('/').pop().replaceAll('-', ' '),
+      datePublished: '2026-11-24',
+      inLanguage: path.startsWith('/fil') ? 'fil' : 'en-CA',
+      mainEntityOfPage: canonical,
+      publisher: { '@id': organizationId },
+    });
+  return `<link rel="alternate" hreflang="en-CA" href="${origin}${english}"><link rel="alternate" hreflang="fil" href="${origin}${filipino}"><link rel="alternate" hreflang="x-default" href="${origin}${english}"><link rel="canonical" href="${canonical}"><meta property="og:url" content="${canonical}"><script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</gu, '\\u003c')}</script>`;
 }

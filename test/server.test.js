@@ -166,7 +166,7 @@ test('HTML, security headers and non-indexable development metadata', async (t) 
   const { url } = await setup(t);
   const response = await fetch(url);
   assert.equal(response.status, 200);
-  assert.match(await response.text(), /Websites\./);
+  assert.match(await response.text(), /A little clarity\./);
   assert.match(response.headers.get('content-security-policy'), /frame-ancestors 'none'/);
   assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow');
   assert.match(await (await fetch(url + '/robots.txt')).text(), /Disallow: \//);

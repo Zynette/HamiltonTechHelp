@@ -1,0 +1,82 @@
+[
+  [
+    "spring-cleaning",
+    "Computer spring cleaning",
+    "Paglilinis ng computer sa tagsibol",
+    "Save your work before restarting. Review the files in Downloads and identify what you still need. Make a separate backup before removing anything. Check available storage in system settings. Install updates through your operating system's own update screen. Wipe the outside with the device powered off, following the manufacturer's cleaning instructions.",
+    "I-save ang ginagawa bago mag-restart. Suriin ang Downloads at tukuyin ang kailangan pang files. Gumawa ng hiwalay na backup bago magbura. Tingnan ang storage sa system settings. Gamitin ang update screen ng operating system. Patayin ang device bago punasan ang labas at sundin ang tagubilin ng manufacturer.",
+    "https://support.microsoft.com/windows"
+  ],
+  [
+    "suspicious-email",
+    "Recognize suspicious emails",
+    "Kilalanin ang kahina-hinalang email",
+    "Pause when a message pressures you to act quickly. Check the full sender address, even when the display name looks familiar. Reach the organization through its app or a website you already know. Avoid unexpected attachments and sign-in links. A polished message can still be fraudulent. If you shared account access, use the provider's official recovery process and tell the affected organization.",
+    "Huminto muna kung minamadali ka ng mensahe. Tingnan ang buong email address ng nagpadala kahit pamilyar ang pangalan. Gamitin ang opisyal na app o website na kilala mo. Iwasang buksan ang hindi inaasahang attachment at sign-in link. Maaari pa ring panloloko ang maayos na mensahe. Kung naibigay mo ang access, gamitin ang opisyal na account recovery at ipaalam sa apektadong organisasyon.",
+    "https://www.getcybersafe.gc.ca/en/resources/7-red-flags-phishing"
+  ],
+  [
+    "new-computer",
+    "New computer setup checklist",
+    "Checklist para sa bagong computer",
+    "Keep your old computer and its files until you have checked the new one. Connect to a trusted network. Install system updates. Download applications from their official publishers. Set up your own sign-in and recovery options privately. Copy a small group of files first and open them on the new device. Set up a separate backup and test that you can retrieve one file.",
+    "Panatilihin muna ang lumang computer at files hanggang masuri ang bago. Kumonekta sa pinagkakatiwalaang network. I-install ang system updates. Kunin ang apps sa opisyal na publisher. Ikaw mismo ang magtakda ng sign-in at recovery options. Mag-copy muna ng ilang files at buksan sa bagong device. Gumawa ng hiwalay na backup at subukang kumuha ng isang file.",
+    "https://support.microsoft.com/windows"
+  ],
+  [
+    "windows-maintenance",
+    "Basic Windows maintenance",
+    "Pangunahing pag-aalaga ng Windows",
+    "Save and close your work before a planned restart. Check Windows Update in Settings. Review available storage without deleting unfamiliar system folders. Keep security protection enabled. Review startup apps and ask for help before changing unfamiliar items. Back up important files and keep recovery information somewhere private. On a work-owned device, ask your organization before installing software or changing settings.",
+    "I-save at isara ang ginagawa bago mag-restart. Tingnan ang Windows Update sa Settings. Suriin ang storage at iwasang burahin ang hindi kilalang system folders. Panatilihing naka-on ang security protection. Suriin ang startup apps at magtanong bago baguhin ang hindi pamilyar. I-backup ang mahalagang files at itago nang pribado ang recovery information. Humingi muna ng pahintulot para sa device ng trabaho.",
+    "https://support.microsoft.com/windows"
+  ],
+  [
+    "mac-maintenance",
+    "Basic Mac maintenance",
+    "Pangunahing pag-aalaga ng Mac",
+    "Use System Settings to review software updates and storage. Save your work before restarting. Keep a backup on a suitable separate drive. Time Machine can make scheduled backups, but setting up a disk can require erasing it: stop if it contains files you need. Check that a recent backup exists. Avoid cleanup apps that make unfamiliar changes. Ask before modifying a work-managed Mac.",
+    "Gamitin ang System Settings para sa software updates at storage. I-save ang ginagawa bago mag-restart. Mag-backup sa angkop na hiwalay na drive. Maaaring gumawa ng nakaiskedyul na backup ang Time Machine, pero maaaring kailanganing burahin ang disk sa setup: huminto kung may mahalagang laman ito. Tiyaking may bagong backup. Iwasan ang cleanup apps na gumagawa ng hindi pamilyar na pagbabago.",
+    "https://support.apple.com/en-ca/104984"
+  ],
+  [
+    "organize-files",
+    "Organize your files",
+    "Ayusin ang iyong files",
+    "Start with a small folder. Use clear names that describe the contents and include dates when helpful. Keep related documents together. Make a copy before reorganizing a large collection. Check whether folders sync to a cloud account: moving or deleting there may affect other devices. Keep originals until you have verified copies. Avoid storing account passwords in ordinary documents.",
+    "Magsimula sa maliit na folder. Gumamit ng malinaw na pangalan at petsa kung makatutulong. Pagsamahin ang magkakaugnay na dokumento. Gumawa ng kopya bago ayusin ang maraming files. Tingnan kung naka-sync ang folder sa cloud: maaaring maapektuhan ang ibang device kapag naglipat o nagbura. Panatilihin ang originals hanggang masuri ang kopya. Huwag ilagay ang passwords sa ordinaryong dokumento.",
+    "https://support.microsoft.com/en-us/onedrive/what-do-the-onedrive-icons-mean"
+  ],
+  [
+    "onedrive-basics",
+    "OneDrive basics",
+    "Mga pangunahing kaalaman sa OneDrive",
+    "Check which account is signed in. Open the OneDrive cloud icon to read its status. A cloud-only file may need an internet connection to open. If syncing is paused, resume it from the OneDrive menu when ready. Check available cloud storage when files stop uploading. Deletion can sync to other devices, so keep a separate backup of important files. Avoid unlinking accounts or resetting the app as a first step.",
+    "Tingnan kung aling account ang naka-sign in. Buksan ang OneDrive cloud icon para sa status. Maaaring kailangan ng internet para buksan ang cloud-only file. Kung naka-pause, i-resume ang sync sa OneDrive menu kapag handa na. Tingnan ang cloud storage kung hindi nag-a-upload. Maaaring ma-sync ang pagbura sa ibang device kaya gumawa ng hiwalay na backup. Huwag agad mag-unlink o mag-reset.",
+    "https://support.microsoft.com/en-us/onedrive/how-to-pause-and-resume-onedrive-sync"
+  ],
+  [
+    "photo-backup",
+    "Back up important photos",
+    "I-backup ang mahalagang mga larawan",
+    "Identify where the original photos are stored. Copy them to a second trusted location. If originals live in the cloud, confirm they have downloaded before copying. Open several copies, including an older photo and a video. Keep the originals until verification is complete. Disconnect an external backup drive safely when finished. A synced library can repeat accidental deletion; a separate backup adds another recovery option.",
+    "Tukuyin kung nasaan ang original na larawan. Kopyahin sa ikalawang ligtas na lokasyon. Kung nasa cloud, tiyaking na-download ang originals bago kopyahin. Buksan ang ilang kopya, kasama ang lumang larawan at video. Panatilihin ang originals hanggang matapos ang pagsusuri. Ligtas na i-eject ang external drive. Maaaring maulit sa synced library ang aksidenteng pagbura kaya mahalaga ang hiwalay na backup.",
+    "https://support.apple.com/en-ca/mac-backup"
+  ],
+  [
+    "website-preparation",
+    "Prepare for a business website",
+    "Maghanda para sa website ng negosyo",
+    "Write down your main customer and the action you want them to take. Gather service descriptions, approved prices and contact information. Choose examples of work you have permission to show. Confirm who owns the domain and hosting accounts. List required pages and forms. Agree on revisions, testing, timeline, handover and ongoing costs in the written quote. Share access through the provider's permission tools when possible.",
+    "Isulat kung sino ang customer at ano ang gusto mong gawin nila. Ihanda ang serbisyo, aprubadong presyo at contact information. Pumili ng gawa na may pahintulot kang ipakita. Tiyakin ang may-ari ng domain at hosting accounts. Ilista ang pages at forms. Pagkasunduan sa nakasulat na quote ang revisions, testing, iskedyul, handover at patuloy na gastos. Gamitin ang permission tools ng provider sa pagbibigay ng access.",
+    "https://onlinetechnicalhelp.com/website-design"
+  ],
+  [
+    "digital-safety",
+    "Essential digital safety",
+    "Mahahalagang hakbang sa digital safety",
+    "Use a unique password for each important account and a trusted password manager if suitable. Turn on multi-factor authentication where offered. Keep recovery methods current and private. Install updates through official channels. Verify unexpected requests through a separate contact method. Never give remote access to an unsolicited caller. Keep a separate backup of important information.",
+    "Gumamit ng natatanging password sa bawat mahalagang account at mapagkakatiwalaang password manager kung angkop. I-on ang multi-factor authentication kung mayroon. Panatilihing updated at pribado ang recovery methods. Mag-update sa opisyal na paraan. Beripikahin ang hindi inaasahang request sa ibang paraan ng pakikipag-ugnayan. Huwag magbigay ng remote access sa hindi inaasahang tumatawag. Magkaroon ng hiwalay na backup.",
+    "https://www.getcybersafe.gc.ca/en/"
+  ]
+]

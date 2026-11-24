@@ -1,223 +1,181 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-
-for (const width of [320, 375, 390, 430, 768, 1024, 1440, 1920]) {
-  test(`responsive layout, no overflow, and accessibility at ${width}px`, async ({ page }) => {
+import { pages } from '../../src/site.js';
+import { themes } from '../../public/theme.js';
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/weather', (r) => r.fulfill({ json: { weather: null } }));
+});
+for (const width of [320, 375, 390, 430, 768, 1024, 1440, 1920])
+  test(`layout and accessibility at ${width}`, async ({ page }) => {
     await page.setViewportSize({ width, height: 960 });
     const errors = [];
-    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('pageerror', (e) => errors.push(e.message));
     await page.goto('/');
+    await expect(page.locator('h1')).toContainText('A little clarity.');
     await page.evaluate(() => document.fonts.ready);
-    await expect(page.locator('h1')).toContainText('Websites.');
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
-    expect(overflow).toBe(false);
-    await page.locator('.all-services summary').click();
     expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(
       false,
     );
-    const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
-      .analyze();
-    expect(results.violations).toEqual([]);
-    await page.locator('.pricing-main [data-book]').click();
+    expect(
+      (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze())
+        .violations,
+    ).toEqual([]);
+    await page.locator('[data-dialog=booking-dialog]').click();
     await expect(page.locator('#booking-dialog')).toBeVisible();
-    const dialogResults = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
-      .analyze();
-    expect(dialogResults.violations).toEqual([]);
+    expect(
+      (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze())
+        .violations,
+    ).toEqual([]);
     await page.keyboard.press('Escape');
-    await page.locator('#websites [data-dialog=project-dialog]').click();
+    await page.locator('.hero .text-link').click();
     await expect(page.locator('#project-dialog')).toBeVisible();
     expect(
       (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze())
         .violations,
     ).toEqual([]);
-    expect(
-      await page
-        .locator('#project-dialog')
-        .evaluate((element) => element.scrollWidth > element.clientWidth),
-    ).toBe(false);
-    if ([390, 1440].includes(width)) {
-      await page.screenshot({ path: `test-results/project-${width}.png` });
-      await page.keyboard.press('Escape');
-      await page.evaluate(() => window.scrollTo(0, 0));
+    await page.keyboard.press('Escape');
+    if ([390, 1440].includes(width))
       await page.screenshot({ path: `test-results/home-${width}.png`, fullPage: true });
-    }
     expect(errors).toEqual([]);
   });
-}
-test('inquiry validates, preserves errors, and only shows success after acceptance', async ({
+for (const kind of ['inquiry', 'booking', 'project'])
+  test(`${kind} validation, failure preservation and acceptance`, async ({ page }) => {
+    await page.goto('/');
+    if (kind === 'booking') await page.locator('[data-dialog=booking-dialog]').click();
+    if (kind === 'project') await page.locator('.hero .text-link').click();
+    const f = page.locator(`#${kind}-form`);
+    await f.locator('[type=submit]').click();
+    await expect(f.locator('[name=name]')).toHaveAttribute('aria-invalid', 'true');
+    await f.locator('[name=name]').fill('Test Customer');
+    await f.locator('[name=email]').fill('failure@example.com');
+    await f.locator('[name=description]').fill('Please review my computer or website setup.');
+    if (kind === 'project') await f.locator('[name=projectType]').selectOption('Website redesign');
+    else await f.locator('[name=device]').selectOption('Windows laptop');
+    if (kind === 'booking') {
+      await f.locator('[name=date]').fill('2099-01-01');
+      await f.locator('[name=window]').fill('Afternoon');
+      await f.locator('[name=consent]').check();
+    }
+    await f.locator('[type=submit]').click();
+    await expect(f.locator('.form-status')).toHaveAttribute('data-state', 'error');
+    await expect(f.locator('[name=description]')).not.toHaveValue('');
+    await f.locator('[name=email]').fill('example@example.com');
+    await f.locator('[type=submit]').click();
+    await expect(f.locator('.form-status')).toHaveAttribute('data-state', 'success');
+    await expect(f.locator('[name=description]')).toHaveValue('');
+  });
+test('clinic carries editable context and stops inappropriate remote requests', async ({
   page,
 }) => {
-  await page.goto('/');
-  const form = page.locator('#inquiry-form');
-  await form.getByRole('button', { name: 'Ask about my issue' }).click();
-  await expect(form.locator('[name=name]')).toHaveAttribute('aria-invalid', 'true');
-  await form.locator('[name=name]').fill('Test Customer');
-  await form.locator('[name=email]').fill('failure@example.com');
-  await form.locator('[name=device]').selectOption('Windows laptop');
-  await form.locator('[name=description]').fill('My computer is slow when opening email.');
-  await form.getByRole('button', { name: 'Ask about my issue' }).click();
-  await expect(form.locator('.form-status')).toHaveAttribute('data-state', 'error');
-  await expect(form.locator('[name=description]')).toHaveValue(
-    'My computer is slow when opening email.',
-  );
-  await form.locator('[name=email]').fill('customer@example.com');
-  await form.getByRole('button', { name: 'Ask about my issue' }).click();
-  await expect(form.locator('.form-status')).toContainText('inquiry has been sent');
-  await expect(form.locator('[name=description]')).toHaveValue('');
+  await page.goto('/clinic');
+  await page.locator('#clinic-topic').selectOption('sync');
+  await page.locator('#clinic-device').selectOption('Apple Mac');
+  await page.locator('#clinic-show').click();
+  await expect(page.locator('#clinic-advice')).toContainText('OneDrive');
+  await page.locator('#clinic-help').click();
+  await expect(page.locator('#inquiry-description')).toContainText('Tech Clinic');
+  await expect(page.locator('#inquiry-device')).toHaveValue('Apple Mac');
+  await page.goto('/clinic');
+  await page.locator('#clinic-danger').check();
+  await page.locator('#clinic-show').click();
+  await expect(page.locator('#clinic-help')).toBeDisabled();
 });
-test('booking presets, validation, consent and request confirmation', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Request remote help' }).click();
-  const form = page.locator('#booking-form');
-  await expect(form.locator('[name=method]')).toHaveValue('Remote');
-  await form.locator('[name=category]').selectOption('General computer problem');
-  await form.locator('[name=device]').selectOption('Printer/scanner');
-  await form.locator('[name=description]').fill('The printer is showing as offline.');
-  await form.locator('[name=date]').fill('2099-10-02');
-  await form.locator('[name=window]').fill('Weekday mornings, if available');
-  await form.locator('[name=name]').fill('Test Customer');
-  await form.locator('[name=email]').fill('customer@example.com');
-  await form.getByRole('button', { name: 'Request appointment' }).click();
-  await expect(form.locator('[name=consent]')).toHaveAttribute('aria-invalid', 'true');
-  await form.locator('[name=consent]').check();
-  await form.getByRole('button', { name: 'Request appointment' }).click();
-  await expect(form.locator('.form-status')).toContainText('appointment request has been sent');
-  await expect(form.locator('.form-status')).not.toContainText('Your appointment is confirmed');
+test('slider works from keyboard and pointer', async ({ page }) => {
+  await page.goto('/portfolio');
+  const s = page.locator('#compare');
+  await s.focus();
+  await page.keyboard.press('End');
+  await expect(s).toHaveValue('100');
+  await page.keyboard.press('Home');
+  await expect(s).toHaveValue('0');
+  const b = await s.boundingBox();
+  await page.mouse.click(b.x + b.width * 0.75, b.y + b.height / 2);
+  expect(Number(await s.inputValue())).toBeGreaterThan(50);
 });
-test('keyboard dialog focus, nested privacy, escape and focus return', async ({ page }) => {
-  await page.goto('/');
-  const opener = page.locator('.pricing-main [data-book]');
-  await opener.focus();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('#booking-dialog')).toBeVisible();
-  await page.keyboard.press('Shift+Tab');
-  expect(
-    await page.evaluate(() => document.activeElement.closest('#booking-dialog') !== null),
-  ).toBe(true);
-  await page.locator('#booking-dialog [data-dialog=privacy-dialog]').click();
-  await expect(page.locator('#privacy-dialog')).toBeVisible();
-  await page.keyboard.press('Escape');
-  await expect(page.locator('#privacy-dialog')).not.toBeVisible();
-  await expect(page.locator('#booking-dialog')).toBeVisible();
-  await page.keyboard.press('Escape');
-  await expect(opener).toBeFocused();
+test('slider accepts touch', async ({ browser }) => {
+  const context = await browser.newContext({
+    hasTouch: true,
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
+  await page.route('**/api/weather', (r) => r.fulfill({ json: { weather: null } }));
+  await page.goto('http://localhost:3101/portfolio');
+  await page.locator('#compare').scrollIntoViewIfNeeded();
+  const b = await page.locator('#compare').boundingBox();
+  await page.touchscreen.tap(b.x + b.width * 0.8, b.y + b.height / 2);
+  expect(Number(await page.locator('#compare').inputValue())).toBeGreaterThan(50);
+  await context.close();
 });
-test('mobile menu, category prefilling and FAQ interaction', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+test('all seasons and holidays in light and dark mode', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Menu' }).click();
-  await expect(page.locator('#navigation')).toBeVisible();
-  await page.locator('#navigation').getByRole('link', { name: 'Tech help', exact: true }).click();
-  await expect(page.locator('#navigation')).not.toBeVisible();
-  await page.locator('.problem-list [data-category="Printer/scanner"]').click();
-  await expect(page.locator('#inquiry-device')).toHaveValue('Printer/scanner');
-  await expect(page.locator('#inquiry-description')).toHaveValue(/printer\/scanner/);
-  const item = page.locator('.faq-list details').first();
-  await item.locator('summary').click();
-  await expect(item).toHaveAttribute('open', '');
+  await page.locator('.preferences summary').click();
+  await page.locator('#calm').check();
+  for (const theme of themes.filter((x) => x !== 'auto'))
+    for (const appearance of ['light', 'dark']) {
+      await page.locator('#theme-choice').selectOption(theme);
+      await page.locator('#appearance').selectOption(appearance);
+      await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+      expect(
+        (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze())
+          .violations,
+      ).toEqual([]);
+      await page.screenshot({ path: `test-results/${theme}-${appearance}.png` });
+    }
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-appearance', 'dark');
+  await expect(page.locator('html')).toHaveAttribute('data-calm', 'true');
 });
-test('website project form validates, preserves failed requests and confirms only receipt', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
-  const opener = page.locator('#websites [data-dialog=project-dialog]');
-  await opener.click();
-  const form = page.locator('#project-form');
-  await expect(form.locator('[name=device], [name=date], [name=method]')).toHaveCount(0);
-  await form.getByRole('button', { name: 'Send project inquiry' }).click();
-  await expect(form.locator('[name=name]')).toHaveAttribute('aria-invalid', 'true');
-  await form.locator('[name=name]').fill('Test Customer');
-  await form.locator('[name=email]').fill('failure@example.com');
-  await form.locator('[name=projectType]').selectOption('Mobile layout or website troubleshooting');
-  await form.locator('[name=siteUrl]').fill('https://example.com');
-  await form
-    .locator('[name=description]')
-    .fill('The mobile navigation needs fixing on my existing site.');
-  await form.locator('[name=timeframe]').fill('Flexible');
-  await form.getByRole('button', { name: 'Send project inquiry' }).click();
-  await expect(form.locator('.form-status')).toHaveAttribute('data-state', 'error');
-  await expect(form.locator('[name=description]')).toHaveValue(/mobile navigation/);
-  await form.locator('[data-dialog=terms-dialog]').click();
-  await expect(page.locator('#terms-dialog')).toContainText('Website projects');
-  await page.keyboard.press('Escape');
-  await expect(form.locator('[data-dialog=terms-dialog]')).toBeFocused();
-  await form.locator('[name=email]').fill('customer@example.com');
-  await form.getByRole('button', { name: 'Send project inquiry' }).click();
-  await expect(form.locator('.form-status')).toContainText(
-    'No project or deadline is confirmed yet.',
-  );
-  await expect(form.locator('[name=description]')).toHaveValue('');
-  await page.keyboard.press('Escape');
-  await expect(opener).toBeFocused();
-});
-test('reduced motion disables scrolling animation', async ({ page }) => {
+test('reduced motion, large text and weather failure preserve content', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
-  expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe(
-    'auto',
-  );
+  await expect(page.locator('html')).toHaveAttribute('data-calm', 'true');
+  await page.locator('.preferences summary').click();
+  await page.locator('#large-text').check();
+  await expect(page.locator('html')).toHaveClass('large-text');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+  await expect(page.locator('#weather')).toContainText('Hamilton');
 });
-
-test('hero website inquiry is distinct and returns focus to its trigger', async ({ page }) => {
-  await page.goto('/');
-  const trigger = page
-    .locator('.hero-actions')
-    .getByRole('button', { name: 'Get a website quote' });
-  await trigger.click();
-  await expect(page.locator('#project-dialog')).toBeVisible();
-  await expect(page.locator('#booking-dialog')).not.toBeVisible();
-  await page.keyboard.press('Escape');
-  await expect(trigger).toBeFocused();
-});
-
-test('layouts reflow across breakpoints and short phone screens', async ({ page }) => {
-  await page.goto('/');
-  for (const width of [280, 360, 620, 621, 850, 851, 1100, 1101, 1600, 2560]) {
-    await page.setViewportSize({ width, height: 800 });
-    await page.evaluate(() => document.fonts.ready);
+test('all pages render with a language counterpart and working downloads', async ({
+  page,
+  request,
+}) => {
+  for (const p of pages) {
+    await page.goto(p.path);
+    await expect(page.locator('h1')).toBeVisible();
+    expect(await page.locator('.language').getAttribute('href')).toBeTruthy();
     expect(
-      await page.evaluate(() => document.documentElement.scrollWidth),
-      `page at ${width}px`,
-    ).toBeLessThanOrEqual(width);
-    const menu = page.locator('.menu-toggle');
-    if (await menu.isVisible()) {
-      await menu.click();
-      await expect(page.locator('#navigation')).toBeVisible();
-      expect(
-        await page.locator('#navigation').evaluate((el) => el.scrollWidth > el.clientWidth),
-        `menu at ${width}px`,
-      ).toBe(false);
-      await page.keyboard.press('Escape');
-    }
-    await page.locator('.hero-actions [data-dialog]').click();
-    expect(
-      await page.locator('#project-dialog').evaluate((el) => el.scrollWidth > el.clientWidth),
-      `dialog at ${width}px`,
-    ).toBe(false);
-    await page.keyboard.press('Escape');
-    if (width > 620) {
-      const bottoms = await page
-        .locator('.pricing-main .button')
-        .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().bottom));
-      expect(Math.abs(bottoms[0] - bottoms[1]), `pricing alignment at ${width}px`).toBeLessThan(1);
+      await page.evaluate(() =>
+        [...document.images].every((i) => i.complete && i.naturalWidth > 0),
+      ),
+    ).toBe(true);
+  }
+  await page.goto('/fil');
+  await page.locator('#inquiry-form [type=submit]').click();
+  await expect(page.locator('#inquiry-name-error')).toContainText('Pakisagutan');
+  for (const lang of ['en', 'fil']) {
+    await page.goto(lang === 'fil' ? '/fil/resources' : '/resources');
+    const links = await page
+      .locator('a[download]')
+      .evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+    expect(links).toHaveLength(10);
+    for (const url of links) {
+      const r = await request.get(url);
+      expect(r.ok()).toBe(true);
+      expect((await r.body()).subarray(0, 5).toString()).toBe('%PDF-');
     }
   }
-  await page.setViewportSize({ width: 390, height: 400 });
-  await page.locator('.menu-toggle').click();
-  const menuAction = page.locator('#navigation .button');
-  await menuAction.scrollIntoViewIfNeeded();
-  const menuBox = await menuAction.boundingBox();
-  expect(menuBox.y).toBeGreaterThanOrEqual(0);
-  expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(400);
-  await page.keyboard.press('Escape');
-  await page.locator('.hero-actions [data-dialog]').click();
-  const submit = page.locator('#project-form [type=submit]');
-  await submit.scrollIntoViewIfNeeded();
-  const box = await submit.boundingBox();
-  expect(box.y).toBeGreaterThanOrEqual(0);
-  expect(box.y + box.height).toBeLessThanOrEqual(400);
-  await page.keyboard.press('Escape');
+});
+test('corrupted or unavailable browser storage cannot break forms', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'localStorage', {
+      get() {
+        throw Error('blocked');
+      },
+    });
+  });
+  await page.goto('/');
+  await expect(page.locator('#inquiry-form [type=submit]')).toBeEnabled();
+  await page.locator('.hero .text-link').click();
+  await expect(page.locator('#project-dialog')).toBeVisible();
 });
