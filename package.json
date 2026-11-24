@@ -9,11 +9,12 @@
   "scripts": {
     "dev": "node --watch --env-file-if-exists=.env src/server.js",
     "start": "node --env-file-if-exists=.env src/server.js",
-    "check": "prettier --check . && node --check src/server.js && node --check src/validation.js && node --check public/app.js && node --check scripts/check-release.js",
+    "check": "prettier --check . && node --check src/server.js && node --check src/cloudflare-worker.js && node --check src/site.js && node --check src/validation.js && node --check public/app.js && node --check scripts/check-release.js",
     "test": "node --test test/*.test.js",
     "check:release": "node --env-file-if-exists=.env scripts/check-release.js",
     "test:browser": "playwright test",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "preview:build": "node scripts/build-review-preview.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",

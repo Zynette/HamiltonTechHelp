@@ -104,3 +104,95 @@ test('Cloudflare Worker does not treat a Formspree redirect as successful delive
   assert.equal(result.status, 502);
   assert.match((await result.json()).message, /couldn.t accept/i);
 });
+
+test('Worker stops oversized chunked bodies before buffering the entire stream', async () => {
+  let cancelled = false;
+  let pulls = 0;
+  const stream = new ReadableStream({
+    pull(controller) {
+      pulls += 1;
+      controller.enqueue(new Uint8Array(6000));
+    },
+    cancel() {
+      cancelled = true;
+    },
+  });
+  const result = await worker.fetch(
+    new Request(`${env.SITE_URL}/api/requests`, {
+      method: 'POST',
+      headers: {
+        Origin: env.SITE_URL,
+        'Content-Type': 'application/json',
+        'CF-Connecting-IP': '203.0.113.80',
+      },
+      body: stream,
+      duplex: 'half',
+    }),
+    env,
+  );
+  assert.equal(result.status, 413);
+  assert.equal(cancelled, true);
+  assert.ok(pulls <= 3, `Only bounded chunks should be read, got ${pulls}`);
+});
+
+test('Worker handles interrupted request streams without an uncaught exception', async () => {
+  const stream = new ReadableStream({
+    start(controller) {
+      controller.error(new Error('interrupted'));
+    },
+  });
+  const result = await worker.fetch(
+    new Request(`${env.SITE_URL}/api/requests`, {
+      method: 'POST',
+      headers: {
+        Origin: env.SITE_URL,
+        'Content-Type': 'application/json',
+        'CF-Connecting-IP': '203.0.113.81',
+      },
+      body: stream,
+      duplex: 'half',
+    }),
+    env,
+  );
+  assert.equal(result.status, 400);
+});
+
+test('injected HTML cannot reuse asset validators, byte lengths or range responses', async () => {
+  const result = await worker.fetch(
+    new Request(`${env.SITE_URL}/website-design`, {
+      headers: {
+        'If-None-Match': 'old-asset',
+        'If-Modified-Since': 'yesterday',
+        Range: 'bytes=0-10',
+        'If-Range': 'old-asset',
+      },
+    }),
+    {
+      ...env,
+      ASSETS: {
+        fetch: async (request) => {
+          for (const name of ['If-None-Match', 'If-Modified-Since', 'Range', 'If-Range'])
+            assert.equal(request.headers.get(name), null);
+          return new Response('<html><!-- SITE_METADATA --></html>', {
+            headers: {
+              ETag: 'source-asset',
+              'Content-Length': '34',
+              'Last-Modified': 'yesterday',
+              'Accept-Ranges': 'bytes',
+            },
+          });
+        },
+      },
+    },
+  );
+  assert.equal(result.status, 200);
+  for (const name of [
+    'ETag',
+    'Content-Length',
+    'Content-Encoding',
+    'Last-Modified',
+    'Accept-Ranges',
+  ])
+    assert.equal(result.headers.get(name), null);
+  assert.match(await result.text(), /rel="canonical"/);
+});

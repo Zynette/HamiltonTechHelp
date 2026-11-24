@@ -1,88 +1,70 @@
 # Online Technical Help
 
-A remote-only tech-support and website-design site, based in Hamilton, Ontario. Separate flows cover tech-support inquiries, remote appointment requests and website-project inquiries. Built with semantic HTML, CSS and browser JavaScript, served by a small Node HTTP server. No runtime dependencies, accounts, analytics, uploads or payment processing.
+[OnlineTechnicalHelp.com](https://onlinetechnicalhelp.com/) is a remote-only service website based in Hamilton, Ontario, Canada. It presents **remote Windows/Mac and Microsoft 365 help**, **small-business website design and updates**, and **practical digital setup considered by written quote**. It is not a walk-in repair shop. Physical hardware repairs, emergency security response, always-on helpdesk coverage and guaranteed search results are not offered.
 
-**Status:** implemented and locally testable on the review branch. The public brand is Online Technical Help and the contact address is techspecialistsupport@gmail.com; form delivery remains intentionally unconfigured until a verified provider form ID is supplied. The owner profile states an Information Technology degree, a Software Support diploma and everyday Windows + Apple support, with hardware repair and advanced account recovery outside scope.
+The live domain and Cloudflare account are owner-controlled; this repository and its feature branches **do not prove live form delivery or deployment**. Work for [Issue #4](https://github.com/Zynette/HamiltonTechHelp/issues/4) is proposed for review on a separate branch and must not be merged or deployed without owner approval. No accounts, payments or messages were sent by the changes in that branch.
 
-## Local development
+## Architecture
 
-Use Node 24 or later.
+- `public/index.html`, `public/styles.css`, `public/app.js`: homepage, accessible dialogs, responsive UI and existing cream/sage/charcoal palette.
+- `public/*.html`: seven useful standalone pages for remote support, website design, maintenance, business digital setup, original concept portfolio, about and contact.
+- `src/cloudflare-worker.js`: production Cloudflare Worker for canonical URLs, page metadata, sitemap, static assets and same-origin `POST /api/requests`.
+- `src/server.js`: Node 24+ local/test adapter with the same request validation and documented provider success semantics.
+- `src/validation.js`: shared server-side field limits, service choices, consent and anti-spam validation.
+- `src/site.js`: published-route allowlist, canonical metadata, schema and sitemap shared by Node/Worker.
+- `wrangler.jsonc`: custom domains, static assets, explicit Worker routes and extensionless HTML routing.
+- `test/`: Node/Worker regression and Playwright/axe-core browser tests; simulated delivery only, never a live inbox test.
+
+There is no frontend framework, runtime npm dependency, customer database, live calendar, payment processor, client login or analytics integration. Licensed IBM Plex Sans files are self-hosted.
+
+## Local development and tests
+
+Requires Node 24 or newer:
 
 ```sh
 npm ci
 npm run dev
-```
-
-Open http://localhost:3000. `npm start` runs without the file watcher. There is no frontend build step. All fonts are local. `.env` is optional in development; copy `.env.example` locally if configuration is needed. Do not commit `.env`.
-
-Without a verified form ID, the API returns an explicit 503 message and the form preserves the visitor's input. It never pretends to send. Local development is marked `noindex`; `robots.txt` also disallows crawling.
-
-## Checks
-
-```sh
+# Open http://localhost:3000
 npm run check
 npm test
 npx playwright install chromium
 npm run test:browser
-npm run check:release
 ```
 
-`check` validates source formatting and JavaScript syntax. `npm run format` applies the project’s formatting conventions. The project is plain JavaScript, so there is no TypeScript compiler or framework lint configuration. Unit/integration tests use Node's built-in runner. Browser tests use Playwright and axe-core at 320, 375, 390, 430, 768, 1024, 1440 and 1920 pixels. Browser form tests inject a fake transport into a **test-only** server; they never send email. Additional browser coverage checks widths from 280 to 2560 pixels around layout breakpoints, pricing-button alignment, the homepage website-project action and focus return, and menus/forms on a 390 × 400 viewport. This is representative Chromium coverage, not a guarantee for every browser or physical device. `check:release` is expected to fail until launch details are provided.
+`npm run check` validates Prettier formatting and JavaScript syntax. `npm test` runs Node's test runner, including the Worker unit tests; `test:browser` starts an isolated local server and exercises request forms without contacting the provider. A GitHub Actions PR workflow runs source checks, Node tests, accessibility and responsive Chromium tests, and uploads QA screenshots/traces. No browser suite establishes real Safari/device compatibility.
 
-## One delivery connection for three distinct flows
+If `FORMSPREE_FORM_ID` is missing, the server returns an explicit 503 and tells visitors to email `techspecialistsupport@gmail.com`. No form submission is falsely marked as accepted.
 
-1. The owner creates a Formspree form linked to techspecialistsupport@gmail.com and completes its verification. Supply its form ID to the maintainer; no account password is needed.
-2. Set `FORMSPREE_FORM_ID` in the server environment. All three forms use it; `kind` is `inquiry`, `booking` or `project`, with a distinct subject. Project inquiries collect a project type, brief, optional public URL and preferred timeframe; they do not book a session or require device/date fields. Booking requests accept only the Remote method and free-text preferred times, not advertised working hours.
-3. Configure the provider for server-side JSON submissions. A provider-side browser CAPTCHA or domain restriction must not silently block the server relay; verify this in the account. This implementation supplies a honeypot and request throttling. If browser verification is desired later, implement its token flow end to end before enabling it.
-4. Before public launch, connect and test the provider, then submit owner-authorized tests for all three flows and verify the actual inbox. Configure Stripe Invoicing separately if the owner chooses it; no secret key belongs in this repository.
+`npm run check:release` requires an HTTPS `SITE_URL` and a verified form ID for a **Node deployment**; without those owner-specific values, it intentionally reports missing launch configuration.
 
-The endpoint is `https://formspree.io/f/<ID>`. Only an accepted JSON response with `ok: true` produces a success message. Provider rejection and network uncertainty show errors; the code does not automatically retry ambiguous deliveries. The integration is documented at https://help.formspree.io/pt-br/articles/building-your-form/submit-forms-with-javascript-ajax/ and provider limits at https://help.formspree.io/articles/form-and-project-settings/system-limits . Check the selected plan's quotas before launch; no plan or fee is assumed.
+## Published site and form delivery
 
-## Deployment
+The canonical production origin is `https://onlinetechnicalhelp.com`. The Worker redirects `www` GET/HEAD HTML URLs and insecure apex page requests to HTTPS apex while preserving path/query. POST requests from a noncanonical origin are refused. Cloudflare and Node use a strict Origin comparison, request-size limits, allowlisted fields, honeypot and bounded in-memory throttling. `CF-Connecting-IP` is accepted only from Cloudflare; arbitrary forwarded headers are not used for authorization.
 
-Deploy the repository to a Node-capable host or container. Static-only hosting such as GitHub Pages cannot run this server or its protected form endpoint. No host account or paid plan was created.
+Inquiry, booking preference and website/business project forms all submit to `/api/requests` and send a distinct `kind` to a **server-side** Formspree relay. A direct HTTP 2xx status is treated as provider acceptance, even if the response body is empty. Provider rejection, redirect, timeout or network uncertainty never yields a false success. Provider acceptance **does not prove inbox delivery**.
 
-- Install: `npm ci --omit=dev` (there are zero runtime packages).
-- Start: `npm start`.
-- Node: 24 or later; the host supplies `PORT` if needed.
-- Environment: `NODE_ENV=production`, `SITE_URL=https://onlinetechnicalhelp.com`, `FORMSPREE_FORM_ID=verified-id`.
-- Configure HTTPS at the hosting edge and route traffic to the Node server. Health check: `/healthz`.
-- Run the tests and `npm run check:release` before deploying. Production startup enforces the release check too.
-- Keep keys/configuration in the host's secret/environment settings, never the repository.
+Owner must create and verify a Formspree form and configure `FORMSPREE_FORM_ID` as a **Cloudflare Worker secret**, never in source control; then test each request type against the actual receiving inbox. The existing contact fallback is `techspecialistsupport@gmail.com`.
 
-`SITE_URL` must be the exact public origin. Requests from other origins are rejected. It generates the canonical URL, `og:url`, sitemap, robots policy and production-only Organization/WebSite/Service structured data. Hamilton is the owner’s base; no physical service area, street address, opening hours, ratings or reviews are claimed. Social title/description, author metadata and favicon are provided; no unrequested social image was generated.
+## Pricing, services and legal decisions
 
-**Rate limiting and deployment topology:** the server uses the direct socket IP, 5 submissions per 15 minutes, held in bounded process memory. It deliberately ignores spoofable forwarding headers. Behind a shared reverse proxy, clients can share that bucket. Before public launch, implement host-specific trusted-client-IP handling or move throttling to a verified edge control. Multiple server instances also need a shared/edge limiter. Do not simply trust an arbitrary `X-Forwarded-For` header. Restarting the process resets its limiter. The site is a single-process initial implementation, not a distributed backend.
+Current published remote-support starting price: $40 CAD, quoted for a defined scope. Existing computer-setup and transfer starting prices are shown but need owner reapproval. New website, business setup and recurring-care price figures in Issue #4 are **proposals awaiting approval**; public pages deliberately describe packages and quote requirements without displaying new unapproved CAD numbers. No unlimited support, recurring billing, payment collection or confirmed calendar appointment is implied.
 
-## Service model and search launch
+Written quotes must define inclusions/exclusions, revision counts, duration, hosting/domain/third-party fees, taxes and any payment/deposit terms. The privacy and terms text needs owner/legal review for actual processors, applicable consumer rights, cancellation and international sales before paid work starts.
 
-Tech help is remote-only and by appointment, subject to availability. Defined support tasks are quoted from $40 CAD after a suitability review; the written quote states the scope, expected duration and price. A diagnostic appointment has a separately agreed scope and does not guarantee a fix. The public site no longer prices extra time by the minute. There are no visits, emergency support or continuous inbox monitoring.
+See **[Owner approvals, proposed pricing and exact launch steps](docs/ISSUE-4-OWNER-LAUNCH.md)**, **[Cloudflare deployment](docs/CLOUDFLARE-DEPLOYMENT.md)**, **[Service workflow](docs/SERVICE-WORKFLOW.md)** and **[Search launch](docs/SEARCH-LAUNCH.md)**.
 
-Support covers software, setup and connection help only. The owner does not open phones, tablets, laptops or desktops, replace screens or batteries, or repair internal components, broken parts or liquid damage. Physical repairs are referred to a qualified hardware repair provider.
+## SEO, accessibility and privacy
 
-Website design and support is quoted individually. Each quote agrees scope, page count, revision allowance, timeline, price, payment stages and handover; hosting, domains, paid tools and maintenance are itemized separately. Larger stores, custom applications and advanced integrations are reviewed individually, while urgent ongoing maintenance remains outside the initial offer.
+The Worker serves the public sitemap, canonical and Open Graph URLs, and Organization/WebSite/Service schema without fabricated reviews, service-area coverage, physical addresses or business-hours claims. Preview `workers.dev` pages are noindex. Only original concept mockups, not client work or testimonials, appear in the portfolio.
 
-Online-only businesses are ineligible for Google Business Profile under current Google guidance. Ordinary organic search remains available. See [search launch guidance](docs/SEARCH-LAUNCH.md) for official sources, implemented SEO, private-preview limitations and owner-controlled Search Console verification steps. No Google listing or account changes are included.
+No tracking cookies, external browser fonts, payment fields or file uploads are included. The request service does not log form bodies. A per-isolate Worker `Map` rate limiter is **best effort**, not globally distributed; evaluate Cloudflare managed protections if justified and approved. Review privacy, security and hosting configuration regularly.
 
-## Launch details
+## Deploy/rollback
 
-The public brand is Online Technical Help and the contact address is techspecialistsupport@gmail.com. The owner has purchased onlinetechnicalhelp.com; DNS, hosting and public launch are not configured by this branding update. Personal names are omitted from website content and metadata. No home address, employer name or phone number is included. The owner should confirm the quote, deposit, payment and cancellation wording with qualified Ontario legal advice before accepting public paid requests. A live calendar and Stripe invoicing are not connected; dates and time windows are preferences in America/Toronto until the owner sends written confirmation. The current forms do not take payment or automatically confirm appointments.
+Production Cloudflare deployment is connected to the owner-controlled Git workflow; this branch is **not** deployed. Follow `docs/CLOUDFLARE-DEPLOYMENT.md` for prerequisites, smoke tests, and rolling back to the previous healthy Worker version. Never put secrets, customer records or real API credentials into the repository.
 
-The privacy text discloses the planned Formspree/inbox processing. Confirm provider retention settings and delete requests when no longer needed. There are no tracking cookies or marketing scripts. Check a real mailbox delivery, mobile flow and launch content after choosing the host.
+## November 23 audit follow-up
 
-## Files
+See [audit changes and verification](docs/AUDIT-REVIEW.md). The follow-up improves the short-inquiry route, service-page contact and policy navigation, copy/readability, Worker body limits and transformed HTML responses. Existing prices and policy text remain subject to owner review.
 
-- `public/index.html`: final customer copy, sections, forms, privacy and service details.
-- `public/styles.css`: design tokens and responsive styling.
-- `public/app.js`: menus, dialogs, form validation, pending/error/success states.
-- `public/fonts/`: self-hosted IBM Plex Sans 400/500/600 with OFL license.
-- `src/validation.js`: authoritative request validation.
-- `src/server.js`: HTTP server, delivery adapter and security controls.
-- `test/`: validation/API and browser tests.
-- `scripts/check-release.js`: launch configuration guard.
-- `docs/DESIGN.md`: design rationale and architecture.
-- `docs/REVIEW.md`: scope, verification and remaining launch requirements.
-
-## Maintenance
-
-Review Node security releases and test dependency updates. No customer records are written to disk, and form contents are never logged by this app. Hosting and email providers may have their own logs/retention; configure them accordingly. Update copy and pricing in one HTML file. Keep future reviews unpublished until genuine customer permission and quotes are available.
+`npm run preview:build` creates a non-submitting, noindex static review mirror in `review-preview/`. It is not a production build or a form-delivery test. Keep it on a dedicated preview branch only.

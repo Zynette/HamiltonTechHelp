@@ -24,7 +24,17 @@ export const projectTypes = [
   'Mobile layout or website troubleshooting',
   'Domain, contact form or basic search setup',
   'Booking, payment or other integration',
+  'Business email or Microsoft 365 setup',
+  'Booking or inquiry form setup',
+  'Website care or ongoing updates',
   'Other website project — review required',
+];
+export const budgetRanges = [
+  'Not sure yet',
+  'Under $500 CAD',
+  '$500–$1,000 CAD',
+  '$1,000–$2,500 CAD',
+  '$2,500+ CAD',
 ];
 export function validateRequest(body, now = new Date()) {
   const errors = {};
@@ -70,6 +80,7 @@ export function validateRequest(body, now = new Date()) {
       }
     }
     text('timeframe', 120);
+    if (body.budget !== undefined && body.budget !== '') choice('budget', budgetRanges);
   } else {
     choice('device', devices);
     choice('category', categories);

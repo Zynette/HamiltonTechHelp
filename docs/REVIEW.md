@@ -1,3 +1,9 @@
+# Issue #4 — November 2026 review status
+
+The material below is a historical October 2026 implementation handoff, **not an accurate description of today's live deployment or this feature branch**. Current Issue #4 changes add seven routable pages, updated customer positioning, original concept portfolio, business-service form choices, canonical host redirects and a PR test workflow. New prices and legal/payment terms still require owner approval. Tests must be reported from the actual PR CI run, not assumed. See [Issue #4 owner launch handoff](ISSUE-4-OWNER-LAUNCH.md).
+
+---
+
 # Initial website — review handoff
 
 ## Proposed pull request
