@@ -4,15 +4,11 @@ import { join } from 'node:path';
 
 const source = fileURLToPath(new URL('../public/', import.meta.url));
 const output = fileURLToPath(new URL('../review-preview/', import.meta.url));
-const sitePages = new Set([
-  'remote-tech-support',
-  'website-design',
-  'website-maintenance',
-  'business-solutions',
-  'portfolio',
-  'about',
-  'contact',
-]);
+const sitePages = new Map(
+  JSON.parse(await readFile(new URL('../src/studio-pages.json', import.meta.url), 'utf8')).map(
+    (p) => [p.path.slice(1), p.file],
+  ),
+);
 
 await mkdir(output, { recursive: true });
 await cp(source, output, { recursive: true, force: true });
@@ -29,7 +25,7 @@ for (const name of files.filter((entry) => entry.endsWith('.html'))) {
     const pathname = fragmentAt < 0 ? target : target.slice(0, fragmentAt);
     const fragment = fragmentAt < 0 ? '' : target.slice(fragmentAt);
     if (pathname === '') return start + './index.html' + fragment + end;
-    if (sitePages.has(pathname)) return start + './' + pathname + '.html' + fragment + end;
+    if (sitePages.has(pathname)) return start + './' + sitePages.get(pathname) + fragment + end;
     return start + './' + target + end;
   });
 
@@ -55,7 +51,7 @@ for (const name of files.filter((entry) => entry.endsWith('.html'))) {
   await writeFile(path, html);
 }
 
-const cssPath = join(output, 'styles.css');
+const cssPath = join(output, 'studio.css');
 const css = await readFile(cssPath, 'utf8');
 await writeFile(cssPath, css.replace(/url\(\s*(['"]?)\/fonts\//g, 'url($1./fonts/'));
 
@@ -99,3 +95,9 @@ document.addEventListener('submit', (event) => {
 
 await writeFile(join(output, '.nojekyll'), '');
 console.log('Prepared static, non-submitting review preview at review-preview/index.html.');
+
+const jsPath = join(output, 'studio.js');
+let js = await readFile(jsPath, 'utf8');
+js = js.replace('atmosphere();', '// Weather is disabled in the static preview.');
+js = js.replace("(fil ? '/fil' : '/')", "(fil ? './fil-index.html' : './index.html')");
+await writeFile(jsPath, js);

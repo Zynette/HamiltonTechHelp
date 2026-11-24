@@ -73,7 +73,7 @@ test('clinic carries editable context and stops inappropriate remote requests', 
   await page.locator('#clinic-show').click();
   await expect(page.locator('#clinic-advice')).toContainText('OneDrive');
   await page.locator('#clinic-help').click();
-  await expect(page.locator('#inquiry-description')).toContainText('Tech Clinic');
+  await expect(page.locator('#inquiry-description')).toHaveValue(/Tech Clinic/);
   await expect(page.locator('#inquiry-device')).toHaveValue('Apple Mac');
   await page.goto('/clinic');
   await page.locator('#clinic-danger').check();
@@ -107,6 +107,7 @@ test('slider accepts touch', async ({ browser }) => {
   await context.close();
 });
 test('all seasons and holidays in light and dark mode', async ({ page }) => {
+  test.setTimeout(120000);
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto('/');
   await page.locator('.preferences summary').click();

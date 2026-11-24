@@ -27,7 +27,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font:
-    16px/1.65 Plex,
+    1rem/1.65 Plex,
     Arial,
     sans-serif;
   transition:
