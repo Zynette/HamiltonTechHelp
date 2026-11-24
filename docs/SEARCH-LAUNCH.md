@@ -1,34 +1,37 @@
-# Current search readiness — November 2026
+# Search readiness — November 23, 2026
 
-The onlinetechnicalhelp.com domain is the intended public canonical host, but this branch has **not** been deployed, indexed or submitted to Search Console by ChatGPT. Current issue #4 code publishes seven additional useful service/information routes and sitemap entries. The Worker redirects public `www` and HTML extension URL variants to canonical HTTPS extensionless page URLs, while keeping `workers.dev` previews noindex. Metadata and schema are generated only for published pages. No fabricated review, hours, shop address or Google ranking claim is made.
+Production hosting is the Cloudflare Worker described in `CLOUDFLARE-DEPLOYMENT.md`. Node is the local/test adapter. PR #5 and the audit branch are review changes; their routes and metadata must not be described as live until an approved deployment is verified.
 
-The Google guidance and background below remain useful, but previous references to a private unlaunched preview are historical. Follow the [owner-only launch checklist](ISSUE-4-OWNER-LAUNCH.md) for current production verification, real Search Console setup, indexing checks and consent/privacy review before installing analytics.
+## Implemented in review source
 
----
+- Eight useful routes with unique titles/descriptions and semantic headings.
+- HTTPS canonical and Open Graph URLs, Organization/WebSite/Service JSON-LD and an eight-entry sitemap from `src/site.js`.
+- Remote-only language. Hamilton identifies the business base, not a storefront or on-site service.
+- Worker www and direct HTML redirects. Source tests do not establish edge/DNS behaviour.
+- workers.dev pages carry noindex, with crawling disabled and no public sitemap. The separate static review mirror also carries noindex.
+- Original concept work is clearly labelled; no invented reviews, addresses, hours or ranking guarantees.
 
-# Search readiness and remote-only positioning
+## Owner launch sequence
 
-Reviewed 2 October 2026 against Google's official guidance:
+1. Approve the named feature commit and content; deploy using the existing Cloudflare process, not a Node hosting guide or the generated review mirror.
+2. Verify actual public apex/www HTTPS, all eight routes, canonical tags, robots and sitemap. Confirm pages are not accidentally noindex. Test an unknown path for a real 404.
+3. Complete real receiving-inbox checks for all three forms before promoting the site. Search visibility cannot repair broken lead delivery.
+4. Verify the domain in Google Search Console using the owner's account/DNS access. Submit `/sitemap.xml`, inspect the homepage and service pages, and request indexing where appropriate.
+5. Monitor indexed URLs and actual search queries. Add problem-specific pages only when they answer distinct customer needs, such as remote Outlook troubleshooting or fixing a business contact form. Avoid duplicate city pages and unsupported search-volume claims.
+6. Keep a weekly count of qualified inquiries, quotes and paid work by self-reported source. Add analytics only after choosing the data collected, retention and privacy/consent approach.
 
-- [Business Profile eligibility](https://support.google.com/business/answer/13763036?hl=en): online-only businesses are ineligible; eligible service businesses generally make in-person contact. This business is remote-only. Do not create a Google Business Profile or claim a storefront, home address or physical service area to obtain eligibility. If the owner already has a profile, review its actual status with the owner and Google support before proposing an account-level correction. No existing profile has been identified or modified in this work.
-- [Search technical requirements](https://developers.google.com/search/docs/essentials/technical): normal organic search is separate from Business Profile. The site must be accessible to Google, return a successful response and permit indexing.
-- [Search Console verification](https://support.google.com/webmasters/answer/9008080): ownership verification requires the owner's domain or site access.
+No Search Console property, DNS setting, analytics account or indexing request was changed by this work. Indexing and rankings are not guaranteed.
 
-## Implemented in the repository
+## Business Profile eligibility
 
-- Remote-only descriptions; Hamilton identifies the owner's base, not a storefront or visit area.
-- Distinct remote support and website sections with clear headings and internal links.
-- Accurate title, description and social metadata; no ranking promises, invented reviews or Apple certification claims.
-- Production canonical URL and sitemap based on `SITE_URL`.
-- Production Organization, WebSite and Service JSON-LD. No LocalBusiness, street address, opening hours or in-person service area.
-- Development pages are noindex; sitemap is unavailable and robots disallows crawling until production is configured.
+Google excludes online-only businesses from Business Profile eligibility. This business is remote-only, so do not create a map listing, invent an address or claim visits to qualify. Organic search does not require a Business Profile.
 
-## Owner-controlled launch steps
+Sources reviewed November 23, 2026:
 
-1. Connect the purchased domain onlinetechnicalhelp.com to a compatible host and explicitly authorize public access. Preserve the existing preview as private until then. A custom domain is not itself required for indexing, but a private sign-in wall prevents search engines from accessing content.
-2. Deploy the Node service with `SITE_URL`, `NODE_ENV=production` and a verified form provider ID. The current Sites preview is static: it does not run the Node API or inject production schema/sitemap. Domain connection alone does not enable those functions. A future Sites production launch needs a compatible server implementation, or use a Node-capable host.
-3. Verify delivery for all three forms with owner-authorized test messages. Confirm provider privacy/retention and host-specific rate limiting before accepting public requests.
-4. Verify the public site in Google Search Console using the owner's account/domain access; submit `/sitemap.xml`, inspect the homepage and request indexing. Check that no login or noindex remains on the public deployment.
-5. Monitor actual indexing and search queries. Earn legitimate references and customer feedback without fabricating reviews or exchanging incentives for positive reviews. Search engines decide indexing and rankings; neither is guaranteed.
+- https://support.google.com/business/answer/13763036?hl=en-CA
+- https://developers.google.com/search/docs/essentials/technical
+- https://support.google.com/webmasters/answer/9008080
 
-No Google account, Business Profile or Search Console property was created or changed. No indexing request, domain purchase or public launch was performed.
+## Remaining checks
+
+Search Console/index coverage, external links, live structured-data validation and field Core Web Vitals require production access or real data. Source checks and local browser tests are not substitutes. A social sharing image and useful original articles are worthwhile follow-up improvements, not launch blockers. The eight-page sitemap should list canonical pages only, excluding mirrors, dialogs, assets and query-string variations.

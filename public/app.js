@@ -56,6 +56,11 @@ document.querySelectorAll('[data-dialog]').forEach((button) =>
 );
 document.querySelectorAll('dialog').forEach((dialog) => {
   dialog.querySelector('.close-dialog').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('close', () => {
+    if (requestRoutes[window.location.hash]?.dialog === dialog.id) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  });
   // Escape and focus trapping/return are provided by the native modal dialog.
 });
 document.querySelectorAll('[data-category]:not([data-book])').forEach((button) =>
@@ -186,10 +191,10 @@ document.querySelectorAll('.request-form').forEach((form) => {
       status.dataset.state = 'success';
       status.textContent =
         form.dataset.kind === 'booking'
-          ? 'Your appointment request was accepted by the delivery service. I’ll review the scope and availability, then propose a quote and time. Nothing has been charged or booked; confirmation requires your approval, any agreed payment and written confirmation.'
+          ? 'Your appointment request has been sent. I’ll review your issue and preferred time before proposing the next step. Your appointment is not confirmed yet, and no payment has been taken.'
           : form.dataset.kind === 'project'
-            ? 'Your project inquiry was accepted by the delivery service. I’ll review the scope and availability before proposing a quote. No project or deadline is confirmed yet.'
-            : 'Your inquiry was accepted by the delivery service. I’ll review whether remote help is suitable and reply if I can assist. No appointment is confirmed yet.';
+            ? 'Your project inquiry has been sent. I’ll review your brief and availability before proposing a quote. No project or deadline is confirmed yet.'
+            : 'Your inquiry has been sent. I’ll review your issue to see whether remote help is suitable. No appointment is confirmed yet.';
       form.reset();
       status.focus();
     } catch (error) {
@@ -226,6 +231,8 @@ const requestRoutes = {
     dialog: 'project-dialog',
     projectType: 'Website care or ongoing updates',
   },
+  '#privacy': { dialog: 'privacy-dialog' },
+  '#terms': { dialog: 'terms-dialog' },
 };
 function openRequestRoute() {
   const route = requestRoutes[window.location.hash];

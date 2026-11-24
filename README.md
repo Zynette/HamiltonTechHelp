@@ -62,3 +62,9 @@ No tracking cookies, external browser fonts, payment fields or file uploads are 
 ## Deploy/rollback
 
 Production Cloudflare deployment is connected to the owner-controlled Git workflow; this branch is **not** deployed. Follow `docs/CLOUDFLARE-DEPLOYMENT.md` for prerequisites, smoke tests, and rolling back to the previous healthy Worker version. Never put secrets, customer records or real API credentials into the repository.
+
+## November 23 audit follow-up
+
+See [audit changes and verification](docs/AUDIT-REVIEW.md). The follow-up improves the short-inquiry route, service-page contact and policy navigation, copy/readability, Worker body limits and transformed HTML responses. Existing prices and policy text remain subject to owner review.
+
+`npm run preview:build` creates a non-submitting, noindex static review mirror in `review-preview/`. It is not a production build or a form-delivery test. Keep it on a dedicated preview branch only.
