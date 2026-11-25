@@ -1130,3 +1130,9 @@ footer .small {
 .form-row > * {
   min-width: 0;
 }
+/* Keep rotated seasonal artwork inside the narrower tablet side margin. */
+@media (min-width: 601px) and (max-width: 800px) {
+  .season-decoration {
+    right: 0;
+  }
+}
