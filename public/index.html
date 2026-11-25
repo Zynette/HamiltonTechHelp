@@ -3,747 +3,272 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Online Technical Help | Websites, Remote IT &amp; Business Digital Setup</title>
+    <title>Patient Remote Tech Help &amp; Thoughtful Websites | Online Technical Help</title>
     <meta
       name="description"
-      content="Websites, remote Windows and Mac tech support, and practical digital setup for small businesses. Based in Hamilton, Ontario; serving customers remotely by written quote."
+      content="Remote tech support from Hamilton, Canada. Personal computer help, website design, free guides and the Digital Tech Clinic."
     />
-    <meta name="theme-color" content="#edf0ee" />
-    <meta name="author" content="Online Technical Help" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="en_CA" />
-    <meta property="og:site_name" content="Online Technical Help" />
-    <meta
-      property="og:title"
-      content="Online Technical Help | Websites, Remote IT &amp; Business Digital Setup"
-    />
+    <meta property="og:title" content="Patient Remote Tech Help &amp; Thoughtful Websites" />
     <meta
       property="og:description"
-      content="Remote computer support, business websites, updates and practical digital setup. Based in Hamilton, Ontario, with remote-only service and clear written quotes."
+      content="Remote tech support from Hamilton, Canada. Personal computer help, website design, free guides and the Digital Tech Clinic."
     />
+    <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary" />
     <!-- SITE_METADATA -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link
-      rel="preload"
-      href="/fonts/ibm-plex-sans-latin-400-normal.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link rel="stylesheet" href="/styles.css" />
-    <script src="/app.js" defer></script>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/studio.css" />
+    <script type="module" src="/studio.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <div class="site-shell">
-      <header class="site-header">
-        <a class="identity" href="#" aria-label="Online Technical Help home"
-          ><span class="brand-mark" aria-hidden="true">OT</span
-          ><span
-            ><strong>Online Technical Help<span class="brand-dot">.</span></strong
-            ><small>Remote help &amp; web design</small></span
-          ></a
-        >
-        <button class="menu-toggle" aria-controls="navigation" aria-expanded="false">
-          Menu <span aria-hidden="true">+</span>
-        </button>
-        <nav id="navigation" aria-label="Main navigation">
-          <a href="#services">Tech help</a><a href="#websites">Websites</a
-          ><a href="#pricing">Pricing</a> <a href="#portfolio">Work</a><a href="#faq">FAQ</a
-          ><button class="button button-dark nav-cta" data-book>Request help</button>
+    <div class="shell">
+      <header class="masthead">
+        <a class="wordmark" href="/">Online Technical Help<span>The living tech studio</span></a>
+        <nav aria-label="Main navigation">
+          <a href="/remote-tech-support">Tech help</a><a href="/website-design">Websites</a
+          ><a href="/clinic">Tech Clinic</a><a href="/resources">Resources</a
+          ><a href="/journal">Journal</a>
         </nav>
+        <a class="language" href="/fil" lang="fil">Filipino</a>
       </header>
+      <div class="utility">
+        <details class="preferences">
+          <summary>Make yourself comfortable</summary>
+          <div class="preference-fields">
+            <label
+              >Season & holiday<select id="theme-choice">
+                <option value="auto">Auto</option>
+                <option value="spring">Spring</option>
+                <option value="summer">Summer</option>
+                <option value="autumn">Autumn</option>
+                <option value="winter">Winter</option>
+                <option value="christmas">Christmas</option>
+                <option value="new-year">New Year</option>
+                <option value="valentine">Valentine</option>
+                <option value="easter">Easter</option>
+                <option value="canada-day">Canada Day</option>
+                <option value="halloween">Halloween</option>
+                <option value="thanksgiving">Thanksgiving</option>
+              </select></label
+            ><label
+              >Appearance<select id="appearance">
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select></label
+            ><label class="check"><input id="calm" type="checkbox" />Calm mode</label
+            ><label class="check"><input id="large-text" type="checkbox" />Larger text</label>
+          </div>
+        </details>
+        <span id="weather" class="small">A little atmosphere from Hamilton</span>
+      </div>
       <main id="main">
-        <section class="hero" aria-labelledby="hero-heading">
-          <div class="hero-copy">
-            <p class="eyebrow">
-              <span class="status-dot"></span> BASED IN HAMILTON, ONTARIO · ONLINE ONLY
+        <section class="hero">
+          <div>
+            <p class="eyebrow">Independent tech help · Hamilton, Canada</p>
+            <h1>A little clarity.<br />A better day.</h1>
+            <p class="lead">
+              Patient help with everyday technology. Thoughtful websites for small businesses. Work
+              directly with an independent IT professional, wherever you feel at home.
             </p>
-            <h1 id="hero-heading">
-              Websites. Tech help.<br /><span class="muted-heading">A clearer next step.</span>
-            </h1>
-            <p class="hero-description">
-              Get help with a computer problem, a business website or the tools you use every day.
-              Work directly with an independent IT professional, with the scope and price agreed
-              before work begins. Based in Hamilton. All services are remote.
-            </p>
-            <p class="credential-note">
-              Bachelor’s degree in Information Technology · Software Support diploma · Windows +
-              Apple support
-            </p>
-            <div class="hero-actions">
-              <button class="button button-dark" data-dialog="project-dialog">
-                Get a website quote</button
-              ><a class="text-link" href="#ask"> Ask about a tech problem </a>
+            <div class="actions">
+              <a class="button" href="/#ask">Ask for help</a
+              ><a class="text-link" href="/#website-quote">Discuss a website</a>
             </div>
-            <div class="hero-pricing">
-              <div>
-                <span>REMOTE SUPPORT</span>
-                <p>from <strong>$40</strong></p>
-                <span>STARTING PRICE</span>
-              </div>
-              <span class="price-divider" aria-hidden="true"></span>
-              <div>
-                <span>WEBSITE DESIGN</span>
-                <p class="quote-label">Quoted individually</p>
-              </div>
-              <small
-                >CAD<br />
-                By appointment</small
-              >
-            </div>
+            <p class="small">Remote support from $40 CAD. Scope and price agreed before work.</p>
           </div>
-          <div
-            class="hero-art"
-            aria-label="Illustration of everyday tech support. This is not a live diagnostic."
-          >
-            <div class="art-top">
-              <span class="eyebrow">A LITTLE HELP GOES A LONG WAY</span
-              ><span class="orbit-symbol" aria-hidden="true">⊕</span>
-            </div>
-            <div class="technical-grid" aria-hidden="true"></div>
-            <div class="connection-path" aria-hidden="true"></div>
-            <div class="support-window">
-              <div class="window-toolbar">
-                <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span
-                ><span>EVERYDAY TECH / SUPPORT</span>
-              </div>
-              <div class="window-content">
-                <div class="device-icon" aria-hidden="true">
-                  <svg viewBox="0 0 60 52">
-                    <rect x="7" y="3" width="46" height="33" rx="4" />
-                    <path d="M22 46h16M30 36v10M20 20l7 7 14-15" />
-                  </svg>
-                </div>
-                <p class="window-title">
-                  Let’s get you<br />
-                  back to your day.
-                </p>
-                <p>One issue. One person to help.</p>
-                <div class="window-bottom">
-                  <span><i class="status-dot"></i> YOUR TECH, EXPLAINED</span
-                  ><span aria-hidden="true">01 — 03</span>
-                </div>
-              </div>
-            </div>
-            <div class="device-note printer-note">
-              <span class="mini-icon" aria-hidden="true"
-                ><svg viewBox="0 0 24 24">
-                  <path d="M6 9V3h12v6M6 17H3V9h18v8h-3M6 14h12v7H6zM17 11h1" /></svg></span
-              ><span><strong>Printer problems?</strong><small>Let’s work through it.</small></span>
-            </div>
-            <div class="device-note file-note">
-              <span class="mini-icon" aria-hidden="true"
-                ><svg viewBox="0 0 24 24">
-                  <path d="M3 7h7l2 3h9v10H3zM3 7V4h7l3 3h7v3" /></svg></span
-              ><span
-                ><strong>A fresh start.</strong><small>New computer. Familiar files.</small></span
-              >
-            </div>
-            <div class="art-caption">
-              <span>SUPPORT, MADE PERSONAL.</span><span>ILLUSTRATION · NOT LIVE STATUS</span>
-            </div>
-          </div>
+          <figure class="hero-photo">
+            <img
+              src="/images/studio.jpg"
+              width="1400"
+              height="933"
+              fetchpriority="high"
+              alt="A quiet home workspace with a laptop and cactus"
+            />
+            <div class="season-decoration" aria-hidden="true"><i></i><i></i><i></i></div>
+            <figcaption id="edition">A studio for every season</figcaption>
+          </figure>
         </section>
-        <div class="trust-strip" aria-label="What you can expect">
-          <span>Written quotes before work</span><span>Plain-language guidance</span
-          ><span>Remote access under your control</span>
-        </div>
-        <section class="section services-section" id="services" aria-labelledby="services-title">
-          <div class="section-heading">
-            <p class="eyebrow">01 / EVERYDAY PROBLEMS, PRACTICAL HELP</p>
-            <div class="heading-row">
-              <h2 id="services-title">Sound familiar?</h2>
-              <p>
-                You don’t need the technical terms.<br />
-                Start with what’s happening.
-              </p>
-            </div>
-          </div>
-          <div class="problem-layout">
-            <button class="featured-problem" data-category="General computer problem">
-              <span class="eyebrow">START ANYWHERE</span
-              ><span class="featured-title"
-                >“I don’t know<br />
-                what’s wrong.<br />
-                I just need help.”</span
-              ><span class="featured-bottom">That’s a perfectly good place to start. </span>
-            </button>
-            <div class="problem-list">
-              <button data-category="Printer/scanner">
-                <span class="problem-number">01</span
-                ><span
-                  >“My printer stopped working.”<small
-                    >Printer &amp; scanner setup and connection help</small
-                  ></span
-                >
-              </button>
-              <button data-category="Outlook/email">
-                <span class="problem-number">02</span
-                ><span
-                  >“My email isn’t doing what it should.”<small
-                    >Outlook, email setup and everyday errors</small
-                  ></span
-                >
-              </button>
-              <button data-category="Microsoft 365/OneDrive">
-                <span class="problem-number">03</span
-                ><span
-                  >“Where did my files go?”<small
-                    >Microsoft 365 &amp; OneDrive sync confusion</small
-                  ></span
-                >
-              </button>
-              <button data-category="New computer setup">
-                <span class="problem-number">04</span
-                ><span
-                  >“New laptop. Now what?”<small
-                    >Computer setup and help moving your files</small
-                  ></span
-                >
-              </button>
-            </div>
-          </div>
-          <details class="all-services">
-            <summary>See everything I can help with <span aria-hidden="true">+</span></summary>
-            <div class="service-directory">
-              <article>
-                <h3>Remote troubleshooting</h3>
-                <p>Work through everyday software issues together, from your own home.</p>
-                <small>REMOTE</small>
-              </article>
-              <article>
-                <h3>Printer &amp; scanner help</h3>
-                <p>
-                  Guided software setup and connection checks. Physical repairs need a local
-                  provider.
-                </p>
-                <small>REMOTE</small>
-              </article>
-              <article>
-                <h3>Outlook &amp; email</h3>
-                <p>Help with setup, sending, receiving and confusing error messages.</p>
-                <small>REMOTE</small>
-              </article>
-              <article>
-                <h3>Microsoft 365 &amp; OneDrive</h3>
-                <p>Apps, file locations and sync settings explained in plain language.</p>
-                <small>REMOTE</small>
-              </article>
-              <article>
-                <h3>New computer setup</h3>
-                <p>Get your Windows or Apple computer, updates and everyday apps ready to use.</p>
-                <small>REMOTE · SUITABILITY CHECK FIRST</small>
-              </article>
-              <article>
-                <h3>File transfer</h3>
-                <p>
-                  Guidance for moving agreed files when remote help is suitable, with a backup plan
-                  first.
-                </p>
-                <small>REMOTE · SUITABILITY CHECK FIRST</small>
-              </article>
-              <article>
-                <h3>Windows &amp; software issues</h3>
-                <p>Investigate slow performance, unwanted startup apps and software errors.</p>
-                <small>REMOTE</small>
-              </article>
-              <article>
-                <h3>Apple device help</h3>
-                <p>
-                  Everyday Mac, iPhone and iPad guidance where remote support is suitable.
-                  Independent help; no Apple certification or affiliation is claimed.
-                </p>
-                <small>REMOTE · SUITABILITY CHECK FIRST</small>
-              </article>
-              <article>
-                <h3>General computer help</h3>
-                <p>Patient guidance for everyday tasks and the questions you’ve been saving up.</p>
-                <small>REMOTE</small>
-              </article>
-              <article>
-                <h3>Basic Wi-Fi &amp; connectivity</h3>
-                <p>
-                  Guided connection checks while you have working internet. On-site network work
-                  needs another provider.
-                </p>
-                <small>REMOTE · WORKING CONNECTION NEEDED</small>
-              </article>
-            </div>
-          </details>
-        </section>
-        <section class="section websites-section" id="websites" aria-labelledby="websites-title">
-          <div class="section-heading">
-            <p class="eyebrow">02 / BUSINESS WEBSITES</p>
-            <div class="heading-row">
-              <h2 id="websites-title">Websites designed<br />for real customers.</h2>
-              <p>
-                Simple, clear websites, redesigns and practical updates for independent
-                professionals and small businesses. Each project starts with a written scope.
-              </p>
-            </div>
-          </div>
-          <div class="service-directory website-services">
-            <article>
-              <h3>Business websites and redesigns</h3>
-              <p>
-                Informational websites, landing pages and portfolios that explain what you do and
-                how to reach you.
-              </p>
-            </article>
-            <article>
-              <h3>Updates and troubleshooting</h3>
-              <p>
-                Text, photos, prices, links and layouts. Mobile layout improvements and
-                troubleshooting for an existing site.
-              </p>
-            </article>
-            <article>
-              <h3>Launch and integration support</h3>
-              <p>
-                Domain connection, contact-form setup, basic search setup and selected booking,
-                payment or other integrations after a feasibility review. Search visibility and
-                rankings aren’t guaranteed.
-              </p>
-            </article>
-          </div>
-          <div class="website-next">
-            <div>
-              <h3>Quoted individually</h3>
-              <p>
-                Send a short brief first. We’ll agree on scope, page count, revisions, timeline,
-                price and handover before work begins. Hosting, domains, paid tools and ongoing
-                maintenance are itemized separately in the quote.
-              </p>
-              <p>
-                Projects depend on availability. Larger stores, custom applications, advanced
-                integrations and urgent ongoing maintenance are reviewed individually; work begins
-                only after a written quote.
-              </p>
-            </div>
-            <button class="button button-dark" data-dialog="project-dialog">
-              Get a website quote
-            </button>
-          </div>
-        </section>
-        <section
-          class="section business-section"
-          id="business-solutions"
-          aria-labelledby="business-title"
-        >
-          <div class="section-heading">
-            <p class="eyebrow">03 / BUSINESS DIGITAL SETUP</p>
-            <div class="heading-row">
-              <h2 id="business-title">Simple systems.<br />Less admin friction.</h2>
-              <p>
-                Business email, inquiry forms and booking tools, configured around the way you work.
-              </p>
-            </div>
-          </div>
-          <div class="service-directory">
-            <article>
-              <h3>Business email &amp; Microsoft 365</h3>
-              <p>
-                Discuss an authorized mailbox or productivity setup. Access and provider costs stay
-                under your control.
-              </p>
-            </article>
-            <article>
-              <h3>Inquiry forms &amp; booking setup</h3>
-              <p>
-                Plan how customers contact you and request appointments. Provider compatibility and
-                testing are checked first.
-              </p>
-            </article>
-            <article>
-              <h3>Practical handover</h3>
-              <p>
-                Agree on a manageable workflow, handover instructions and clear limits. Complex
-                automation is scoped separately.
-              </p>
-            </article>
-          </div>
-          <div class="section-inline-cta">
+        <section class="service-list" id="services">
+          <h2>What can I make easier?</h2>
+          <a class="service-row" href="/remote-tech-support"
+            ><h3>Everyday tech, explained.</h3>
             <p>
-              Tell me what you use now and what you would like to make easier. I’ll review the
-              options and quote the work before making changes.
-            </p>
-            <button
-              class="button button-outline"
-              data-dialog="project-dialog"
-              data-project-type="Business email or Microsoft 365 setup"
-            >
-              Ask about business setup
-            </button>
-          </div>
-          <a class="text-link" href="/business-solutions">Explore business solutions </a>
+              Windows, Mac, email, OneDrive and printer connections. Start with what is happening.
+            </p></a
+          ><a class="service-row" href="/website-design"
+            ><h3>A website that feels like you.</h3>
+            <p>New websites, redesigns and considered updates for independent businesses.</p></a
+          ><a class="service-row" href="/business-solutions"
+            ><h3>A smoother working day.</h3>
+            <p>
+              Business email, booking forms and practical tools, scoped around your workflow.
+            </p></a
+          >
         </section>
-        <section class="section pricing-section" id="pricing" aria-labelledby="pricing-title">
-          <div class="section-heading">
-            <p class="eyebrow">04 / TRANSPARENT QUOTES</p>
-            <div class="heading-row">
-              <h2 id="pricing-title">
-                A little clarity.<br />
-                Starting with the price.
-              </h2>
-              <p>
-                Starting prices are not open-ended contracts. I’ll confirm deliverables, limits,
-                taxes and any third-party charges in a written CAD quote before work.
-              </p>
-            </div>
-          </div>
-          <div class="pricing-main">
-            <article class="price-panel remote-panel">
-              <div class="price-label">
-                <h3>Remote tech help</h3>
-              </div>
-              <div class="price-amount"><span>from</span>$40</div>
-              <p>
-                Defined remote support tasks are quoted from $40 after I review whether remote help
-                is suitable.
-              </p>
-              <div class="price-extra">
-                A written quote sets the scope, price and expected duration. New work needs your
-                approval.
-              </div>
-              <button class="button button-dark" data-book data-method="Remote">
-                Request remote help
-              </button>
-            </article>
-            <article class="price-panel">
-              <div class="price-label">
-                <h3>Website design &amp; support</h3>
-              </div>
-              <div class="price-amount project-price">By written quote</div>
-              <p>
-                Choose a website fix, one-page starter or a small multi-page site. Pages, revisions,
-                handover and costs are scoped in writing.
-              </p>
-              <div class="price-extra">
-                Quote, payment stages <strong>agreed before work</strong>
-              </div>
-              <button class="button button-outline" data-dialog="project-dialog">
-                Ask for a website quote
-              </button>
-            </article>
-          </div>
-          <div class="package-grid" aria-label="Website and digital setup options">
-            <article class="package-card">
-              <span class="eyebrow">ONE-TIME · QUOTED</span>
-              <h3>Website fix or update</h3>
-              <p>
-                Small content changes, broken links, or a form or layout review on an existing site.
-              </p>
-              <p class="package-limit">
-                Included edits, revision allowance and platform compatibility are agreed first.
-                Hosting, subscriptions and major redesigns are extra.
-              </p>
-              <button
-                class="text-link"
-                data-dialog="project-dialog"
-                data-project-type="Website content updates"
-              >
-                Request a fix quote
-              </button>
-            </article>
-            <article class="package-card">
-              <span class="eyebrow">NEW SITE · QUOTED</span>
-              <h3>One-page starter website</h3>
-              <p>
-                One focused page with your approved information, mobile layout and contact route.
-              </p>
-              <p class="package-limit">
-                Content, revisions, domain, hosting, testing and handover are specified in writing.
-                Paid tools are separate.
-              </p>
-              <button
-                class="text-link"
-                data-dialog="project-dialog"
-                data-project-type="New business website, landing page or portfolio"
-              >
-                Request a starter quote
-              </button>
-            </article>
-            <article class="package-card">
-              <span class="eyebrow">MULTI-PAGE · QUOTED</span>
-              <h3>Small business website</h3>
-              <p>
-                Discuss a website of up to five agreed pages with service information and inquiry
-                flow.
-              </p>
-              <p class="package-limit">
-                Page count, revision rounds, copy, images, integrations and timeline are quoted.
-                Domains, hosting and future care are separate.
-              </p>
-              <button
-                class="text-link"
-                data-dialog="project-dialog"
-                data-project-type="New business website, landing page or portfolio"
-              >
-                Request a website quote
-              </button>
-            </article>
-            <article class="package-card">
-              <span class="eyebrow">BUSINESS SETUP · QUOTED</span>
-              <h3>Email or booking setup</h3>
-              <p>Discuss business email, customer inquiry or appointment-tool configuration.</p>
-              <p class="package-limit">
-                Provider selection, one-time steps, testing and handover are agreed first.
-                Subscription and third-party fees are not included.
-              </p>
-              <button
-                class="text-link"
-                data-dialog="project-dialog"
-                data-project-type="Booking or inquiry form setup"
-              >
-                Ask about digital setup
-              </button>
-            </article>
-          </div>
-          <div class="care-note">
-            <div>
-              <h3>Interested in ongoing website care?</h3>
-              <p>
-                Start with a specific update you need. If you expect regular changes, mention that
-                in your inquiry so we can discuss a suitable scope. Monthly plans are not currently
-                available to purchase.
-              </p>
-            </div>
-            <button
-              class="button button-outline"
-              data-dialog="project-dialog"
-              data-project-type="Website care or ongoing updates"
-            >
-              Discuss website care
-            </button>
-          </div>
-          <div class="setup-prices">
-            <div>
-              <span>New computer setup</span><strong>from $85</strong
-              ><button
-                data-book
-                data-category="New computer setup"
-                aria-label="Request new computer setup"
-              >
-                Ask
-              </button>
-            </div>
-            <div>
-              <span>New computer + file transfer</span><strong>from $110</strong
-              ><button
-                data-book
-                data-category="File transfer"
-                aria-label="Request computer setup and file transfer"
-              >
-                Ask
-              </button>
-            </div>
-          </div>
-          <p class="pricing-footnote">
-            Setup and transfer packages start at the prices above and are quoted for the agreed
-            task. A defined task keeps its quoted price if it finishes early; an estimate does not
-            automatically increase if troubleshooting takes longer. Uncertain troubleshooting is
-            scoped and priced as a diagnostic appointment, with any new work quoted separately.
-            Tech-support deposits and payment instructions are provided with the written quote.
-            Website payment stages, taxes and third-party costs are confirmed in the quote.
+        <aside class="campaign">
+          <p class="eyebrow">In season</p>
+          <p id="campaign-text">A good time to give your everyday technology some attention.</p>
+          <a class="button" href="/#ask">Ask for help</a>
+        </aside>
+        <section class="clinic-teaser">
+          <p class="eyebrow">The Digital Tech Clinic</p>
+          <h2>Start with a small,<br />safe next step.</h2>
+          <p>
+            Tell the clinic what is happening. Get a short, beginner-friendly checklist, then decide
+            whether you need personal help.
+          </p>
+          <a class="button" href="/clinic">Visit the Tech Clinic</a>
+        </section>
+        <section class="founder">
+          <p class="eyebrow">A note from the person helping you</p>
+          <h2>You can ask the “simple” question.</h2>
+          <p>
+            I know how much time a small technology problem can take out of your day. My approach is
+            to listen, explain the options clearly and work through the next step with you.
+          </p>
+          <p>
+            I have a bachelor’s degree in Information Technology, a Software Support diploma and
+            professional experience with Windows, Mac and Microsoft 365 environments. You work
+            directly with me from the first question to the final handover.
           </p>
         </section>
-        <section class="section portfolio-section" id="portfolio" aria-labelledby="portfolio-title">
-          <div class="section-heading">
-            <p class="eyebrow">05 / ORIGINAL CONCEPTS</p>
-            <div class="heading-row">
-              <h2 id="portfolio-title">Website ideas<br />for small businesses.</h2>
+        <section id="how-it-works">
+          <h2>Help, on your terms.</h2>
+          <div class="steps">
+            <article>
+              <h3>Before we meet</h3>
               <p>
-                Explore three original design concepts for service businesses. These are
-                demonstrations, not client projects.
+                Describe your issue. I review remote suitability, then agree on scope, price and a
+                time with you.
               </p>
-            </div>
-          </div>
-          <div class="sample-grid">
-            <article class="sample-card">
-              <div
-                class="sample-preview sample-clean"
-                role="img"
-                aria-label="Original cleaning service website concept in sage green"
-              >
-                <div class="sample-top">
-                  <span>STUDIO / CLEAN</span><span>Services &nbsp; Contact</span>
-                </div>
-                <div class="sample-inside">
-                  <span class="sample-kicker">HOME &amp; OFFICE CARE</span
-                  ><strong>More time for what matters.</strong
-                  ><span class="sample-chip">Request a quote</span>
-                </div>
-              </div>
-              <div class="sample-copy">
-                <span class="sample-tag">ORIGINAL CONCEPT · NOT A CLIENT</span>
-                <h3>Cleaning service</h3>
-                <p>Readable service navigation and a direct quote request, in calm sage tones.</p>
-              </div>
             </article>
-            <article class="sample-card">
-              <div
-                class="sample-preview sample-beauty"
-                role="img"
-                aria-label="Original beauty studio website concept in blush"
-              >
-                <div class="sample-top">
-                  <span>FORME / STUDIO</span><span>Studio &nbsp; Book</span>
-                </div>
-                <div class="sample-inside">
-                  <span class="sample-kicker">A SMALL MOMENT FOR YOU</span
-                  ><strong>Care, with intention.</strong
-                  ><span class="sample-chip">Explore services</span>
-                </div>
-              </div>
-              <div class="sample-copy">
-                <span class="sample-tag">ORIGINAL CONCEPT · NOT A CLIENT</span>
-                <h3>Beauty studio</h3>
-                <p>
-                  Editorial introduction with a visible service action and mobile-first hierarchy.
-                </p>
-              </div>
+            <article>
+              <h3>While we work</h3>
+              <p>
+                You approve any remote connection, watch the session and can end it. Enter your own
+                passwords privately.
+              </p>
             </article>
-            <article class="sample-card">
-              <div
-                class="sample-preview sample-bakery"
-                role="img"
-                aria-label="Original bakery website concept in warm cream"
-              >
-                <div class="sample-top">
-                  <span>DAYBREAK / BAKES</span><span>Menu &nbsp; Orders</span>
-                </div>
-                <div class="sample-inside">
-                  <span class="sample-kicker">SMALL-BATCH &amp; SEASONAL</span
-                  ><strong>Made for slow mornings.</strong
-                  ><span class="sample-chip">Ask about an order</span>
-                </div>
-              </div>
-              <div class="sample-copy">
-                <span class="sample-tag">ORIGINAL CONCEPT · NOT A CLIENT</span>
-                <h3>Neighbourhood bakery</h3>
-                <p>Warm, readable menu navigation and a simple order-inquiry path.</p>
-              </div>
+            <article>
+              <h3>Before we finish</h3>
+              <p>
+                We check the agreed work together and review any next steps. Ongoing access is not
+                kept by default.
+              </p>
             </article>
-          </div>
-          <div class="section-inline-cta">
-            <p>
-              These are original HTML/CSS concept illustrations, not screenshots of delivered
-              customer work.
-            </p>
-            <a class="button button-outline" href="/portfolio">See concept details </a>
           </div>
         </section>
-        <section class="section about-section" id="about" aria-labelledby="about-title">
+        <section id="pricing" class="pricing">
+          <h2>Clear scope. Written quotes.</h2>
+          <div class="price-lines">
+            <p>Remote tech help <strong>from $40 CAD</strong></p>
+            <p>New computer setup <strong>from $85 CAD</strong></p>
+            <p>Setup with file transfer <strong>from $110 CAD</strong></p>
+            <p>Website projects <strong>By written quote</strong></p>
+          </div>
+          <p>
+            A defined task keeps its quoted price if it finishes early. Uncertain problems are
+            scoped as diagnostic work. Additional work needs your approval. Payment timing, taxes
+            and third-party costs are agreed in the quote.
+          </p>
+          <a class="button" href="/#ask">Ask for help</a>
+        </section>
+        <section class="comparison-section">
           <div>
-            <p class="eyebrow">06 / ABOUT THE WORK</p>
-            <h2 id="about-title">Clear help, in plain language.</h2>
-          </div>
-          <div class="about-copy">
+            <p class="eyebrow">A website, reconsidered</p>
+            <h2>Small changes.<br />A clearer invitation.</h2>
             <p>
-              Online Technical Help is a remote-only service based in Hamilton, Ontario. The owner
-              has a bachelor's degree in Information Technology and a Software Support diploma, with
-              experience supporting everyday Windows and Apple workflows.
+              An original cleaning-business concept. Move the divider to compare a crowded layout
+              with a focused service page.
             </p>
-            <p>
-              You work directly with me from the first question to the final handover. I explain the
-              options in plain language, agree on the scope with you and keep you in control of any
-              remote access.
-            </p>
-            <a class="text-link" href="/about">More about my approach </a>
+            <p class="small">Design demonstration. Client results have not been measured.</p>
           </div>
-        </section>
-        <section class="section process-section" id="how-it-works" aria-labelledby="process-title">
-          <p class="eyebrow">07 / FROM REQUEST TO WRITTEN QUOTE</p>
-          <div class="heading-row">
-            <h2 id="process-title">
-              From “why won’t it work?”<br />
-              to a clear next step.
-            </h2>
-            <a class="text-link" href="#ask">Let’s start with your issue </a>
-          </div>
-          <ol class="steps">
-            <li>
-              <span class="step-number">01</span>
-              <h3>Tell me what’s wrong.</h3>
-              <p>Describe the issue and the device you’re using. A few sentences are enough.</p>
-            </li>
-            <li>
-              <span class="step-number">02</span>
-              <h3>Find the right kind of help.</h3>
-              <p>
-                I’ll assess whether remote help is suitable. If I’m available, I’ll send the
-                proposed scope, price and time. Physical or on-site problems should go to an
-                appropriate provider.
-              </p>
-            </li>
-            <li>
-              <span class="step-number">03</span>
-              <h3>Agree on the next step.</h3>
-              <p>
-                Once you approve the quote and any agreed deposit or payment arrangement, I’ll
-                confirm the appointment in writing with joining instructions. We’ll work through the
-                agreed scope together.
-              </p>
-            </li>
-          </ol>
-        </section>
-        <section class="remote-section" aria-labelledby="remote-title">
-          <div class="remote-visual" aria-hidden="true">
-            <div class="remote-orbit">
-              <span class="remote-pointer">↖</span
-              ><span class="remote-end">End session <span>×</span></span>
+          <div>
+            <div class="comparison">
+              <img
+                src="/images/before.png"
+                width="1000"
+                height="680"
+                alt="Before concept with crowded navigation and small service text"
+              />
+              <div class="comparison-after">
+                <img
+                  src="/images/after.png"
+                  width="1000"
+                  height="680"
+                  alt="After concept with a clear service headline and quote button"
+                />
+              </div>
             </div>
-            <p>YOUR SCREEN. YOUR SAY.</p>
-          </div>
-          <div class="remote-copy">
-            <p class="eyebrow">REMOTE HELP, WITH YOU IN CONTROL</p>
-            <h2 id="remote-title">
-              At your computer.<br />
-              On your terms.
-            </h2>
-            <p>
-              Many everyday Windows and Apple software issues can be handled through a temporary
-              remote support session. You approve the connection, watch what’s happening, and can
-              end it at any time.
-            </p>
-            <ul>
-              <li>No permanent, unattended access kept by default.</li>
-              <li>You enter your own passwords whenever possible.</li>
-              <li>Never send passwords by email, text or this website.</li>
-            </ul>
-            <a class="text-link" href="#ask">Ask if remote help is right for you </a>
+            <label for="compare">Before / after comparison</label
+            ><input
+              id="compare"
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              aria-valuetext="50% after"
+            />
           </div>
         </section>
-        <section class="section inquiry-section" id="ask" aria-labelledby="ask-title">
-          <div class="inquiry-copy">
-            <p class="eyebrow">START WITH A QUESTION</p>
-            <h2 id="ask-title">
-              Not sure<br />
-              what you need?
-            </h2>
+        <section>
+          <h2>A few things worth keeping.</h2>
+          <div class="resource-list">
+            <a href="/guides/spring-cleaning-en.pdf" download
+              >Computer spring cleaning <small>PDF</small></a
+            ><a href="/guides/suspicious-email-en.pdf" download
+              >Recognize suspicious emails <small>PDF</small></a
+            ><a href="/guides/new-computer-en.pdf" download
+              >New computer setup checklist <small>PDF</small></a
+            >
+          </div>
+          <a href="/resources">Explore all ten free guides</a>
+        </section>
+        <section id="faq">
+          <h2>Good questions.</h2>
+          <details>
+            <summary>Can you help remotely?</summary>
             <p>
-              A few sentences are enough. Tell me which device you use and what has gone wrong.
-              Sending a question does not book an appointment or commit you to paid work. Support is
-              by arrangement; messages are not monitored continuously.
+              Many software and setup issues can be assessed remotely when you have a working
+              connection. Physical damage, failing drives and complete internet outages may need a
+              local provider.
             </p>
-            <div class="personal-note">
-              <span class="note-line"></span>
-              <p>
-                A real person.<br />
-                A little patience.<br />
-                A simpler way forward.
-              </p>
-            </div>
-            <p class="small-copy">
-              Prefer to choose a day?<br />
-              <button class="text-link" data-book>Request an appointment</button>
+          </details>
+          <details>
+            <summary>What if the problem cannot be fixed?</summary>
+            <p>
+              The written quote explains the diagnostic scope and fee before work. If a different
+              service is needed, we discuss the next step.
+            </p>
+          </details>
+          <details>
+            <summary>Is an inquiry a booking?</summary>
+            <p>
+              I review your request and availability first. An appointment or project starts only
+              after we agree in writing.
+            </p>
+          </details>
+        </section>
+        <section id="ask" class="inquiry">
+          <div>
+            <p class="eyebrow">Start with a question</p>
+            <h2>Tell me what is happening.</h2>
+            <p>
+              A few sentences are enough. Messages are reviewed personally and are not monitored
+              continuously.
+            </p>
+            <button class="inline-link" data-dialog="booking-dialog">
+              Prefer to request an appointment?
+            </button>
+            <p>
+              <a href="mailto:techspecialistsupport@gmail.com">techspecialistsupport@gmail.com</a>
             </p>
           </div>
           <form
             id="inquiry-form"
-            class="inquiry-form request-form"
+            class="request-form"
             method="post"
             action="/api/requests"
             data-kind="inquiry"
@@ -755,9 +280,10 @@
                 ><input
                   id="inquiry-name"
                   name="name"
-                  autocomplete="name"
+                  type="text"
                   required
                   maxlength="80"
+                  autocomplete="name"
                 /><small class="field-error" id="inquiry-name-error"></small>
               </div>
               <div class="field">
@@ -766,27 +292,27 @@
                   id="inquiry-email"
                   name="email"
                   type="email"
-                  autocomplete="email"
                   required
                   maxlength="254"
+                  autocomplete="email"
                 /><small class="field-error" id="inquiry-email-error"></small>
               </div>
             </div>
             <div class="field">
-              <label for="inquiry-device">What device are you using?</label
+              <label for="inquiry-device">Your device</label
               ><select id="inquiry-device" name="device" required>
                 <option value="">Choose a device</option>
-                <option>Windows laptop</option>
-                <option>Windows desktop</option>
-                <option>Apple Mac</option>
-                <option>iPhone or iPad</option>
-                <option>Printer/scanner</option>
-                <option>Other</option></select
+                <option value="Windows laptop">Windows laptop</option>
+                <option value="Windows desktop">Windows desktop</option>
+                <option value="Apple Mac">Apple Mac</option>
+                <option value="iPhone or iPad">iPhone or iPad</option>
+                <option value="Printer/scanner">Printer or scanner</option>
+                <option value="Other">Other</option></select
               ><small class="field-error" id="inquiry-device-error"></small>
             </div>
-            <input name="category" type="hidden" value="Something else" />
+            <input type="hidden" name="category" value="General computer problem" />
             <div class="field">
-              <label for="inquiry-description">What’s happening?</label
+              <label for="inquiry-description">What would you like help with?</label
               ><textarea
                 id="inquiry-description"
                 name="description"
@@ -794,254 +320,58 @@
                 required
                 minlength="10"
                 maxlength="2000"
-                placeholder="For example: my printer shows as offline, but it’s turned on."
               ></textarea
               ><small class="field-error" id="inquiry-description-error"></small>
             </div>
             <div class="honeypot" aria-hidden="true">
-              <label for="inquiry-website">Leave this empty</label
+              <label for="inquiry-website">Leave empty</label
               ><input id="inquiry-website" name="website" tabindex="-1" autocomplete="off" />
             </div>
-            <p class="sensitive-note">
-              Don’t send passwords, banking details or other sensitive login information. If sending
-              fails, email
-              <a href="mailto:techspecialistsupport@gmail.com">techspecialistsupport@gmail.com</a>.
-            </p>
-            <p class="privacy-note">
-              I’ll use these details to respond to your question.
+            <p class="small">
+              Keep passwords, payment details and private files out of your message. Your details
+              are used to respond to your request.
               <button type="button" class="inline-link" data-dialog="privacy-dialog">
-                Privacy details
+                Privacy
+              </button>
+              ·
+              <button type="button" class="inline-link" data-dialog="terms-dialog">
+                Service terms (English)
               </button>
             </p>
-            <button type="submit" class="button button-dark" disabled>Ask about my issue</button>
+            <button class="button" type="submit" disabled>Send inquiry</button>
             <p class="form-status" role="status" tabindex="-1"></p>
-            <noscript
-              ><p>
-                Please enable JavaScript to send this form. No message has been sent.
-              </p></noscript
-            >
+            <noscript><p>Please email your request.</p></noscript>
           </form>
-        </section>
-        <section class="section faq-section" id="faq" aria-labelledby="faq-title">
-          <div>
-            <p class="eyebrow">08 / GOOD QUESTIONS</p>
-            <h2 id="faq-title">
-              A few things<br />
-              you might wonder.
-            </h2>
-          </div>
-          <div class="faq-list">
-            <details>
-              <summary>Can you fix my computer remotely?<span aria-hidden="true">+</span></summary>
-              <p>
-                Many Windows, Apple, email and software issues can be investigated remotely if your
-                computer turns on and has a working internet connection. Tell me what’s happening
-                first so I can check whether remote help is suitable.
-              </p>
-            </details>
-            <details>
-              <summary>
-                What happens during remote support?<span aria-hidden="true">+</span>
-              </summary>
-              <p>
-                After we agree on an appointment, I’ll guide you through starting a temporary
-                support session. You approve access, can watch the screen and can end the
-                connection. No unattended access or recording by default.
-              </p>
-            </details>
-            <details>
-              <summary>Do I need to give you my password?<span aria-hidden="true">+</span></summary>
-              <p>
-                Please don’t send passwords through this website or by message. You should enter
-                your own passwords whenever possible. If a sign-in is needed, we’ll discuss it
-                during the appointment.
-              </p>
-            </details>
-            <details>
-              <summary>What if you can’t fix the problem?<span aria-hidden="true">+</span></summary>
-              <p>
-                Not every issue can be fixed in a session. I’ll explain what I’ve found and any
-                options for a next step. We’ll agree on the charges before starting; time spent
-                investigating may still be billable. There’s no automatic “no fix, no fee” promise.
-              </p>
-            </details>
-            <details>
-              <summary>
-                What kinds of devices do you support?<span aria-hidden="true">+</span>
-              </summary>
-              <p>
-                The focus is Windows laptops and desktops, Apple computers and everyday Apple-device
-                questions, printers and scanners, plus basic home Wi-Fi troubleshooting. If you have
-                a different device, ask first. I don’t repair physical hardware or open devices.
-                Advanced account or device recovery may need a specialist.
-              </p>
-            </details>
-            <details>
-              <summary>
-                Do you repair broken screens or hardware?<span aria-hidden="true">+</span>
-              </summary>
-              <p>
-                No. I offer remote software, setup and connection help only. I don’t replace
-                screens, repair broken or damaged parts, or open phones, tablets, laptops or
-                desktops. Internal hardware repairs, battery replacements and liquid damage need a
-                qualified hardware repair provider. Advanced security incidents also need specialist
-                help.
-              </p>
-            </details>
-            <details>
-              <summary>Can you recover deleted files?<span aria-hidden="true">+</span></summary>
-              <p>
-                I can help check ordinary places such as the Recycle Bin or an existing backup where
-                appropriate. I don’t offer advanced data recovery. If important files are missing or
-                a drive may be failing, stop using it and contact a data-recovery specialist.
-              </p>
-            </details>
-            <details>
-              <summary>
-                Do you support company-owned computers?<span aria-hidden="true">+</span>
-              </summary>
-              <p>
-                I can consider personal/home devices and small-business-owned devices when the
-                client is authorized and the task fits the agreed scope. For employer- or
-                third-party-managed devices, obtain explicit authorization from their IT team first.
-                I never bypass security settings, account restrictions or access policies.
-              </p>
-            </details>
-            <details>
-              <summary>
-                Do you offer visits or a repair shop?<span aria-hidden="true">+</span>
-              </summary>
-              <p>
-                No. I’m based in Hamilton, Ontario and work remotely only. Physical repairs or
-                problems requiring an on-site visit need an appropriate local provider.
-              </p>
-            </details>
-            <details>
-              <summary>How and when do I pay?<span aria-hidden="true">+</span></summary>
-              <p>
-                Remote tech support is quoted from $40 for an agreed task or diagnostic scope.
-                Website and digital setup work is quoted individually. Any deposit, invoice, payment
-                milestones, applicable taxes and third-party charges are agreed in writing. This
-                website does not collect payment or automatically book appointments.
-              </p>
-            </details>
-            <details>
-              <summary>
-                Can I ask about my problem before booking?<span aria-hidden="true">+</span>
-              </summary>
-              <p>
-                Yes. Use the quick inquiry form above to describe the problem. Sending an inquiry
-                doesn’t book an appointment or commit you to paid work.
-              </p>
-            </details>
-            <details>
-              <summary>When are you available?<span aria-hidden="true">+</span></summary>
-              <p>
-                Support is by appointment and subject to my availability. Share your preferred date
-                and times; they do not reserve a slot. Messages aren’t monitored continuously, and I
-                don’t offer emergency or 24/7 support. Website timelines are agreed after reviewing
-                the project.
-              </p>
-            </details>
-            <details>
-              <summary>
-                What if I need to cancel or reschedule?<span aria-hidden="true">+</span>
-              </summary>
-              <p>
-                Cancellation, rescheduling and any deposit treatment will be provided in the written
-                quote before payment. Applicable consumer rights and legal exceptions still apply;
-                no cancellation fee is automatically charged by this website.
-              </p>
-            </details>
-            <details>
-              <summary>
-                What is included in a website project?<span aria-hidden="true">+</span>
-              </summary>
-              <p>
-                Business sites, redesigns, landing pages, content updates, mobile layout fixes,
-                setup help and selected integrations subject to review. Each written quote sets the
-                scope, page count, revision allowance, timeline, price, payment stages and handover.
-                Hosting, domains, paid tools and ongoing maintenance are accounted for separately.
-                Extra requests need a new agreement.
-              </p>
-            </details>
-            <details>
-              <summary>
-                Can you guarantee Google rankings or ongoing support?<span aria-hidden="true"
-                  >+</span
-                >
-              </summary>
-              <p>
-                No. Basic search setup helps search engines understand a site but does not guarantee
-                indexing or rankings. A website project does not include unlimited revisions,
-                continuous monitoring or ongoing maintenance unless separately agreed. Complex
-                online stores, custom applications and urgent maintenance are outside the initial
-                offer.
-              </p>
-            </details>
-          </div>
-        </section>
-        <section class="closing-section">
-          <p class="eyebrow">LESS TIME TROUBLESHOOTING. MORE TIME FOR YOU.</p>
-          <div>
-            <h2>Ready for a clearer next step?</h2>
-            <div class="closing-actions">
-              <button class="button button-light" data-dialog="project-dialog">
-                Get a website quote
-              </button>
-              <button class="button button-outline" data-book>Request tech help</button>
-            </div>
-          </div>
-          <p>
-            Website, business setup or remote support: describe your goal first. All work begins
-            with a review, not an instant booking.
-          </p>
         </section>
       </main>
       <footer>
-        <div class="footer-top">
-          <div class="footer-identity">
-            <strong>Online Technical Help</strong><span>Remote Tech Help &amp; Website Design</span
-            ><small>Based in Hamilton, Ontario · Remote only</small>
-          </div>
-          <div class="footer-links">
-            <a href="#services">Tech help</a><a href="#websites">Websites</a
-            ><a href="#pricing">Pricing</a><a href="#portfolio">Work samples</a
-            ><a href="/business-solutions">Business setup</a><a href="/about">About</a
-            ><a href="/contact">Contact</a><a href="#faq">FAQ</a
-            ><button data-book>Request help</button><a href="#ask">Ask a question</a>
-          </div>
-          <div class="footer-contact">
-            <span class="eyebrow">GET IN TOUCH</span
-            ><a href="mailto:techspecialistsupport@gmail.com">techspecialistsupport@gmail.com</a>
-          </div>
+        <div>
+          <a class="wordmark" href="/">Online Technical Help</a>
+          <p>Based in Hamilton, Ontario. All services are remote.</p>
         </div>
-        <div class="footer-bottom">
-          <span>Remote tech help · Websites · Business digital setup · By arrangement</span>
-          <div>
-            <button data-dialog="privacy-dialog">Privacy</button
-            ><button data-dialog="terms-dialog">Terms &amp; service</button>
-          </div>
-        </div>
+        <nav aria-label="Footer">
+          <a href="/about">About</a><a href="/contact">Contact</a><a href="/portfolio">Work</a
+          ><a href="/business-solutions">Business setup</a
+          ><a href="/website-maintenance">Website care</a><a href="/#privacy">Privacy</a
+          ><a href="/#terms">Service terms</a>
+        </nav>
+        <p class="small">
+          Photography by
+          <a href="https://unsplash.com/photos/cactus-beside-laptop-p-0lWFknspg"
+            >Scott Webb / Unsplash</a
+          >.
+          <a href="https://eccc-msc.github.io/open-data/licence/readme_en/"
+            >Weather data: Environment and Climate Change Canada</a
+          >.
+        </p>
+        <button id="surprise" class="inline-link">A little useful surprise</button>
+        <p id="tip" role="status"></p>
       </footer>
     </div>
-    <div class="mobile-actions">
-      <a href="#ask">Ask a question</a
-      ><button class="button button-dark" data-book>Request help</button>
-    </div>
-    <dialog id="booking-dialog" class="booking-dialog" aria-labelledby="booking-title">
-      <div class="dialog-heading">
-        <div>
-          <p class="eyebrow">LET’S FIND A TIME</p>
-          <h2 id="booking-title">Request an appointment.</h2>
-        </div>
-        <button class="close-dialog" aria-label="Close appointment request">×</button>
-      </div>
-      <p class="dialog-intro">
-        Remote tech support only: describe the issue first. I’ll assess suitability and confirm
-        availability, time and price before anything is booked. Messages aren’t monitored
-        continuously; no emergency or 24/7 support.
-      </p>
+    <dialog id="booking-dialog" aria-labelledby="booking-title">
+      <button class="close-dialog" aria-label="Close">×</button>
+      <h2 id="booking-title">Request an appointment</h2>
+      <p>I review the scope and availability before confirming any work or appointment.</p>
       <form
         id="booking-form"
         class="request-form"
@@ -1050,79 +380,16 @@
         data-kind="booking"
         novalidate
       >
-        <div>
-          <div class="field">
-            <label for="booking-category">What do you need help with?</label
-            ><select id="booking-category" name="category" required>
-              <option value="">Choose an issue</option>
-              <option>General computer problem</option>
-              <option>Printer/scanner</option>
-              <option>Outlook/email</option>
-              <option>Microsoft 365/OneDrive</option>
-              <option>New computer setup</option>
-              <option>File transfer</option>
-              <option>Wi-Fi/connectivity</option>
-              <option>Something else</option></select
-            ><small class="field-error" id="booking-category-error"></small>
-          </div>
-        </div>
-        <input type="hidden" name="method" value="Remote" />
-        <div class="field">
-          <label for="booking-device">Your device</label
-          ><select id="booking-device" name="device" required>
-            <option value="">Choose a device</option>
-            <option>Windows laptop</option>
-            <option>Windows desktop</option>
-            <option>Apple Mac</option>
-            <option>iPhone or iPad</option>
-            <option>Printer/scanner</option>
-            <option>Other</option></select
-          ><small class="field-error" id="booking-device-error"></small>
-        </div>
-        <div class="field">
-          <label for="booking-description">What seems to be happening?</label
-          ><textarea
-            id="booking-description"
-            name="description"
-            rows="3"
-            required
-            minlength="10"
-            maxlength="2000"
-            placeholder="A few sentences are enough. No technical terms needed."
-          ></textarea
-          ><small class="field-error" id="booking-description-error"></small>
-        </div>
-        <div class="form-row">
-          <div class="field">
-            <label for="booking-date">Preferred date</label
-            ><input id="booking-date" name="date" type="date" required /><small
-              class="field-error"
-              id="booking-date-error"
-            ></small>
-          </div>
-          <div class="field">
-            <label for="booking-window">Preferred times (Eastern)</label
-            ><input
-              id="booking-window"
-              name="window"
-              required
-              maxlength="80"
-              placeholder="Times that suit you, or Flexible"
-            /><small class="field-error" id="booking-window-error"></small>
-          </div>
-        </div>
-        <p class="field-help">
-          All times are Hamilton time (Eastern). These are preferences, not available slots.
-        </p>
         <div class="form-row">
           <div class="field">
             <label for="booking-name">Your name</label
             ><input
               id="booking-name"
               name="name"
-              autocomplete="name"
+              type="text"
               required
               maxlength="80"
+              autocomplete="name"
             /><small class="field-error" id="booking-name-error"></small>
           </div>
           <div class="field">
@@ -1131,69 +398,95 @@
               id="booking-email"
               name="email"
               type="email"
-              autocomplete="email"
               required
               maxlength="254"
+              autocomplete="email"
             /><small class="field-error" id="booking-email-error"></small>
           </div>
         </div>
         <div class="field">
-          <label for="booking-phone">Phone <span class="optional">(optional)</span></label
+          <label for="booking-device">Your device</label
+          ><select id="booking-device" name="device" required>
+            <option value="">Choose a device</option>
+            <option value="Windows laptop">Windows laptop</option>
+            <option value="Windows desktop">Windows desktop</option>
+            <option value="Apple Mac">Apple Mac</option>
+            <option value="iPhone or iPad">iPhone or iPad</option>
+            <option value="Printer/scanner">Printer or scanner</option>
+            <option value="Other">Other</option></select
+          ><small class="field-error" id="booking-device-error"></small>
+        </div>
+        <input type="hidden" name="category" value="General computer problem" />
+        <div class="field">
+          <label for="booking-description">What would you like help with?</label
+          ><textarea
+            id="booking-description"
+            name="description"
+            rows="4"
+            required
+            minlength="10"
+            maxlength="2000"
+          ></textarea
+          ><small class="field-error" id="booking-description-error"></small>
+        </div>
+        <input type="hidden" name="method" value="Remote" />
+        <div class="field">
+          <label for="booking-date">Preferred date</label
+          ><input
+            id="booking-date"
+            name="date"
+            type="date"
+            required
+            maxlength="80"
+            autocomplete="off"
+          /><small class="field-error" id="booking-date-error"></small>
+        </div>
+        <div class="field">
+          <label for="booking-window">Preferred time window (Eastern time)</label
+          ><input
+            id="booking-window"
+            name="window"
+            type="text"
+            required
+            maxlength="80"
+            autocomplete="off"
+          /><small class="field-error" id="booking-window-error"></small>
+        </div>
+        <div class="field">
+          <label for="booking-phone">Phone (optional)</label
           ><input
             id="booking-phone"
             name="phone"
             type="tel"
-            autocomplete="tel"
-            maxlength="30"
+            maxlength="80"
+            autocomplete="off"
           /><small class="field-error" id="booking-phone-error"></small>
         </div>
+        <label class="check"
+          ><input type="checkbox" name="consent" id="booking-consent" required />I understand this
+          is an appointment request, subject to review and the service terms.</label
+        ><small class="field-error" id="booking-consent-error"></small>
         <div class="honeypot" aria-hidden="true">
-          <label for="booking-website">Leave this empty</label
+          <label for="booking-website">Leave empty</label
           ><input id="booking-website" name="website" tabindex="-1" autocomplete="off" />
         </div>
-        <div class="field consent-field">
-          <label for="booking-consent"
-            ><input id="booking-consent" name="consent" type="checkbox" required /><span
-              >I’ve read the terms. I understand this is only a request; a time is reserved after I
-              approve the written quote, complete any agreed payment and receive written
-              confirmation.</span
-            ></label
-          ><small class="field-error" id="booking-consent-error"></small>
-        </div>
-        <p class="sensitive-note">
-          Don’t send passwords or other sensitive login information. If submission is unavailable,
-          email
-          <a href="mailto:techspecialistsupport@gmail.com">techspecialistsupport@gmail.com</a>.
-        </p>
-        <p class="privacy-note">
-          Your details are used to respond and arrange support. Read the
-          <button type="button" class="inline-link" data-dialog="privacy-dialog">
-            privacy details
-          </button>
-          and
+        <p class="small">
+          Keep passwords, payment details and private files out of your message. Your details are
+          used to respond to your request.
+          <button type="button" class="inline-link" data-dialog="privacy-dialog">Privacy</button> ·
           <button type="button" class="inline-link" data-dialog="terms-dialog">
-            terms for tech help and websites</button
-          >.
+            Service terms (English)
+          </button>
         </p>
-        <button class="button button-dark submit-booking" type="submit" disabled>
-          Request appointment
-        </button>
+        <button class="button" type="submit" disabled>Send inquiry</button>
         <p class="form-status" role="status" tabindex="-1"></p>
+        <noscript><p>Please email your request.</p></noscript>
       </form>
     </dialog>
-    <dialog id="project-dialog" class="project-dialog" aria-labelledby="project-title">
-      <div class="dialog-heading">
-        <div>
-          <p class="eyebrow">LET’S LOOK AT YOUR IDEA</p>
-          <h2 id="project-title">Request a website or business quote.</h2>
-        </div>
-        <button class="close-dialog" aria-label="Close website project inquiry">×</button>
-      </div>
-      <p class="dialog-intro">
-        New site, small fix or business digital setup? Share a brief first. This is an inquiry, not
-        a booked session or accepted quote. I’ll review the scope and availability before proposing
-        next steps. Messages aren’t monitored continuously.
-      </p>
+    <dialog id="project-dialog" aria-labelledby="project-title">
+      <button class="close-dialog" aria-label="Close">×</button>
+      <h2 id="project-title">Discuss a website or business project</h2>
+      <p>I review the scope and availability before confirming any work or appointment.</p>
       <form
         id="project-form"
         class="request-form"
@@ -1208,9 +501,10 @@
             ><input
               id="project-name"
               name="name"
-              autocomplete="name"
+              type="text"
               required
               maxlength="80"
+              autocomplete="name"
             /><small class="field-error" id="project-name-error"></small>
           </div>
           <div class="field">
@@ -1219,111 +513,89 @@
               id="project-email"
               name="email"
               type="email"
-              autocomplete="email"
               required
               maxlength="254"
+              autocomplete="email"
             /><small class="field-error" id="project-email-error"></small>
           </div>
         </div>
         <div class="field">
-          <label for="project-type">What would you like help with?</label
+          <label for="project-type">Project type</label
           ><select id="project-type" name="projectType" required>
             <option value="">Choose a project</option>
-            <option>New business website, landing page or portfolio</option>
-            <option>Website redesign</option>
-            <option>Website content updates</option>
-            <option>Mobile layout or website troubleshooting</option>
-            <option>Domain, contact form or basic search setup</option>
-            <option>Booking, payment or other integration</option>
-            <option>Business email or Microsoft 365 setup</option>
-            <option>Booking or inquiry form setup</option>
-            <option>Website care or ongoing updates</option>
-            <option>Other website project — review required</option></select
-          ><small class="field-error" id="project-type-error"></small>
+            <option value="New business website, landing page or portfolio">New website</option>
+            <option value="Website redesign">Website redesign</option>
+            <option value="Website content updates">Content updates</option>
+            <option value="Mobile layout or website troubleshooting">Website fixes</option>
+            <option value="Domain, contact form or basic search setup">
+              Domain, forms or search setup
+            </option>
+            <option value="Booking, payment or other integration">Integrations</option>
+            <option value="Business email or Microsoft 365 setup">
+              Business email or Microsoft 365
+            </option>
+            <option value="Booking or inquiry form setup">Booking or inquiry forms</option>
+            <option value="Website care or ongoing updates">Website care</option>
+            <option value="Other website project — review required">
+              Other website project
+            </option></select
+          ><small id="project-type-error" class="field-error"></small>
         </div>
         <div class="field">
-          <label for="project-url"
-            >Existing website URL <span class="optional">(optional)</span></label
+          <label for="project-url">Existing website (optional)</label
           ><input
             id="project-url"
             name="siteUrl"
             type="url"
-            maxlength="500"
-            placeholder="https://example.com"
-            aria-describedby="project-url-help"
-          /><small id="project-url-help"
-            >Public links only. Don’t include private preview tokens or login links.</small
-          ><small class="field-error" id="project-url-error"></small>
+            maxlength="80"
+            autocomplete="off"
+          /><small class="field-error" id="project-url-error"></small>
         </div>
         <div class="field">
-          <label for="project-description">Tell me about the project</label
-          ><textarea
-            id="project-description"
-            name="description"
-            required
-            minlength="10"
-            maxlength="2000"
-            rows="4"
-            placeholder="What should the site do, or what needs changing? Include approximate pages and any platform you use."
-          ></textarea
-          ><small class="field-error" id="project-description-error"></small>
-        </div>
-        <div class="field">
-          <label for="project-budget"
-            >Approximate budget <span class="optional">(optional)</span></label
-          >
-          <select id="project-budget" name="budget" aria-describedby="project-budget-help">
-            <option value="">Prefer not to say</option>
-            <option>Not sure yet</option>
-            <option>Under $500 CAD</option>
-            <option>$500–$1,000 CAD</option>
-            <option>$1,000–$2,500 CAD</option>
-            <option>$2,500+ CAD</option>
-          </select>
-          <small id="project-budget-help"
-            >For quote context only; this is not a package price or commitment.</small
-          >
-          <small class="field-error" id="project-budget-error"></small>
-        </div>
-        <div class="field">
-          <label for="project-timing"
-            >Preferred timeframe <span class="optional">(optional)</span></label
+          <label for="project-timing">Preferred timeframe (optional)</label
           ><input
             id="project-timing"
             name="timeframe"
-            maxlength="120"
-            placeholder="Your preference, not a guaranteed deadline"
+            type="text"
+            maxlength="80"
+            autocomplete="off"
           /><small class="field-error" id="project-timing-error"></small>
         </div>
+        <div class="field">
+          <label for="project-description">What would you like help with?</label
+          ><textarea
+            id="project-description"
+            name="description"
+            rows="4"
+            required
+            minlength="10"
+            maxlength="2000"
+          ></textarea
+          ><small class="field-error" id="project-description-error"></small>
+        </div>
         <div class="honeypot" aria-hidden="true">
-          <label for="project-website">Leave this empty</label
+          <label for="project-website">Leave empty</label
           ><input id="project-website" name="website" tabindex="-1" autocomplete="off" />
         </div>
-        <p class="sensitive-note">
-          Don’t send passwords, credentials, customer records or other sensitive information. If
-          sending fails, email
-          <a href="mailto:techspecialistsupport@gmail.com">techspecialistsupport@gmail.com</a>.
-        </p>
-        <p class="privacy-note">
-          Your details are used to review and respond to this project inquiry. Read the
-          <button type="button" class="inline-link" data-dialog="privacy-dialog">
-            privacy details
-          </button>
-          and
+        <p class="small">
+          Keep passwords, payment details and private files out of your message. Your details are
+          used to respond to your request.
+          <button type="button" class="inline-link" data-dialog="privacy-dialog">Privacy</button> ·
           <button type="button" class="inline-link" data-dialog="terms-dialog">
-            terms for tech help and websites</button
-          >.
+            Service terms (English)
+          </button>
         </p>
-        <button class="button button-dark submit-booking" type="submit" disabled>
-          Send project inquiry
-        </button>
+        <button class="button" type="submit" disabled>Send inquiry</button>
         <p class="form-status" role="status" tabindex="-1"></p>
-        <noscript
-          ><p>Please enable JavaScript to send this form. No message has been sent.</p></noscript
-        >
+        <noscript><p>Please email your request.</p></noscript>
       </form>
     </dialog>
-    <dialog id="privacy-dialog" class="information-dialog" aria-labelledby="privacy-title">
+    <dialog
+      lang="en-CA"
+      id="privacy-dialog"
+      class="information-dialog"
+      aria-labelledby="privacy-title"
+    >
       <div class="dialog-heading">
         <h2 id="privacy-title">Your information.</h2>
         <button class="close-dialog" aria-label="Close privacy details">×</button>
@@ -1360,10 +632,13 @@
       <h3>A quieter website</h3>
       <p>
         No advertising trackers or analytics are installed. Fonts are served from this website.
-        Temporary technical information is used to reduce repeated spam requests.
+        Temporary technical information is used to reduce repeated spam requests. Appearance
+        preferences are saved only in your browser. If you continue from the Tech Clinic, selected
+        answers are held in temporary tab storage until the inquiry is filled. Hamilton weather is
+        requested by our server; your precise location is not requested.
       </p>
     </dialog>
-    <dialog id="terms-dialog" class="information-dialog" aria-labelledby="terms-title">
+    <dialog lang="en-CA" id="terms-dialog" class="information-dialog" aria-labelledby="terms-title">
       <div class="dialog-heading">
         <h2 id="terms-title">Terms for tech help and websites.</h2>
         <button class="close-dialog" aria-label="Close terms for tech help and websites">×</button>

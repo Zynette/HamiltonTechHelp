@@ -1,0 +1,114 @@
+[
+  {
+    "path": "/",
+    "file": "index.html"
+  },
+  {
+    "path": "/remote-tech-support",
+    "file": "remote-tech-support.html"
+  },
+  {
+    "path": "/website-design",
+    "file": "website-design.html"
+  },
+  {
+    "path": "/website-maintenance",
+    "file": "website-maintenance.html"
+  },
+  {
+    "path": "/business-solutions",
+    "file": "business-solutions.html"
+  },
+  {
+    "path": "/contact",
+    "file": "contact.html"
+  },
+  {
+    "path": "/about",
+    "file": "about.html"
+  },
+  {
+    "path": "/portfolio",
+    "file": "portfolio.html"
+  },
+  {
+    "path": "/resources",
+    "file": "resources.html"
+  },
+  {
+    "path": "/journal/suspicious-email",
+    "file": "journal-suspicious-email.html"
+  },
+  {
+    "path": "/journal/onedrive-basics",
+    "file": "journal-onedrive-basics.html"
+  },
+  {
+    "path": "/journal/website-preparation",
+    "file": "journal-website-preparation.html"
+  },
+  {
+    "path": "/journal",
+    "file": "journal.html"
+  },
+  {
+    "path": "/clinic",
+    "file": "clinic.html"
+  },
+  {
+    "path": "/fil",
+    "file": "fil-index.html"
+  },
+  {
+    "path": "/fil/remote-tech-support",
+    "file": "fil-remote-tech-support.html"
+  },
+  {
+    "path": "/fil/website-design",
+    "file": "fil-website-design.html"
+  },
+  {
+    "path": "/fil/website-maintenance",
+    "file": "fil-website-maintenance.html"
+  },
+  {
+    "path": "/fil/business-solutions",
+    "file": "fil-business-solutions.html"
+  },
+  {
+    "path": "/fil/contact",
+    "file": "fil-contact.html"
+  },
+  {
+    "path": "/fil/about",
+    "file": "fil-about.html"
+  },
+  {
+    "path": "/fil/portfolio",
+    "file": "fil-portfolio.html"
+  },
+  {
+    "path": "/fil/resources",
+    "file": "fil-resources.html"
+  },
+  {
+    "path": "/fil/journal/suspicious-email",
+    "file": "fil-journal-suspicious-email.html"
+  },
+  {
+    "path": "/fil/journal/onedrive-basics",
+    "file": "fil-journal-onedrive-basics.html"
+  },
+  {
+    "path": "/fil/journal/website-preparation",
+    "file": "fil-journal-website-preparation.html"
+  },
+  {
+    "path": "/fil/journal",
+    "file": "fil-journal.html"
+  },
+  {
+    "path": "/fil/clinic",
+    "file": "fil-clinic.html"
+  }
+]

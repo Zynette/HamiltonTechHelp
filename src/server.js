@@ -1,3 +1,4 @@
+import { getWeather } from './weather.js';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { resolve, extname } from 'node:path';
@@ -22,6 +23,10 @@ const mimeTypes = {
   '.svg': 'image/svg+xml',
   '.woff2': 'font/woff2',
   '.txt': 'text/plain; charset=utf-8',
+  '.webp': 'image/webp',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.pdf': 'application/pdf',
 };
 export function createApp({
   formId = process.env.FORMSPREE_FORM_ID || '',
@@ -77,6 +82,12 @@ export function createApp({
     async (req, res) => {
       try {
         const url = new URL(req.url, 'http://localhost');
+        if (url.pathname === '/api/weather' && ['GET', 'HEAD'].includes(req.method)) {
+          const data = await getWeather();
+          return send(res, 200, req.method === 'HEAD' ? '' : { weather: data }, undefined, {
+            'Cache-Control': 'public, max-age=300',
+          });
+        }
         if (url.pathname === '/api/requests') {
           if (req.method !== 'POST')
             return send(res, 405, { message: 'Use POST for this form.' }, undefined, {
@@ -187,7 +198,16 @@ export function createApp({
         // Explicit public route/asset allowlist; never expose source or secrets.
         const page = pages.find((item) => item.path === path);
         const asset =
-          ['/styles.css', '/app.js', '/favicon.svg'].includes(path) ||
+          [
+            '/styles.css',
+            '/studio.css',
+            '/studio.js',
+            '/clinic.js',
+            '/theme.js',
+            '/app.js',
+            '/favicon.svg',
+          ].includes(path) ||
+          /^\/(images|guides)\/[a-z0-9-]+\.(webp|jpg|png|pdf)$/u.test(path) ||
           /^\/fonts\/(ibm-plex-sans-latin-(400|500|600)-normal\.woff2|OFL\.txt)$/u.test(path);
         if (!page && !asset) return send(res, 404, 'Page not found', 'text/plain; charset=utf-8');
         const filename = page ? page.file : path.slice(1);
