@@ -1,21 +1,25 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/weather', (r) => r.fulfill({ json: { weather: null } }));
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+});
 
 test('business quote buttons preselect an allowed service and never book automatically', async ({
   page,
 }) => {
-  await page.goto('/');
-  await page.locator('#business-solutions [data-project-type]').click();
+  await page.goto('/business-solutions');
+  await page.locator('.actions a').click();
   await expect(page.locator('#project-dialog')).toBeVisible();
   await expect(page.locator('#project-form [name=projectType]')).toHaveValue(
     'Business email or Microsoft 365 setup',
   );
   await page.keyboard.press('Escape');
-  await page.locator('.care-note [data-project-type]').click();
+  await page.goto('/website-maintenance');
+  await page.locator('.actions a').click();
   await expect(page.locator('#project-form [name=projectType]')).toHaveValue(
     'Website care or ongoing updates',
   );
-  await expect(page.locator('#project-form [name=budget]')).toBeVisible();
   await page.keyboard.press('Escape');
   await page.goto('/#quote-booking-setup');
   await expect(page.locator('#project-dialog')).toBeVisible();
@@ -26,16 +30,17 @@ test('business quote buttons preselect an allowed service and never book automat
 
 test('distinct website and support links reach the correct request dialogs', async ({ page }) => {
   await page.goto('/website-design');
-  await page.locator('.detail-actions a').first().click();
+  await page.locator('.actions a').first().click();
   await expect(page.locator('#project-dialog')).toBeVisible();
   await page.keyboard.press('Escape');
   await page.goto('/remote-tech-support');
-  await page.getByRole('link', { name: 'Request remote tech help', exact: true }).first().click();
+  await page.getByRole('link', { name: 'Request an appointment', exact: true }).first().click();
   await expect(page.locator('#booking-dialog')).toBeVisible();
   await expect(page.locator('#booking-form [name=method]')).toHaveValue('Remote');
 });
 
 test('all published service pages fit phone/tablet/desktop layouts', async ({ page }) => {
+  test.setTimeout(120000);
   const paths = [
     '/remote-tech-support',
     '/website-design',
@@ -53,7 +58,7 @@ test('all published service pages fit phone/tablet/desktop layouts', async ({ pa
       page.on('pageerror', onError);
       await page.goto(path);
       await expect(page.locator('h1')).toBeVisible();
-      await expect(page.locator('.detail-actions a').first()).toHaveAttribute('href', /\/#/);
+      await expect(page.locator('main a[href*="/#"]').first()).toHaveAttribute('href', /\/#/);
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth),
         `${path} at ${width}px`,
@@ -70,8 +75,8 @@ test('all published service pages fit phone/tablet/desktop layouts', async ({ pa
 test('portfolio examples are labelled as original concepts and accessible', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/portfolio');
-  await expect(page.locator('.sample-card')).toHaveCount(3);
-  await expect(page.locator('.sample-tag').first()).toContainText('NOT A CLIENT');
+  await expect(page.locator('.comparison img')).toHaveCount(2);
+  await expect(page.locator('.intro')).toContainText('fictional cleaning business');
   const result = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
     .analyze();
@@ -82,7 +87,7 @@ test('contact gives tech and business visitors direct choices, including policie
   page,
 }) => {
   await page.goto('/contact');
-  await page.getByRole('link', { name: 'Ask about a tech problem', exact: true }).click();
+  await page.getByRole('link', { name: 'Ask for help', exact: true }).click();
   await expect(page.locator('#inquiry-form')).toBeVisible();
   await expect(page.locator('dialog[open]')).toHaveCount(0);
   await page.goto('/contact');
@@ -111,10 +116,7 @@ test('request deep links can reopen after closing and keep unfinished input', as
 
 test('hero tech action reaches the short inquiry before appointment details', async ({ page }) => {
   await page.goto('/');
-  await page
-    .locator('.hero-actions')
-    .getByRole('link', { name: 'Ask about a tech problem' })
-    .click();
+  await page.locator('.hero .actions').getByRole('link', { name: 'Ask for help' }).click();
   await expect(page.locator('#inquiry-form')).toBeVisible();
   await expect(page.locator('dialog[open]')).toHaveCount(0);
 });

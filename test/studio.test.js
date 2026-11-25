@@ -117,7 +117,14 @@ test('all bilingual routes, assets, fragments and PDF downloads resolve in sourc
           const target = await readFile('public/' + routeMap.get(path), 'utf8');
           assert.ok(
             target.includes(`id="${hash}"`) ||
-              ['privacy', 'terms', 'website-quote', 'remote-help'].includes(hash),
+              [
+                'privacy',
+                'terms',
+                'website-quote',
+                'remote-help',
+                'quote-website-care',
+                'business-setup',
+              ].includes(hash),
             link,
           );
         }

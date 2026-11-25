@@ -88,8 +88,9 @@ test('slider works from keyboard and pointer', async ({ page }) => {
   await expect(s).toHaveValue('100');
   await page.keyboard.press('Home');
   await expect(s).toHaveValue('0');
+  await s.scrollIntoViewIfNeeded();
   const b = await s.boundingBox();
-  await page.mouse.click(b.x + b.width * 0.75, b.y + b.height / 2);
+  await s.click({ position: { x: b.width * 0.75, y: b.height / 2 } });
   expect(Number(await s.inputValue())).toBeGreaterThan(50);
 });
 test('slider accepts touch', async ({ browser }) => {

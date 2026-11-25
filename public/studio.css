@@ -1123,3 +1123,10 @@ footer .small {
 .reading {
   overflow-wrap: break-word;
 }
+
+.hero > *,
+.comparison-section > *,
+.inquiry > *,
+.form-row > * {
+  min-width: 0;
+}
